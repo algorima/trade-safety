@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 license = {text = "Apache-2.0"}
 authors = [
-    {name = "Algorima", email = "hello@algorima.com"}
+    {name = "AIoIA, Inc.", email = "hello@algorima.com"}
 ]
 keywords = ["kpop", "merchandise", "trade", "safety", "llm", "scam-detection"]
 classifiers = [
