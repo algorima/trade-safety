@@ -1,0 +1,48 @@
+{
+  "name": "@trade-safety/react",
+  "version": "0.1.0",
+  "description": "React components for Trade Safety - K-pop merchandise trade safety analysis",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "kpop",
+    "merchandise",
+    "trade",
+    "safety",
+    "react",
+    "components"
+  ],
+  "author": "Algorima",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/algorima/trade-safety.git",
+    "directory": "frontend"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "next": "^13.0.0 || ^14.0.0"
+  },
+  "dependencies": {
+    "@heroicons/react": "^2.0.0",
+    "clsx": "^2.0.0",
+    "framer-motion": "^11.0.0",
+    "i18next": "^23.0.0",
+    "react-i18next": "^14.0.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "typescript": "^5.0.0"
+  }
+}
