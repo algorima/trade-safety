@@ -9,9 +9,11 @@ export { DetailedResult } from "./components/DetailedResult";
 export { QuickResultTeaser } from "./components/QuickResultTeaser";
 export { RiskSignalCard } from "./components/RiskSignalCard";
 
-// API & Types
-export { TradeSafetyRepository } from "./api/repository";
-export type * from "./api/types";
+// Repositories (Repository pattern for API access)
+export { TradeSafetyRepository } from "./repositories";
+
+// Types
+export type * from "./types";
 
 // i18n - Export translation objects for integration
 export { default as enTranslations } from "./i18n/locales/en/translation.json";
