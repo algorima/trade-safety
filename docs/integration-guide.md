@@ -1,46 +1,72 @@
-# Buppy 통합 가이드
+# 통합 가이드
 
-## 서브모듈 추가
+Trade Safety를 기존 프로젝트에 통합하는 방법
 
-```bash
-cd /path/to/buppy
-git submodule add https://github.com/algorima/trade-safety.git trade-safety
-git submodule update --init
-```
-
-## Backend 통합
+## FastAPI 프로젝트 통합
 
 ### 1. 패키지 설치
 
-**pyproject.toml:**
-```toml
-[tool.poetry.dependencies]
-trade-safety = {path = "../trade-safety/backend", develop = true}
-```
-
+**pip:**
 ```bash
-poetry install
+pip install git+https://github.com/algorima/trade-safety.git#subdirectory=backend
 ```
 
-### 2. Router 등록
+**로컬 개발 (Git 서브모듈):**
+```bash
+git submodule add https://github.com/algorima/trade-safety.git
+pip install -e ./trade-safety/backend
+```
 
-**backend/fastapi_app/__init__.py:**
+### 2. 서비스 초기화
+
 ```python
+from trade_safety import TradeSafetyService
+from trade_safety._vendor.config import TradeSafetyConfig
+
+# 환경 변수에서 설정 로드
+config = TradeSafetyConfig.from_env()
+service = TradeSafetyService(config)
+
+# 분석 실행
+analysis = await service.analyze_trade("거래글 내용")
+```
+
+### 3. FastAPI 라우터 등록
+
+```python
+from fastapi import FastAPI
 from trade_safety.api.router import create_trade_safety_router
 
-router = create_trade_safety_router(app_config)
-app.include_router(router)
+app = FastAPI()
+
+# Router 등록
+router = create_trade_safety_router(config)
+app.include_router(router, prefix="/api")
 ```
 
-## Frontend 통합
+### 4. 환경 변수 설정
+
+```bash
+export DATABASE_URL=postgresql://...
+export OPENAI_API_KEY=sk-...
+```
+
+---
+
+## React/Next.js 프로젝트 통합
 
 ### 1. 패키지 설치
+
+**로컬 개발 (Git 서브모듈):**
+```bash
+git submodule add https://github.com/algorima/trade-safety.git
+```
 
 **package.json:**
 ```json
 {
   "dependencies": {
-    "@trade-safety/react": "file:../trade-safety/frontend"
+    "@trade-safety/react": "file:./trade-safety/frontend"
   }
 }
 ```
@@ -54,11 +80,51 @@ npm install
 ```tsx
 import { DetailedResult, TradeSafetyRepository } from "@trade-safety/react";
 
-<DetailedResult analysis={analysis} />
+function ResultPage() {
+  return <DetailedResult analysis={analysis} />;
+}
 ```
 
-## 주의사항
+### 3. API Repository 사용
 
-- **서브모듈 업데이트**: `git submodule update --remote`
-- **Clone 시**: `git clone --recurse-submodules`
-- **i18n**: trade-safety 번역은 Buppy i18n에 통합 필요
+```tsx
+import { TradeSafetyRepository } from "@trade-safety/react";
+
+const repository = new TradeSafetyRepository(apiService);
+const response = await repository.create({ input_text: "..." });
+```
+
+---
+
+## 데이터베이스 설정
+
+### Migration 실행
+
+```bash
+cd trade-safety/backend
+alembic upgrade head
+```
+
+### 테이블 구조
+
+- `trade_safety_checks`: 분석 결과 저장
+- 외래키: `user_id` (선택, nullable)
+
+---
+
+## Git 서브모듈 관리
+
+### 업데이트
+```bash
+git submodule update --remote trade-safety
+```
+
+### Clone
+```bash
+git clone --recurse-submodules <your-repo>
+```
+
+### 초기화
+```bash
+git submodule update --init
+```
