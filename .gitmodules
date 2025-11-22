@@ -1,0 +1,3 @@
+[submodule "aioia-core"]
+	path = aioia-core
+	url = https://github.com/algorima/aioia-core.git
