@@ -134,7 +134,3 @@ npm run build
 ## 라이선스
 
 Apache 2.0
-
-## 문의
-
-이슈: https://github.com/algorima/trade-safety/issues
