@@ -16,7 +16,9 @@ import logging
 from langchain_core.messages import HumanMessage, SystemMessage
 from pydantic import ValidationError
 
-from trade_safety._vendor.config import ModelSettings, TradeSafetyConfig
+from aioia_core.llm import ModelSettings
+
+from trade_safety.config import TradeSafetyConfig
 from trade_safety.schemas import (
     PriceAnalysis,
     RiskCategory,
