@@ -7,7 +7,7 @@ helping international fans overcome language, trust, and information barriers.
 
 __version__ = "0.1.0"
 
-from trade_safety.models import (
+from trade_safety.schemas import (
     PriceAnalysis,
     QuickCheckResponse,
     QuickCheckSummary,

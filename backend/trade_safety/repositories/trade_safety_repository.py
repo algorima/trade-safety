@@ -6,9 +6,9 @@ from abc import ABC, abstractmethod
 
 from sqlalchemy.orm import Session
 
-from trade_safety.database.models import DBTradeSafetyCheck
-from trade_safety.infrastructure.database import BaseManager
-from trade_safety.models import (
+from trade_safety._vendor.database import BaseManager
+from trade_safety.models import DBTradeSafetyCheck
+from trade_safety.schemas import (
     TradeSafetyAnalysis,
     TradeSafetyCheck,
     TradeSafetyCheckCreate,
