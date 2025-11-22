@@ -16,9 +16,11 @@ from pydantic import BaseModel, Field
 from config.webhook_config import WebhookAppConfig
 from fastapi_app.base_crud_router import BaseCrudRouter
 
-from trade_safety.database.manager import DatabaseTradeSafetyCheckManager
-from trade_safety.infrastructure.errors import ErrorResponse, error_codes
-from trade_safety.models import (
+from trade_safety._vendor.errors import ErrorResponse, error_codes
+from trade_safety.repositories.trade_safety_repository import (
+    DatabaseTradeSafetyCheckManager,
+)
+from trade_safety.schemas import (
     QuickCheckResponse,
     QuickCheckSummary,
     TradeSafetyCheck,

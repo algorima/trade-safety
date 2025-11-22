@@ -1,13 +1,18 @@
-"""Infrastructure components for Trade Safety."""
+"""
+Vendored code from Buppy for standalone execution.
 
-from trade_safety.infrastructure.config import (
+TODO: 이 코드는 Buppy에서 복사됨. 추후 buppy-common 라이브러리로 추출 예정
+Copied from Buppy for independence. Will be extracted to buppy-common later.
+"""
+
+from trade_safety._vendor.config import (
     ModelSettings,
     TradeSafetyConfig,
     create_db_session_factory,
     init_database,
 )
-from trade_safety.infrastructure.database import Base, BaseManager, BaseModel
-from trade_safety.infrastructure.errors import (
+from trade_safety._vendor.database import Base, BaseManager, BaseModel
+from trade_safety._vendor.errors import (
     RESOURCE_NOT_FOUND,
     UNAUTHORIZED,
     VALIDATION_ERROR,
