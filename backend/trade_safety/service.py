@@ -16,9 +16,7 @@ import logging
 from langchain_core.messages import HumanMessage, SystemMessage
 from pydantic import ValidationError
 
-from config.app_config import BaseAppConfig
-from models.companion_profile import ModelSettings
-
+from trade_safety.infrastructure.config import ModelSettings, TradeSafetyConfig
 from trade_safety.models import (
     PriceAnalysis,
     RiskCategory,
@@ -61,12 +59,13 @@ class TradeSafetyService:
         35
     """
 
-    def __init__(self, app_config: BaseAppConfig):
+    def __init__(self, app_config: TradeSafetyConfig):
         """
         Initialize TradeSafetyService with LLM configuration.
 
         Args:
             app_config: Application configuration containing LLM settings
+                       (TradeSafetyConfig for standalone or BaseAppConfig for Buppy)
 
         Note:
             Uses system default LLM provider and model from config.
@@ -92,9 +91,10 @@ class TradeSafetyService:
         )
 
         provider = app_config.provider_registry.get_provider(provider_name)
+        api_key = app_config.get_api_key(provider_name)
         self.chat_model = provider.init_chat_model(
             model_settings,
-            app_config.config_settings.api_settings,
+            api_key,
             response_format={
                 "type": "json_object"
             },  # Force JSON response (no markdown)

@@ -4,10 +4,10 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
-from managers.base_manager import BaseManager
 from sqlalchemy.orm import Session
 
 from trade_safety.database.models import DBTradeSafetyCheck
+from trade_safety.infrastructure.database import BaseManager
 from trade_safety.models import (
     TradeSafetyAnalysis,
     TradeSafetyCheck,

@@ -11,12 +11,13 @@ import logging
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, Field
 
+# Buppy dependencies (for integrated mode)
+# TODO: Refactor router to remove BaseCrudRouter dependency for standalone mode
 from config.webhook_config import WebhookAppConfig
-from errors import error_codes
-from errors.error_responses import ErrorResponse
 from fastapi_app.base_crud_router import BaseCrudRouter
 
 from trade_safety.database.manager import DatabaseTradeSafetyCheckManager
+from trade_safety.infrastructure.errors import ErrorResponse, error_codes
 from trade_safety.models import (
     QuickCheckResponse,
     QuickCheckSummary,

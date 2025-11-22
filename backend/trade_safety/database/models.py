@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy import JSON, Boolean, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
-from models.db.base import BaseModel
+from trade_safety.infrastructure.database import BaseModel
 
 
 class DBTradeSafetyCheck(BaseModel):
