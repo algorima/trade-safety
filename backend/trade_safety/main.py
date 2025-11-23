@@ -5,6 +5,13 @@ This module provides the entry point for running Trade Safety as an independent 
 
 Usage:
     uvicorn trade_safety.main:app --reload
+
+Environment Variables:
+    DATABASE_URL: PostgreSQL database URL
+    OPENAI_API_KEY: OpenAI API key
+    TRADE_SAFETY_MODEL: OpenAI model name (default: gpt-4o-2024-11-20)
+    JWT_SECRET_KEY: JWT secret key (default: dev-secret for development)
+    LOG_LEVEL: Logging level (default: INFO)
 """
 
 import logging
@@ -14,18 +21,25 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from pydantic_settings import BaseSettings
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
-from trade_safety.infrastructure.config import (
-    TradeSafetyConfig,
-    create_db_session_factory,
-    init_database,
-)
-from trade_safety.infrastructure.database import BaseModel
-from trade_safety.infrastructure.errors import (
+from aioia_core.database import Base
+from aioia_core.errors import (
     INTERNAL_SERVER_ERROR,
     VALIDATION_ERROR,
     ErrorResponse,
+    extract_error_code_from_exception,
+    get_error_detail_from_exception,
 )
+from aioia_core.settings import JWTSettings, OpenAIAPISettings
+
+from trade_safety.api.router import create_trade_safety_router
+from trade_safety.repositories.trade_safety_repository import (
+    DatabaseTradeSafetyCheckManager,
+)
+from trade_safety.settings import TradeSafetyModelSettings
 
 # Configure logging
 logging.basicConfig(
@@ -34,12 +48,59 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Initialize configuration from environment
-config = TradeSafetyConfig.from_env()
 
-# Initialize database
-logger.info("Initializing database: %s", config.database_url.split("@")[-1])  # Hide password
-init_database(config.database_url)
+# ==============================================================================
+# Database Settings
+# ==============================================================================
+
+
+class DatabaseSettings(BaseSettings):
+    """Database settings (environment variable: DATABASE_URL)"""
+
+    url: str
+
+    class Config:
+        env_prefix = "DATABASE_"
+
+
+# ==============================================================================
+# Initialize Settings from Environment Variables
+# ==============================================================================
+
+# BaseSettings automatically reads from environment variables
+openai_api = OpenAIAPISettings()  # OPENAI_API_KEY
+model_settings = TradeSafetyModelSettings()  # TRADE_SAFETY_MODEL
+jwt_settings = JWTSettings()  # JWT_SECRET_KEY
+db_settings = DatabaseSettings()  # DATABASE_URL
+
+logger.info("Loaded settings from environment variables")
+logger.info("Model: %s", model_settings.model)
+logger.info("Database: %s", db_settings.url.split("@")[-1])  # Hide credentials
+
+
+# ==============================================================================
+# Initialize Database
+# ==============================================================================
+
+engine = create_engine(db_settings.url, echo=False)
+Base.metadata.create_all(engine)
+db_session_factory = sessionmaker(bind=engine)
+
+logger.info("Database initialized")
+
+
+# ==============================================================================
+# Manager Factories
+# ==============================================================================
+
+
+def trade_safety_check_manager_factory(session):
+    """Factory for creating TradeSafetyCheckManager"""
+    return DatabaseTradeSafetyCheckManager(session)
+
+
+# Standalone mode doesn't support user authentication
+user_profile_manager_factory = None
 
 # Create FastAPI app
 app = FastAPI(
@@ -68,11 +129,6 @@ app.add_middleware(
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException):
     """Handle HTTPException with consistent error response format."""
-    from trade_safety.infrastructure.errors import (
-        extract_error_code_from_exception,
-        get_error_detail_from_exception,
-    )
-
     error_code = extract_error_code_from_exception(exc)
     detail = get_error_detail_from_exception(exc)
 
@@ -134,10 +190,18 @@ async def internal_exception_handler(request: Request, exc: Exception):
 # Routes
 # ==============================================================================
 
+# Create and include Trade Safety router
+trade_safety_router = create_trade_safety_router(
+    openai_api=openai_api,
+    model_settings=model_settings,
+    jwt_settings=jwt_settings,
+    db_session_factory=db_session_factory,
+    manager_factory=trade_safety_check_manager_factory,
+    user_profile_manager_factory=user_profile_manager_factory,
+)
+app.include_router(trade_safety_router)
 
-# TODO: Refactor router to standalone mode (remove BaseCrudRouter dependency)
-# For now, this is a placeholder for standalone execution
-# The actual router uses BaseCrudRouter which requires Buppy infrastructure
+logger.info("Trade Safety router registered")
 
 
 @app.get("/healthz", tags=["management"])
@@ -164,8 +228,3 @@ async def root():
         "description": "AI-powered safety analysis for K-pop merchandise trading",
         "docs": "/docs",
     }
-
-
-# Note: Trade Safety router requires BaseCrudRouter refactoring for standalone mode
-# Current router implementation at trade_safety/api/router.py is designed for Buppy integration
-# TODO: Create standalone router that doesn't depend on BaseCrudRouter
