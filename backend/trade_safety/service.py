@@ -14,11 +14,12 @@ import json
 import logging
 
 from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_openai import ChatOpenAI
 from pydantic import ValidationError
 
-from aioia_core.llm import ModelSettings
+from aioia_core.settings import OpenAIAPISettings
 
-from trade_safety.config import TradeSafetyConfig
+from trade_safety.prompts import TRADE_SAFETY_SYSTEM_PROMPT
 from trade_safety.schemas import (
     PriceAnalysis,
     RiskCategory,
@@ -26,6 +27,7 @@ from trade_safety.schemas import (
     RiskSignal,
     TradeSafetyAnalysis,
 )
+from trade_safety.settings import TradeSafetyModelSettings
 
 logger = logging.getLogger(__name__)
 
@@ -53,7 +55,12 @@ class TradeSafetyService:
     - Empathetic guidance to reduce FOMO and anxiety
 
     Example:
-        >>> service = TradeSafetyService(app_config)
+        >>> from aioia_core.settings import OpenAIAPISettings
+        >>> from trade_safety.settings import TradeSafetyModelSettings
+        >>>
+        >>> openai_api = OpenAIAPISettings(api_key="sk-...")
+        >>> model_settings = TradeSafetyModelSettings()
+        >>> service = TradeSafetyService(openai_api, model_settings)
         >>> analysis = await service.analyze_trade(
         ...     input_text="급처분 공구 실패해서 양도해요"
         ... )
@@ -61,46 +68,36 @@ class TradeSafetyService:
         35
     """
 
-    def __init__(self, app_config: TradeSafetyConfig):
+    def __init__(
+        self,
+        openai_api: OpenAIAPISettings,
+        model_settings: TradeSafetyModelSettings,
+    ):
         """
         Initialize TradeSafetyService with LLM configuration.
 
         Args:
-            app_config: Application configuration containing LLM settings
-                       (TradeSafetyConfig for standalone or BaseAppConfig for Buppy)
+            openai_api: OpenAI API settings (api_key)
+            model_settings: Model settings (model name)
 
         Note:
-            Uses system default LLM provider and model from config.
-            Temperature set to 0.7 for balanced analytical reasoning.
+            Temperature is hardcoded to 0.7 for balanced analytical reasoning.
         """
-        self.app_config = app_config
-
-        # Initialize LLM provider using system defaults
-        system_settings = app_config.config_settings.system_prompt_settings
-        provider_name = system_settings.default_api_provider
-        chat_model_name = system_settings.default_chat_model
-
         logger.debug(
-            "Initializing TradeSafetyService with provider=%s, model=%s",
-            provider_name,
-            chat_model_name,
+            "Initializing TradeSafetyService with model=%s",
+            model_settings.model,
         )
 
-        model_settings = ModelSettings(
-            chat_model=chat_model_name,
-            temperature=0.7,  # Balanced for analytical tasks
-            seed=None,
+        # Initialize ChatOpenAI directly (no provider abstraction)
+        self.chat_model = ChatOpenAI(
+            model=model_settings.model,
+            temperature=0.7,  # Hardcoded - balanced for analytical tasks
+            api_key=openai_api.api_key,
+            model_kwargs={
+                "response_format": {"type": "json_object"}
+            },  # Force JSON response
         )
-
-        provider = app_config.provider_registry.get_provider(provider_name)
-        api_key = app_config.get_api_key(provider_name)
-        self.chat_model = provider.init_chat_model(
-            model_settings,
-            api_key,
-            response_format={
-                "type": "json_object"
-            },  # Force JSON response (no markdown)
-        )
+        self.system_prompt = TRADE_SAFETY_SYSTEM_PROMPT
 
     # ==========================================
     # Main Analysis Method
@@ -223,10 +220,9 @@ class TradeSafetyService:
         - Guidelines: Empathetic, empowering, non-judgmental
 
         Returns:
-            Complete system prompt for LLM (loaded from system_prompt_settings)
+            Complete system prompt for LLM (from prompts.py)
         """
-        system_settings = self.app_config.config_settings.system_prompt_settings
-        return system_settings.trade_safety_system_prompt
+        return self.system_prompt
 
     def _build_user_prompt(
         self,
