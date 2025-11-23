@@ -1,33 +1,8 @@
 # 통합 가이드
 
-Trade Safety는 **독립 실행(Standalone)** 및 **라이브러리 통합** 두 가지 방식으로 사용 가능합니다.
+기존 프로젝트에 Trade Safety 라이브러리를 통합하는 방법
 
-## 구조
-
-**Backend**: `trade_safety/` (라이브러리) + `main.py` (standalone)
-**Frontend**: `src/components/` (라이브러리) + `src/app/` (standalone)
-
----
-
-## Standalone 실행
-
-### Backend
-```bash
-cd backend
-poetry install
-export OPENAI_API_KEY=sk-...
-export JWT_SECRET_KEY=your-secret
-poetry run uvicorn main:app --reload
-```
-
-### Frontend
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
----
+> Standalone 실행: [README.md](../README.md) 참조
 
 ## 라이브러리로 통합
 
