@@ -2,7 +2,7 @@
 
 import { motion, Variants } from "framer-motion";
 
-import { TradeSafetyAnalysis } from "@/types";
+import { TradeSafetyAnalysis } from "../../types";
 
 import { CautionsSection } from "./CautionsSection";
 import { CompanionCtaSection } from "./CompanionCtaSection";

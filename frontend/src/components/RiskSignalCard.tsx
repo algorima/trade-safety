@@ -7,7 +7,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { useTranslation } from "react-i18next";
 
-import { RiskSignal } from "@/types";
+import { RiskSignal } from "../types";
 
 interface RiskSignalCardProps {
   signal: RiskSignal;

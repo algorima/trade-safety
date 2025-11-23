@@ -6,7 +6,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { useTranslation } from "react-i18next";
 
-import { PriceAnalysis } from "@/types";
+import { PriceAnalysis } from "../../types";
 
 interface PriceAnalysisSectionProps {
   data?: PriceAnalysis;
