@@ -7,7 +7,6 @@ helping international fans overcome language, trust, and information barriers.
 
 __version__ = "0.1.0"
 
-from trade_safety.api.router import create_trade_safety_router
 from trade_safety.models import DBTradeSafetyCheck
 from trade_safety.repositories.trade_safety_repository import (
     DatabaseTradeSafetyCheckManager,
@@ -28,9 +27,8 @@ from trade_safety.schemas import (
 from trade_safety.service import TradeSafetyService
 
 __all__ = [
-    # Service & Router
+    # Service
     "TradeSafetyService",
-    "create_trade_safety_router",
     # Database
     "DBTradeSafetyCheck",
     "TradeSafetyCheckManager",
