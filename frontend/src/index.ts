@@ -17,8 +17,8 @@ export type {
   QuickCheckRepositoryResponse,
 } from "./repositories/TradeSafetyRepository";
 
-// Types
-export type * from "./types";
+// Types & Constants
+export * from "./types";
 
 // i18n - Export translation objects for integration
 export { default as enTranslations } from "./i18n/locales/en/translation.json";
