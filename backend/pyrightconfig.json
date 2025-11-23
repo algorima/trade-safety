@@ -1,0 +1,8 @@
+{
+  "exclude": [
+    "**/__pycache__",
+    "venv",
+    "**/flycheck_*.py",
+    "alembic"
+  ]
+}
