@@ -23,7 +23,7 @@ sqlalchemy = "^2.0.0"
 type = "git"
 url = "https://github.com/algorima/aioia-core.git"
 reference = "feat/settings-classes"
-resolved_reference = "135b9aac5fd3f257484df31491f0242c2947a354"
+resolved_reference = "0e27db276078356f72fe325609d5d3c3b53af97f"
 subdirectory = "python"
 
 [[package]]

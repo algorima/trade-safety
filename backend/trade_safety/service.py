@@ -90,7 +90,7 @@ class TradeSafetyService:
         self.chat_model = ChatOpenAI(
             model=model_settings.model,
             temperature=0.7,  # Hardcoded - balanced for analytical tasks
-            api_key=openai_api.api_key,
+            api_key=openai_api.api_key,  # type: ignore[arg-type]
             model_kwargs={
                 "response_format": {"type": "json_object"}
             },  # Force JSON response
