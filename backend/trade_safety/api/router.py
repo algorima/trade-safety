@@ -10,14 +10,15 @@ import logging
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, Field
-
-# Buppy dependencies (for integrated mode)
-# TODO: Refactor router to remove BaseCrudRouter dependency for standalone mode
-from config.webhook_config import WebhookAppConfig
-from fastapi_app.base_crud_router import BaseCrudRouter
+from sqlalchemy.orm import sessionmaker
 
 from aioia_core import errors as error_codes
 from aioia_core.errors import ErrorResponse
+from aioia_core.settings import JWTSettings, OpenAIAPISettings
+
+# Buppy dependency (BaseCrudRouter) - works for both standalone and integrated mode
+from fastapi_app.base_crud_router import BaseCrudRouter
+
 from trade_safety.repositories.trade_safety_repository import (
     DatabaseTradeSafetyCheckManager,
 )
@@ -29,6 +30,7 @@ from trade_safety.schemas import (
     TradeSafetyCheckUpdate,
 )
 from trade_safety.service import TradeSafetyService
+from trade_safety.settings import TradeSafetyModelSettings
 
 logger = logging.getLogger(__name__)
 
@@ -78,9 +80,22 @@ class TradeSafetyRouter(
     - No List, Update, or Delete operations
     """
 
-    def __init__(self, app_config: WebhookAppConfig, **kwargs):
-        """Initialize with app config for LLM service"""
-        self.app_config = app_config
+    def __init__(
+        self,
+        openai_api: OpenAIAPISettings,
+        model_settings: TradeSafetyModelSettings,
+        **kwargs,
+    ):
+        """
+        Initialize with Settings objects for LLM service.
+
+        Args:
+            openai_api: OpenAI API settings
+            model_settings: Model settings
+            **kwargs: BaseCrudRouter arguments
+        """
+        self.openai_api = openai_api
+        self.model_settings = model_settings
         super().__init__(**kwargs)
 
     def _register_routes(self) -> None:
@@ -145,7 +160,7 @@ class TradeSafetyRouter(
 
             try:
                 # Step 1: Analyze trade using LLM
-                service = TradeSafetyService(self.app_config)
+                service = TradeSafetyService(self.openai_api, self.model_settings)
                 analysis = await service.analyze_trade(
                     input_text=request.input_text,
                 )
@@ -282,25 +297,38 @@ class TradeSafetyRouter(
             return SingleItemResponseModel(data=check)
 
 
-def create_trade_safety_router(app_config: WebhookAppConfig) -> APIRouter:
+def create_trade_safety_router(
+    openai_api: OpenAIAPISettings,
+    model_settings: TradeSafetyModelSettings,
+    jwt_settings: JWTSettings,
+    db_session_factory: sessionmaker,
+    manager_factory,
+    user_profile_manager_factory,
+) -> APIRouter:
     """
     Create trade safety router with public POST and authenticated GET.
 
     Args:
-        app_config: Application configuration with DB and LLM settings
+        openai_api: OpenAI API settings
+        model_settings: Model settings
+        jwt_settings: JWT authentication settings
+        db_session_factory: SQLAlchemy session factory
+        manager_factory: Factory for creating TradeSafetyCheckManager
+        user_profile_manager_factory: Factory for creating UserProfileManager
 
     Returns:
         Configured FastAPI router
     """
     router = TradeSafetyRouter(
-        app_config=app_config,
+        openai_api=openai_api,
+        model_settings=model_settings,
         model_class=TradeSafetyCheck,
         create_schema=TradeSafetyCheckCreate,
         update_schema=TradeSafetyCheckUpdate,
-        db_session_factory=app_config.db_session_factory,
-        manager_factory=app_config.trade_safety_check_manager_factory,
-        user_profile_manager_factory=app_config.user_profile_manager_factory,
-        jwt_secret_key=app_config.config_settings.security_settings.jwt_secret_key,
+        db_session_factory=db_session_factory,
+        manager_factory=manager_factory,
+        user_profile_manager_factory=user_profile_manager_factory,
+        jwt_secret_key=jwt_settings.secret_key,
         resource_name="trade-safety",
         tags=["Trade Safety"],
     )
