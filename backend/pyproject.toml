@@ -20,7 +20,7 @@ classifiers = [
 ]
 
 dependencies = [
-    "aioia-core @ file:///../../aioia-core/python",
+    "aioia-core @ git+https://github.com/algorima/aioia-core.git@feat/settings-classes#subdirectory=python",
     "fastapi>=0.115.0",
     "pydantic>=2.5.0",
     "pydantic-settings>=2.1.0",
