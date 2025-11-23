@@ -1,60 +1,35 @@
-[project]
+[tool.poetry]
 name = "trade-safety"
 version = "0.1.0"
 description = "AI-powered safety analysis for K-pop merchandise trading"
+authors = ["AIoIA, Inc. <devops@aioia.ai>"]
 readme = "README.md"
-requires-python = ">=3.10,<3.13"
-license = {text = "Apache-2.0"}
-authors = [
-    {name = "AIoIA, Inc.", email = "devops@aioia.ai"}
-]
+license = "Apache-2.0"
 keywords = ["kpop", "merchandise", "trade", "safety", "llm", "scam-detection"]
-classifiers = [
-    "Development Status :: 3 - Alpha",
-    "Intended Audience :: Developers",
-    "License :: OSI Approved :: Apache Software License",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Topic :: Software Development :: Libraries",
-]
 
-dependencies = [
-    "aioia-core @ git+https://github.com/algorima/aioia-core.git@feat/settings-classes#subdirectory=python",
-    "fastapi>=0.115.0",
-    "pydantic>=2.5.0",
-    "pydantic-settings>=2.1.0",
-    "sqlalchemy>=2.0.0",
-    "alembic>=1.13.0",
-    "psycopg2-binary>=2.9.0",
-    "python-dotenv>=1.0.0",
-]
+[tool.poetry.dependencies]
+python = ">=3.10,<3.13"
+aioia-core = {git = "https://github.com/algorima/aioia-core.git", branch = "feat/settings-classes", subdirectory = "python"}
+fastapi = "^0.115.0"
+pydantic = "^2.5.0"
+pydantic-settings = "^2.1.0"
+sqlalchemy = "^2.0.0"
+alembic = "^1.13.0"
+psycopg2-binary = "^2.9.0"
+python-dotenv = "^1.0.0"
 
-[project.optional-dependencies]
-dev = [
-    "pytest>=8.0.0",
-    "pytest-asyncio>=0.23.0",
-    "pytest-cov>=4.1.0",
-    "black>=24.0.0",
-    "isort>=5.13.0",
-    "mypy>=1.8.0",
-    "ruff>=0.1.0",
-]
-
-[project.urls]
-Homepage = "https://github.com/algorima/trade-safety"
-Documentation = "https://github.com/algorima/trade-safety#readme"
-Repository = "https://github.com/algorima/trade-safety"
-Issues = "https://github.com/algorima/trade-safety/issues"
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+pytest-asyncio = "^0.23.0"
+pytest-cov = "^4.1.0"
+black = "^24.0.0"
+isort = "^5.13.0"
+mypy = "^1.8.0"
+ruff = "^0.1.0"
 
 [build-system]
-requires = ["setuptools>=68.0", "wheel"]
-build-backend = "setuptools.build_meta"
-
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["trade_safety*"]
-exclude = ["tests*"]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
 
 [tool.black]
 line-length = 88
