@@ -83,9 +83,6 @@ def trade_safety_check_manager_factory(session):
     return DatabaseTradeSafetyCheckManager(session)
 
 
-# Standalone mode doesn't support user authentication
-user_profile_manager_factory = None
-
 # Create FastAPI app
 app = FastAPI(
     title="Trade Safety API",
@@ -179,7 +176,7 @@ trade_safety_router = create_trade_safety_router(
     jwt_settings=jwt_settings,
     db_session_factory=db_session_factory,
     manager_factory=trade_safety_check_manager_factory,
-    user_profile_manager_factory=user_profile_manager_factory,
+    role_provider=None,  # Standalone mode: no user authentication
 )
 app.include_router(trade_safety_router)
 
