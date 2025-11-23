@@ -6,8 +6,7 @@ import asyncio
 import unittest
 from decimal import Decimal
 
-from services.trade_safety_service import TradeSafetyService
-from tests.mocks import MockAppConfig
+from trade_safety import TradeSafetyService
 
 
 class TestTradeSafetyAnalysis(unittest.TestCase):

@@ -5,7 +5,7 @@ from decimal import Decimal
 
 from pydantic import ValidationError
 
-from models.trade_safety_check import PriceAnalysis
+from trade_safety.schemas import PriceAnalysis
 
 
 class TestPriceAnalysis(unittest.TestCase):
