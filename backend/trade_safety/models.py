@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from aioia_core.database import BaseModel
-from sqlalchemy import JSON, Boolean, ForeignKey, Integer, String, Text
+from sqlalchemy import JSON, Boolean, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
 
@@ -26,7 +26,10 @@ class DBTradeSafetyCheck(BaseModel):
     __tablename__ = "trade_safety_checks"
 
     user_id: Mapped[str | None] = mapped_column(
-        String(255), nullable=True, index=True
+        String(255),
+        nullable=True,
+        index=True,
+        comment="External user ID from parent application (no FK for open-source portability)",
     )
     input_text: Mapped[str] = mapped_column(Text, nullable=False)
     llm_analysis: Mapped[dict] = mapped_column(JSON, nullable=False)
