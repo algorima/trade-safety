@@ -302,7 +302,7 @@ def create_trade_safety_router(
     jwt_settings: JWTSettings,
     db_session_factory: sessionmaker,
     manager_factory,
-    user_profile_manager_factory,
+    role_provider,
 ) -> APIRouter:
     """
     Create trade safety router with public POST and authenticated GET.
@@ -313,7 +313,7 @@ def create_trade_safety_router(
         jwt_settings: JWT authentication settings
         db_session_factory: SQLAlchemy session factory
         manager_factory: Factory for creating TradeSafetyCheckManager
-        user_profile_manager_factory: Factory for creating UserProfileManager
+        role_provider: UserRoleProvider implementation for authentication
 
     Returns:
         Configured FastAPI router
@@ -326,7 +326,7 @@ def create_trade_safety_router(
         update_schema=TradeSafetyCheckUpdate,
         db_session_factory=db_session_factory,
         manager_factory=manager_factory,
-        user_profile_manager_factory=user_profile_manager_factory,
+        role_provider=role_provider,
         jwt_secret_key=jwt_settings.secret_key,
         resource_name="trade-safety",
         tags=["Trade Safety"],
