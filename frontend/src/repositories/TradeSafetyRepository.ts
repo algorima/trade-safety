@@ -86,7 +86,7 @@ const tradeSafetyCheckRepositoryResponseSchema = z.union([
 ]);
 
 export class TradeSafetyRepository extends BaseCrudRepository<TradeSafetyCheckRepositoryResponse> {
-  protected resource = "trade-safety";
+  readonly resource = "trade-safety";
 
   protected getDataSchema() {
     return tradeSafetyCheckRepositoryResponseSchema;
