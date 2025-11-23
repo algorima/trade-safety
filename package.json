@@ -1,0 +1,30 @@
+{
+  "name": "@trade-safety/react",
+  "version": "0.1.0",
+  "description": "AI-powered safety analysis for K-pop merchandise trading (React components)",
+  "main": "frontend/src/index.ts",
+  "types": "frontend/src/index.ts",
+  "files": [
+    "frontend/src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/algorima/trade-safety.git"
+  },
+  "keywords": [
+    "kpop",
+    "merchandise",
+    "trade",
+    "safety",
+    "react",
+    "components"
+  ],
+  "author": "AIoIA, Inc. <devops@aioia.ai>",
+  "license": "Apache-2.0",
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-i18next": "^13.0.0",
+    "framer-motion": "^11.0.0",
+    "clsx": "^2.0.0"
+  }
+}
