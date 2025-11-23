@@ -1,57 +1,31 @@
-# Trade Safety React Components
+# Trade Safety Frontend
 
-React components for K-pop merchandise trade safety analysis.
+K-pop 굿즈 거래 안전성 분석 React 컴포넌트
 
-## Features
+## 주요 컴포넌트
 
-- **DetailedResult**: Full analysis display with risk score, signals, and recommendations
-- **QuickResultTeaser**: Freemium teaser for non-authenticated users
-- **RiskSignalCard**: Reusable risk signal display component
-- **TradeSafetyRepository**: API client for backend integration
-- **Multi-language Support**: 6 languages (en, ko, ja, zh, es, id)
+- **DetailedResult**: 상세 분석 결과 (위험도, 신호, 추천)
+- **QuickResultTeaser**: Freemium 티저 (비로그인 사용자용)
+- **RiskSignalCard**: 위험 신호 카드
+- **TradeSafetyRepository**: API 클라이언트
 
-## Installation
-
-### From Buppy (as local package)
+## 설치
 
 ```bash
-# In Buppy's package.json
-{
-  "dependencies": {
-    "@trade-safety/react": "file:../trade-safety/frontend"
-  }
-}
-
-npm install
+npm install @trade-safety/react
 ```
 
-### Standalone
+## 사용법
 
-```bash
-cd frontend
-npm install
-npm run build
-```
-
-## Usage
-
-### Import Components
+### 컴포넌트
 
 ```tsx
-import { DetailedResult, QuickResultTeaser } from "@trade-safety/react";
-import type { TradeSafetyAnalysis } from "@trade-safety/react";
+import { DetailedResult } from "@trade-safety/react";
 
-function TradeSafetyPage() {
-  return (
-    <DetailedResult
-      analysis={analysis}
-      expertAdvice={expertAdvice}
-    />
-  );
-}
+<DetailedResult analysis={analysis} expertAdvice={expertAdvice} />
 ```
 
-### Use Repository
+### Repository
 
 ```tsx
 import { TradeSafetyRepository } from "@trade-safety/react";
@@ -60,55 +34,26 @@ const repository = new TradeSafetyRepository(apiService);
 const response = await repository.create({ input_text: "..." });
 ```
 
-### Integrate i18n
+### i18n 통합
 
 ```tsx
 import { enTranslations, koTranslations } from "@trade-safety/react";
 
 i18n.init({
   resources: {
-    en: {
-      translation: {
-        ...yourTranslations,
-        page: {
-          tradeSafety: enTranslations,
-        },
-      },
-    },
-    ko: {
-      translation: {
-        ...yourTranslations,
-        page: {
-          tradeSafety: koTranslations,
-        },
-      },
-    },
+    en: { translation: { page: { tradeSafety: enTranslations } } },
+    ko: { translation: { page: { tradeSafety: koTranslations } } },
   },
 });
 ```
 
 ## Peer Dependencies
 
-These must be installed in your project:
+- React 18+
+- Next.js 13 또는 14
+- Tailwind CSS with DaisyUI
+- @aioia/core
 
-- React ^18.0.0
-- React DOM ^18.0.0
-- Next.js ^13.0.0 or ^14.0.0
-- Tailwind CSS (with DaisyUI theme)
-
-## Development
-
-```bash
-# Watch mode
-npm run dev
-
-# Build
-npm run build
-
-# Clean
-npm run clean
-```
-
-## License
+## 라이선스
 
 Apache 2.0
