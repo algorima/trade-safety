@@ -9,7 +9,7 @@ from decimal import Decimal
 
 from aioia_core.settings import OpenAIAPISettings
 
-from trade_safety import TradeSafetyService
+from trade_safety.service import TradeSafetyService
 from trade_safety.settings import TradeSafetyModelSettings
 
 
