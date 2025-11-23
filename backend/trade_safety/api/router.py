@@ -16,7 +16,7 @@ from aioia_core import errors as error_codes
 from aioia_core.errors import ErrorResponse
 from aioia_core.settings import JWTSettings, OpenAIAPISettings
 
-# Buppy dependency (BaseCrudRouter) - works for both standalone and integrated mode
+# External dependency for CRUD operations
 from fastapi_app.base_crud_router import BaseCrudRouter
 
 from trade_safety.repositories.trade_safety_repository import (
