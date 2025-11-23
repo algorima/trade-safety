@@ -14,7 +14,7 @@ K-pop 굿즈 거래 안전성 AI 분석 Python 패키지
 
 ```bash
 cd backend
-pip install -e .
+poetry install
 ```
 
 ## 사용법
@@ -44,11 +44,11 @@ app.include_router(router, prefix="/api/v2")
 ## 개발
 
 ```bash
-pip install -e ".[dev]"
-pytest
-black trade_safety
-isort trade_safety
-mypy trade_safety
+poetry install
+poetry run pytest
+poetry run black trade_safety
+poetry run isort trade_safety
+poetry run mypy trade_safety
 ```
 
 ## 의존성

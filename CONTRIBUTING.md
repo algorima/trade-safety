@@ -8,8 +8,8 @@ cd trade-safety
 
 # Backend
 cd backend
-pip install -e ".[dev]"
-pytest
+poetry install
+poetry run pytest
 
 # Frontend
 cd frontend
@@ -28,10 +28,10 @@ npm run build
 
 ### Backend
 ```bash
-black trade_safety
-isort trade_safety
-mypy trade_safety
-pytest
+poetry run black trade_safety
+poetry run isort trade_safety
+poetry run mypy trade_safety
+poetry run pytest
 ```
 
 ### Frontend
