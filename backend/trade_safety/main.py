@@ -21,7 +21,6 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from pydantic_settings import BaseSettings
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -33,7 +32,7 @@ from aioia_core.errors import (
     extract_error_code_from_exception,
     get_error_detail_from_exception,
 )
-from aioia_core.settings import JWTSettings, OpenAIAPISettings
+from aioia_core.settings import DatabaseSettings, JWTSettings, OpenAIAPISettings
 
 from trade_safety.api.router import create_trade_safety_router
 from trade_safety.repositories.trade_safety_repository import (
@@ -50,28 +49,14 @@ logger = logging.getLogger(__name__)
 
 
 # ==============================================================================
-# Database Settings
-# ==============================================================================
-
-
-class DatabaseSettings(BaseSettings):
-    """Database settings (environment variable: DATABASE_URL)"""
-
-    url: str
-
-    class Config:
-        env_prefix = "DATABASE_"
-
-
-# ==============================================================================
 # Initialize Settings from Environment Variables
 # ==============================================================================
 
 # BaseSettings automatically reads from environment variables
+db_settings = DatabaseSettings()  # DATABASE_URL
 openai_api = OpenAIAPISettings()  # OPENAI_API_KEY
 model_settings = TradeSafetyModelSettings()  # TRADE_SAFETY_MODEL
 jwt_settings = JWTSettings()  # JWT_SECRET_KEY
-db_settings = DatabaseSettings()  # DATABASE_URL
 
 logger.info("Loaded settings from environment variables")
 logger.info("Model: %s", model_settings.model)

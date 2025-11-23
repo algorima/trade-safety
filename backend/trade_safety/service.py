@@ -88,7 +88,6 @@ class TradeSafetyService:
             model_settings.model,
         )
 
-        # Initialize ChatOpenAI directly (no provider abstraction)
         self.chat_model = ChatOpenAI(
             model=model_settings.model,
             temperature=0.7,  # Hardcoded - balanced for analytical tasks
