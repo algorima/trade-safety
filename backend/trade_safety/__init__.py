@@ -3,45 +3,13 @@ Trade Safety - K-pop Merchandise Trade Safety Analysis.
 
 This package provides LLM-based safety analysis for K-pop merchandise trades,
 helping international fans overcome language, trust, and information barriers.
+
+Usage:
+    from trade_safety.service import TradeSafetyService
+    from trade_safety.models import DBTradeSafetyCheck
+    from trade_safety.api.router import create_trade_safety_router
 """
 
 __version__ = "0.1.0"
 
-from trade_safety.models import DBTradeSafetyCheck
-from trade_safety.repositories.trade_safety_repository import (
-    DatabaseTradeSafetyCheckManager,
-    TradeSafetyCheckManager,
-)
-from trade_safety.schemas import (
-    PriceAnalysis,
-    QuickCheckResponse,
-    QuickCheckSummary,
-    RiskCategory,
-    RiskSeverity,
-    RiskSignal,
-    TradeSafetyAnalysis,
-    TradeSafetyCheck,
-    TradeSafetyCheckCreate,
-    TradeSafetyCheckUpdate,
-)
-from trade_safety.service import TradeSafetyService
-
-__all__ = [
-    # Service
-    "TradeSafetyService",
-    # Database
-    "DBTradeSafetyCheck",
-    "TradeSafetyCheckManager",
-    "DatabaseTradeSafetyCheckManager",
-    # Schemas
-    "TradeSafetyAnalysis",
-    "TradeSafetyCheck",
-    "TradeSafetyCheckCreate",
-    "TradeSafetyCheckUpdate",
-    "RiskSignal",
-    "RiskCategory",
-    "RiskSeverity",
-    "PriceAnalysis",
-    "QuickCheckSummary",
-    "QuickCheckResponse",
-]
+# No top-level exports - use full paths for clarity
