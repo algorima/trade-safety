@@ -34,9 +34,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from trade_safety.api.router import create_trade_safety_router
-from trade_safety.repositories.trade_safety_repository import (
-    DatabaseTradeSafetyCheckManager,
-)
+from trade_safety.factories import TradeSafetyCheckManagerFactory
 from trade_safety.settings import TradeSafetyModelSettings
 
 # Configure logging
@@ -71,39 +69,6 @@ Base.metadata.create_all(engine)
 db_session_factory = sessionmaker(bind=engine)
 
 logger.info("Database initialized")
-
-
-# ==============================================================================
-# Manager Factories
-# ==============================================================================
-
-
-class TradeSafetyCheckManagerFactory:
-    """Factory for creating TradeSafetyCheckManager instances."""
-
-    def __init__(self, db_session_factory: sessionmaker):
-        """
-        Initialize factory with session factory.
-
-        Args:
-            db_session_factory: SQLAlchemy session factory
-        """
-        self.db_session_factory = db_session_factory
-
-    def create_manager(
-        self, db_session: sessionmaker | None = None
-    ) -> DatabaseTradeSafetyCheckManager:
-        """
-        Create a manager instance with the given or new session.
-
-        Args:
-            db_session: Optional database session. If None, creates a new session.
-
-        Returns:
-            DatabaseTradeSafetyCheckManager instance
-        """
-        session = db_session if db_session is not None else self.db_session_factory()
-        return DatabaseTradeSafetyCheckManager(session)
 
 
 # Create FastAPI app
@@ -192,16 +157,13 @@ async def internal_exception_handler(request: Request, exc: Exception):
 # Routes
 # ==============================================================================
 
-# Create manager factory instance
-trade_safety_check_manager_factory = TradeSafetyCheckManagerFactory(db_session_factory)
-
 # Create and include Trade Safety router
 trade_safety_router = create_trade_safety_router(
     openai_api=openai_api,
     model_settings=model_settings,
     jwt_settings=jwt_settings,
     db_session_factory=db_session_factory,
-    manager_factory=trade_safety_check_manager_factory,
+    manager_factory=TradeSafetyCheckManagerFactory(),
     role_provider=None,  # Standalone mode: no user authentication
 )
 app.include_router(trade_safety_router)
