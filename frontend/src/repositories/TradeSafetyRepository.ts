@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { BaseCrudRepository } from "@aioia/core";
+import { BaseCrudRepository } from "@aioia/core/typescript/src/repositories/BaseCrudRepository";
 
 // Zod schema for nested objects
 const riskSignalSchema = z.object({
