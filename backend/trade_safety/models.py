@@ -26,7 +26,7 @@ class DBTradeSafetyCheck(BaseModel):
     __tablename__ = "trade_safety_checks"
 
     user_id: Mapped[str | None] = mapped_column(
-        String(255), ForeignKey("user_profiles.user_id"), nullable=True, index=True
+        String(255), nullable=True, index=True
     )
     input_text: Mapped[str] = mapped_column(Text, nullable=False)
     llm_analysis: Mapped[dict] = mapped_column(JSON, nullable=False)
