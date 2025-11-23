@@ -5,15 +5,24 @@ WORKDIR /app
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     postgresql-client \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python dependencies
-COPY backend/pyproject.toml ./
-RUN pip install --no-cache-dir setuptools wheel && \
-    pip install --no-cache-dir -e .
+# Install Poetry
+RUN pip install --no-cache-dir poetry
+
+# Copy dependency files
+COPY backend/pyproject.toml backend/poetry.lock ./
+
+# Install dependencies (no dev, no root package yet)
+RUN poetry config virtualenvs.create false && \
+    poetry install --only main --no-root
 
 # Copy application code
 COPY backend/trade_safety ./trade_safety
+
+# Install root package
+RUN poetry install --only-root
 
 EXPOSE 8000
 
