@@ -3,10 +3,14 @@
 from __future__ import annotations
 
 import asyncio
+import os
 import unittest
 from decimal import Decimal
 
+from aioia_core.settings import OpenAIAPISettings
+
 from trade_safety import TradeSafetyService
+from trade_safety.settings import TradeSafetyModelSettings
 
 
 class TestTradeSafetyAnalysis(unittest.TestCase):
@@ -15,11 +19,20 @@ class TestTradeSafetyAnalysis(unittest.TestCase):
 
     이 테스트는 TradeSafetyService가 실제 LLM을 사용하여
     거래 안전성을 분석하고, 올바른 형식의 응답을 반환하는지 검증합니다.
+
+    환경 변수:
+        OPENAI_API_KEY: OpenAI API key (필수)
     """
 
     def setUp(self) -> None:
-        self.app_config = MockAppConfig()
-        self.service = TradeSafetyService(self.app_config)
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+            self.skipTest("OPENAI_API_KEY not set")
+
+        openai_api = OpenAIAPISettings(api_key=api_key)
+        model_settings = TradeSafetyModelSettings()
+
+        self.service = TradeSafetyService(openai_api, model_settings)
 
     def test_analyze_trade_with_price_info(self) -> None:
         """
