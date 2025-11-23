@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 
-import { QuickSummary } from "@/types/trade-safety";
+import { QuickSummary } from "../../types";
 
 interface QuickResultTeaserProps {
   summary: QuickSummary;
