@@ -15,10 +15,14 @@ K-pop 굿즈 거래 안전성 AI 분석 서비스
 ```bash
 git clone https://github.com/algorima/trade-safety.git
 cd trade-safety
-OPENAI_API_KEY=sk-... docker-compose up
+
+cp .env.example .env
+# .env 편집 (OPENAI_API_KEY 입력)
+
+docker-compose up
 ```
 
-http://localhost:8000/docs 접속
+접속: http://localhost:8000/docs
 
 ## 문서
 
