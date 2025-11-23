@@ -1,108 +1,62 @@
 # Trade Safety Backend
 
-Python package for AI-powered safety analysis of K-pop merchandise trades.
+K-pop 굿즈 거래 안전성 AI 분석 Python 패키지
 
-## Features
+## 주요 기능
 
-- **LLM-based Analysis**: Uses GPT-4/Claude to analyze trade posts
-- **Multi-language Support**: Translates Korean slang and nuances
-- **Risk Detection**: Identifies payment, seller, platform, price, and content risks
-- **Price Analysis**: Compares offered prices with market values
-- **Freemium Model**: Quick summary for guests, full analysis for authenticated users
+- LLM 기반 거래글 분석
+- 다국어 지원 (한국어 번역 및 뉘앙스 설명)
+- 위험 신호 탐지 (결제, 판매자, 플랫폼, 가격, 콘텐츠)
+- 시장가 대비 가격 분석
+- Freemium 모델
 
-## Installation
-
-### From Buppy (as submodule)
-
-```bash
-# Already included as submodule in Buppy
-poetry install
-```
-
-### Standalone
+## 설치
 
 ```bash
 cd backend
 pip install -e .
 ```
 
-## Usage
+## 사용법
 
-### As Library
+### 서비스 사용
 
 ```python
 from trade_safety import TradeSafetyService
-from config.app_config import BaseAppConfig
+from trade_safety.settings import TradeSafetyModelSettings
 
-# Initialize service with Buppy's config
-service = TradeSafetyService(app_config=buppy_app_config)
+settings = TradeSafetyModelSettings()
+service = TradeSafetyService(settings)
 
-# Analyze a trade
-analysis = await service.analyze_trade(
-    input_text="급처분 ㅠㅠ 공구 실패해서 양도해요"
-)
-
-print(f"Risk Score: {analysis.risk_score}/100")
-print(f"Risk Signals: {len(analysis.risk_signals)}")
+analysis = await service.analyze_trade("급처분 양도해요")
+print(f"위험도: {analysis.risk_score}/100")
 ```
 
-### As FastAPI Router
+### FastAPI 통합
 
 ```python
 from trade_safety.api.router import create_trade_safety_router
 
-# Create router with Buppy's config
-router = create_trade_safety_router(app_config=buppy_app_config)
-
-# Include in your FastAPI app
+router = create_trade_safety_router(app_config)
 app.include_router(router, prefix="/api/v2")
 ```
 
-## Dependencies
-
-- **Buppy Infrastructure**: Requires Buppy's BaseAppConfig, BaseManager, and LLM providers
-- **LangChain**: LLM integration
-- **SQLAlchemy**: Database models
-- **FastAPI**: API endpoints
-- **Pydantic**: Data validation
-
-## Project Structure
-
-```
-backend/
-├── trade_safety/
-│   ├── __init__.py          # Package exports
-│   ├── models.py             # Pydantic models
-│   ├── service.py            # TradeSafetyService
-│   ├── database/
-│   │   ├── models.py         # SQLAlchemy models
-│   │   └── manager.py        # CRUD manager
-│   ├── api/
-│   │   └── router.py         # FastAPI router
-│   └── config/
-│       └── prompts.py        # System prompts
-├── tests/
-├── pyproject.toml
-└── README.md
-```
-
-## Development
+## 개발
 
 ```bash
-# Install dev dependencies
 pip install -e ".[dev]"
-
-# Run tests
 pytest
-
-# Format code
 black trade_safety
 isort trade_safety
-
-# Type check
 mypy trade_safety
 ```
 
-## License
+## 의존성
+
+- aioia-core (공통 인프라)
+- FastAPI, SQLAlchemy, Pydantic
+- OpenAI API 키 필요
+
+## 라이선스
 
 Apache 2.0
