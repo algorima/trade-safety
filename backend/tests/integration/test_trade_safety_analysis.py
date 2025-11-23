@@ -27,7 +27,10 @@ class TestTradeSafetyAnalysis(unittest.TestCase):
     def setUp(self) -> None:
         api_key = os.getenv("OPENAI_API_KEY")
         if not api_key:
-            self.skipTest("OPENAI_API_KEY not set")
+            raise ValueError(
+                "OPENAI_API_KEY environment variable is required for integration tests. "
+                "Set it in backend/.envrc or export it before running tests."
+            )
 
         openai_api = OpenAIAPISettings(api_key=api_key)
         model_settings = TradeSafetyModelSettings()
