@@ -299,22 +299,22 @@ def create_trade_safety_router(
     model_settings: TradeSafetyModelSettings,
     jwt_settings: JWTSettings,
     db_session_factory: sessionmaker,
-    manager_factory,
-    role_provider,
+    manager_factory: TradeSafetyCheckManagerFactory,
+    role_provider: UserRoleProvider | None,
 ) -> APIRouter:
     """
     Create trade safety router with public POST and authenticated GET.
 
     Args:
-        openai_api: OpenAI API settings
-        model_settings: Model settings
-        jwt_settings: JWT authentication settings
-        db_session_factory: SQLAlchemy session factory
-        manager_factory: Factory for creating TradeSafetyCheckManager
-        role_provider: UserRoleProvider implementation for authentication
+        openai_api (OpenAIAPISettings): OpenAI API settings
+        model_settings (TradeSafetyModelSettings): Model settings
+        jwt_settings (JWTSettings): JWT authentication settings
+        db_session_factory (sessionmaker): SQLAlchemy session factory
+        manager_factory (TradeSafetyCheckManagerFactory): Factory for creating manager
+        role_provider (UserRoleProvider | None): UserRoleProvider for authentication
 
     Returns:
-        Configured FastAPI router
+        APIRouter: Configured FastAPI router
     """
     router = TradeSafetyRouter(
         openai_api=openai_api,
