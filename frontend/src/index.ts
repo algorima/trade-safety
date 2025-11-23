@@ -11,6 +11,11 @@ export { RiskSignalCard } from "./components/RiskSignalCard";
 
 // Repositories (Repository pattern for API access)
 export { TradeSafetyRepository } from "./repositories";
+export type {
+  TradeSafetyCheckRepositoryResponse,
+  TradeSafetyCheckFullResponse,
+  QuickCheckRepositoryResponse,
+} from "./repositories/TradeSafetyRepository";
 
 // Types
 export type * from "./types";
