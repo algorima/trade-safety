@@ -4,7 +4,7 @@ Standalone FastAPI application for Trade Safety.
 This module provides the entry point for running Trade Safety as an independent service.
 
 Usage:
-    uvicorn trade_safety.main:app --reload
+    uvicorn main:app --reload
 
 Environment Variables:
     DATABASE_URL: PostgreSQL database URL

@@ -10,18 +10,42 @@ K-pop 굿즈 거래 안전성 AI 분석 서비스
 - 가격 분석
 - Freemium 모델
 
+## 프로젝트 구조
+
+```
+trade-safety/
+├── backend/          # FastAPI 앱 + 라이브러리
+│   ├── trade_safety/ # 라이브러리 모듈 (다른 프로젝트에서 import 가능)
+│   └── main.py       # Standalone 앱 entry point
+└── frontend/         # Next.js 앱 + React 컴포넌트 라이브러리
+    ├── src/app/      # Next.js App Router (standalone)
+    ├── src/components/ # React 컴포넌트 (라이브러리로 export)
+    └── package.json
+```
+
 ## 빠른 시작
 
-```bash
-git clone https://github.com/algorima/trade-safety.git
-cd trade-safety/backend
+### Backend (FastAPI)
 
+```bash
+cd trade-safety/backend
 poetry install
 export OPENAI_API_KEY=sk-...
-poetry run uvicorn trade_safety.main:app --reload
+export JWT_SECRET_KEY=your-secret-key
+poetry run uvicorn main:app --reload
 ```
 
 접속: http://localhost:8000/docs
+
+### Frontend (Next.js)
+
+```bash
+cd trade-safety/frontend
+npm install
+npm run dev
+```
+
+접속: http://localhost:3000
 
 ## 문서
 

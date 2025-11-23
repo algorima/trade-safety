@@ -8,11 +8,14 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch",
-    "clean": "rm -rf dist",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "build:lib": "tsc --project tsconfig.lib.json",
+    "dev:lib": "tsc --project tsconfig.lib.json --watch",
+    "clean": "rm -rf dist .next",
     "type-check": "tsc --noEmit",
-    "lint": "eslint src --ext .ts,.tsx",
+    "lint": "next lint",
     "lint:fix": "eslint src --ext .ts,.tsx --fix"
   },
   "keywords": [
@@ -31,11 +34,12 @@
     "directory": "frontend"
   },
   "peerDependencies": {
+    "next": "^13.0.0 || ^14.0.0",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "next": "^13.0.0 || ^14.0.0"
+    "react-dom": "^18.0.0"
   },
   "dependencies": {
+    "@aioia/core": "github:algorima/aioia-core#feat/settings-classes",
     "@heroicons/react": "^2.0.0",
     "clsx": "^2.0.0",
     "framer-motion": "^11.0.0",
@@ -44,11 +48,15 @@
     "zod": "^3.23.0"
   },
   "devDependencies": {
+    "@sentry/nextjs": "^10.26.0",
+    "@storybook/react": "^8.0.0",
+    "@types/node": "^24.10.1",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "eslint": "^8.0.0",
+    "eslint-config-next": "^13.0.0",
     "typescript": "^5.0.0"
   }
 }
