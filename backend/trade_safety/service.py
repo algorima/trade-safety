@@ -13,11 +13,10 @@ from __future__ import annotations
 import json
 import logging
 
+from aioia_core.settings import OpenAIAPISettings
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
 from pydantic import ValidationError
-
-from aioia_core.settings import OpenAIAPISettings
 
 from trade_safety.prompts import TRADE_SAFETY_SYSTEM_PROMPT
 from trade_safety.schemas import (

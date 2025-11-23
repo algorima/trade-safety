@@ -8,15 +8,13 @@ This module provides public API endpoints for trade safety analysis:
 
 import logging
 
+from aioia_core import errors as error_codes
+from aioia_core.errors import ErrorResponse
+from aioia_core.fastapi import BaseCrudRouter
+from aioia_core.settings import JWTSettings, OpenAIAPISettings
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import sessionmaker
-
-from aioia_core import errors as error_codes
-from aioia_core.errors import ErrorResponse
-from aioia_core.settings import JWTSettings, OpenAIAPISettings
-
-from aioia_core.fastapi import BaseCrudRouter
 
 from trade_safety.repositories.trade_safety_repository import (
     DatabaseTradeSafetyCheckManager,

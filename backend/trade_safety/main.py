@@ -17,13 +17,6 @@ Environment Variables:
 import logging
 import os
 
-from fastapi import FastAPI, HTTPException, Request
-from fastapi.exceptions import RequestValidationError
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-
 from aioia_core.database import Base
 from aioia_core.errors import (
     INTERNAL_SERVER_ERROR,
@@ -33,6 +26,12 @@ from aioia_core.errors import (
     get_error_detail_from_exception,
 )
 from aioia_core.settings import DatabaseSettings, JWTSettings, OpenAIAPISettings
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.exceptions import RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 from trade_safety.api.router import create_trade_safety_router
 from trade_safety.repositories.trade_safety_repository import (
@@ -134,9 +133,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
     """Handle Pydantic validation errors."""
     first_error = exc.errors()[0] if exc.errors() else {}
     field = (
-        first_error.get("loc", ["unknown"])[-1]
-        if first_error.get("loc")
-        else "unknown"
+        first_error.get("loc", ["unknown"])[-1] if first_error.get("loc") else "unknown"
     )
 
     detail = f"Validation error in field '{field}': {first_error.get('msg', 'Invalid value')}"

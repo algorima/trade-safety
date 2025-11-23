@@ -4,9 +4,9 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
+from aioia_core.database import BaseManager
 from sqlalchemy.orm import Session
 
-from aioia_core.database import BaseManager
 from trade_safety.models import DBTradeSafetyCheck
 from trade_safety.schemas import (
     TradeSafetyAnalysis,
