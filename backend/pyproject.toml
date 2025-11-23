@@ -20,7 +20,7 @@ classifiers = [
 ]
 
 dependencies = [
-    "aioia-core @ file:///../aioia-core/python",
+    "aioia-core @ file:///../../aioia-core/python",
     "fastapi>=0.115.0",
     "pydantic>=2.5.0",
     "pydantic-settings>=2.1.0",
