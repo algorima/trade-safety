@@ -22,8 +22,8 @@ sqlalchemy = "^2.0.0"
 [package.source]
 type = "git"
 url = "https://github.com/algorima/aioia-core.git"
-reference = "3e42624"
-resolved_reference = "3e42624535c13aa55145c8b0404c63bf63421ec9"
+reference = "feat/settings-classes"
+resolved_reference = "135b9aac5fd3f257484df31491f0242c2947a354"
 subdirectory = "python"
 
 [[package]]
@@ -2441,4 +2441,4 @@ cffi = ["cffi (>=1.17,<2.0) ; platform_python_implementation != \"PyPy\" and pyt
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<3.13"
-content-hash = "01535163d7be8e0f5d668ab10896690b7f0684d2ce93e066a45f791d5524ea97"
+content-hash = "a3b6356b223b861fae759ebeeb3e27c4193533797447c6540413e8498c9e36c8"
