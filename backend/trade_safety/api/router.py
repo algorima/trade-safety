@@ -8,15 +8,14 @@ This module provides public API endpoints for trade safety analysis:
 
 import logging
 
-from aioia_core import errors as error_codes
-from aioia_core.auth import UserRoleProvider
-from aioia_core.errors import ErrorResponse
-from aioia_core.fastapi import BaseCrudRouter
-from aioia_core.settings import JWTSettings, OpenAIAPISettings
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import sessionmaker
 
+from aioia_core.auth import UserRoleProvider
+from aioia_core.errors import RESOURCE_NOT_FOUND, VALIDATION_ERROR, ErrorResponse
+from aioia_core.fastapi import BaseCrudRouter
+from aioia_core.settings import JWTSettings, OpenAIAPISettings
 from trade_safety.factories import TradeSafetyCheckManagerFactory
 from trade_safety.repositories.trade_safety_repository import (
     DatabaseTradeSafetyCheckManager,
@@ -83,6 +82,7 @@ class TradeSafetyRouter(
         self,
         openai_api: OpenAIAPISettings,
         model_settings: TradeSafetyModelSettings,
+        system_prompt: str | None = None,
         **kwargs,
     ):
         """
@@ -91,10 +91,12 @@ class TradeSafetyRouter(
         Args:
             openai_api: OpenAI API settings
             model_settings: Model settings
+            system_prompt: Optional custom system prompt (overrides default if provided)
             **kwargs: BaseCrudRouter arguments
         """
         self.openai_api = openai_api
         self.model_settings = model_settings
+        self.system_prompt = system_prompt
         super().__init__(**kwargs)
 
     def _register_routes(self) -> None:
@@ -159,7 +161,18 @@ class TradeSafetyRouter(
 
             try:
                 # Step 1: Analyze trade using LLM
-                service = TradeSafetyService(self.openai_api, self.model_settings)
+                # Use custom prompt if provided, otherwise TradeSafetyService uses default
+                if self.system_prompt:
+                    service = TradeSafetyService(
+                        self.openai_api,
+                        self.model_settings,
+                        system_prompt=self.system_prompt,
+                    )
+                else:
+                    service = TradeSafetyService(
+                        self.openai_api,
+                        self.model_settings,
+                    )
                 analysis = await service.analyze_trade(
                     input_text=request.input_text,
                 )
@@ -213,7 +226,7 @@ class TradeSafetyRouter(
                     status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
                     detail={
                         "detail": str(e),
-                        "code": error_codes.VALIDATION_ERROR,
+                        "code": VALIDATION_ERROR,
                     },
                 ) from e
 
@@ -263,7 +276,7 @@ class TradeSafetyRouter(
                     status_code=status.HTTP_404_NOT_FOUND,
                     detail={
                         "detail": "Trade safety check not found",
-                        "code": error_codes.RESOURCE_NOT_FOUND,
+                        "code": RESOURCE_NOT_FOUND,
                     },
                 )
 
@@ -303,6 +316,7 @@ def create_trade_safety_router(
     db_session_factory: sessionmaker,
     manager_factory: TradeSafetyCheckManagerFactory,
     role_provider: UserRoleProvider | None,
+    system_prompt: str | None = None,
 ) -> APIRouter:
     """
     Create trade safety router with public POST and authenticated GET.
@@ -314,6 +328,7 @@ def create_trade_safety_router(
         db_session_factory (sessionmaker): SQLAlchemy session factory
         manager_factory (TradeSafetyCheckManagerFactory): Factory for creating manager
         role_provider (UserRoleProvider | None): UserRoleProvider for authentication
+        system_prompt (str | None): Optional custom system prompt for trade safety analysis
 
     Returns:
         APIRouter: Configured FastAPI router
@@ -321,6 +336,7 @@ def create_trade_safety_router(
     router = TradeSafetyRouter(
         openai_api=openai_api,
         model_settings=model_settings,
+        system_prompt=system_prompt,
         model_class=TradeSafetyCheck,
         create_schema=TradeSafetyCheckCreate,
         update_schema=TradeSafetyCheckUpdate,

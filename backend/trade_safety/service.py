@@ -13,11 +13,11 @@ from __future__ import annotations
 import json
 import logging
 
-from aioia_core.settings import OpenAIAPISettings
+from langchain_community.chat_models import ChatOpenAI
 from langchain_core.messages import HumanMessage, SystemMessage
-from langchain_openai import ChatOpenAI
 from pydantic import ValidationError
 
+from aioia_core.settings import OpenAIAPISettings
 from trade_safety.prompts import TRADE_SAFETY_SYSTEM_PROMPT
 from trade_safety.schemas import (
     PriceAnalysis,
@@ -71,6 +71,7 @@ class TradeSafetyService:
         self,
         openai_api: OpenAIAPISettings,
         model_settings: TradeSafetyModelSettings,
+        system_prompt: str = TRADE_SAFETY_SYSTEM_PROMPT,
     ):
         """
         Initialize TradeSafetyService with LLM configuration.
@@ -78,9 +79,12 @@ class TradeSafetyService:
         Args:
             openai_api: OpenAI API settings (api_key)
             model_settings: Model settings (model name)
+            system_prompt: System prompt for trade safety analysis (default: TRADE_SAFETY_SYSTEM_PROMPT)
 
         Note:
             Temperature is hardcoded to 0.7 for balanced analytical reasoning.
+            The default system_prompt is provided by the library, but can be overridden
+            with custom prompts (e.g., domain-specific or improved versions).
         """
         logger.debug(
             "Initializing TradeSafetyService with model=%s",
@@ -95,7 +99,7 @@ class TradeSafetyService:
                 "response_format": {"type": "json_object"}
             },  # Force JSON response
         )
-        self.system_prompt = TRADE_SAFETY_SYSTEM_PROMPT
+        self.system_prompt = system_prompt
 
     # ==========================================
     # Main Analysis Method
