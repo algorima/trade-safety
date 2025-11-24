@@ -1,0 +1,43 @@
+name: Backend CI
+
+on:
+  push:
+    branches: [main, feature/*]
+  pull_request:
+    paths:
+      - "backend/**"
+      - ".github/workflows/**"
+
+jobs:
+  backend-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Read Python version
+        id: python-version
+        run: echo "version=$(cat backend/.python-version)" >> $GITHUB_OUTPUT
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ steps.python-version.outputs.version }}
+
+      - name: Install Dependencies
+        run: |
+          pip install poetry
+          poetry install
+        working-directory: backend
+
+      - name: Lint
+        run: poetry run make lint
+        working-directory: backend
+
+      - name: Type Check
+        run: poetry run make type-check
+        working-directory: backend
+
+      - name: Test
+        run: poetry run pytest
+        working-directory: backend
