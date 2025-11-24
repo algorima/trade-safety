@@ -1,0 +1,6 @@
+---
+description: 함수
+globs: frontend/src/utils/**/*.ts
+alwaysApply: false
+---
+컴포넌트 외 일반 함수는 가능하면 화살표 함수를 사용하여 정의하세요.

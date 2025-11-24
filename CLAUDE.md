@@ -29,6 +29,7 @@ src/
 
 - DRY: 중복 금지, aioia-core 재사용
 - Opportunistic Refactoring: 변경 쉽게 → 변경
+- Guard Clause: 함수 초반에 전제조건 검사, 실패 시 즉시 반환
 - 오류 처리: 예상 오류 catch, 예상 외 throw
 
 ## 보안
@@ -42,6 +43,10 @@ src/
 
 - TDD: Red → Green → Refactor
 - LLM 테스트: 범위 검증, Golden Dataset
+
+## Python
+
+- Tests: `assert <var> is not None` 로 타입 안정성 유지
 
 ## 네이밍
 
@@ -60,5 +65,6 @@ src/
 
 ## 외부 기여
 
+- Atomic PR: 하나의 PR은 하나의 논리적 변경만 포함
 - CLA 서명 필수
 - CLAUDE.md, CONTRIBUTING.md 숙지
