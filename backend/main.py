@@ -17,7 +17,7 @@ Environment Variables:
 import logging
 import os
 
-from aioia_core.database import Base
+from aioia_core.models import Base
 from aioia_core.errors import (
     INTERNAL_SERVER_ERROR,
     VALIDATION_ERROR,
