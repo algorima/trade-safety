@@ -1,3 +1,5 @@
+When performing a code review, respond in Korean.
+
 # Trade Safety 개발 가이드
 
 ## 코드 품질
