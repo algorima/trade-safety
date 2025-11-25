@@ -16,3 +16,6 @@ alwaysApply: false
 - 함수 초반에 전제조건/유효성 검사를 배치하고 실패 시 즉시 반환하여 중첩을 피하세요.
 - happy path는 마지막에 두고, 불필요한 else 블록을 줄이세요.
 - 가독성과 예외 흐름의 명료성을 우선합니다.
+
+## PR 작성
+- PR 템플릿: `.github/PULL_REQUEST_TEMPLATE.md` 참고
