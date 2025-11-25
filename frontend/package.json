@@ -39,7 +39,7 @@
     "react-dom": "^18.0.0"
   },
   "dependencies": {
-    "@aioia/core": "github:algorima/aioia-core#feat/settings-classes",
+    "@aioia/core": "^0.1.0",
     "@heroicons/react": "^2.0.0",
     "clsx": "^2.0.0",
     "framer-motion": "^11.0.0",
