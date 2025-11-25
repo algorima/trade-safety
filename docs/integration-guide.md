@@ -52,6 +52,16 @@ export OPENAI_API_KEY=sk-...
 npm install @trade-safety/react @aioia/core
 ```
 
+### Tailwind 설정 (필수)
+
+```ts
+// tailwind.config.ts
+content: [
+  "./src/**/*.{js,ts,jsx,tsx}",
+  "./node_modules/@trade-safety/**/*.{js,jsx,ts,tsx}",
+]
+```
+
 ### 컴포넌트
 
 ```tsx
