@@ -43,3 +43,4 @@
 - Atomic PR: 하나의 PR은 하나의 논리적 변경만 포함
 - CLA 서명 필수
 - CLAUDE.md, CONTRIBUTING.md 숙지
+- PR 템플릿: `.github/PULL_REQUEST_TEMPLATE.md` 참고
