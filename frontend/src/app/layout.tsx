@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import "../styles/globals.css";
 
 export const metadata: Metadata = {
   title: "Trade Safety - K-pop Merchandise Trade Safety Check",
