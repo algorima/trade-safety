@@ -40,5 +40,5 @@ jobs:
         working-directory: backend
 
       - name: Test
-        run: poetry run pytest
+        run: poetry run make test
         working-directory: backend

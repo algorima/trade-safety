@@ -45,10 +45,10 @@ app.include_router(router, prefix="/api/v2")
 
 ```bash
 poetry install
-poetry run pytest
-poetry run black trade_safety
-poetry run isort trade_safety
-poetry run mypy trade_safety
+poetry run make test
+poetry run make lint
+poetry run make type-check
+poetry run make format
 ```
 
 ## 의존성

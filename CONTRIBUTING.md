@@ -9,7 +9,7 @@ cd trade-safety
 # Backend
 cd backend
 poetry install
-poetry run pytest
+poetry run make test
 
 # Frontend
 cd frontend
@@ -28,10 +28,10 @@ npm run build
 
 ### Backend
 ```bash
-poetry run black trade_safety
-poetry run isort trade_safety
-poetry run mypy trade_safety
-poetry run pytest
+poetry run make format
+poetry run make lint
+poetry run make type-check
+poetry run make test
 ```
 
 ### Frontend
