@@ -1,91 +1,95 @@
 {
-  "hero": {
-    "title": "担心交易安全？",
-    "subtitle": "为全球K-pop粉丝提供的交易安全验证工具。AI在30秒内分析语言障碍、诈骗风险和价格合理性。",
-    "placeholder": "粘贴交易帖子文本或URL...\n\n示例:\n급처분 ㅠㅠ 공구 실패해서 양도해요\nBTS Jimin 小卡 무탈 DM\n\n或:\nhttps://twitter.com/...",
-    "advancedOptions": "高级选项（可选）",
-    "amountPlaceholder": "交易金额（USD）",
-    "checkSafety": "检查安全性",
-    "analyzing": "分析中...",
-    "analyzingDescription": "AI正在分析语言、诈骗信号和价格...",
-    "tryExample": "试试示例"
-  },
-  "features": {
-    "title": "AI<1>同时分析3个方面</1>",
-    "translation": {
-      "title": "翻译 + 语气解读",
-      "description": "翻译韩语俚语和缩写，识别可疑表达。"
-    },
-    "scamDetection": {
-      "title": "诈骗信号检测",
-      "description": "检测预付款要求、账号年龄、缺少验证等风险模式。"
-    },
-    "priceAnalysis": {
-      "title": "价格合理性分析",
-      "description": "提供市场价格信息，警告价格过高风险。"
-    }
-  },
-  "howItWorks": {
-    "title": "使用方法",
-    "step1": {
-      "title": "粘贴",
-      "description": "复制并粘贴交易帖子文本或URL"
-    },
-    "step2": {
-      "title": "AI分析",
-      "description": "AI在30秒内分析语言、诈骗信号和价格"
-    },
-    "step3": {
-      "title": "查看结果",
-      "description": "查看详细分析结果和安全建议"
-    }
-  },
-  "result": {
-    "title": "交易安全分析",
-    "subtitle": "基于您提供的信息进行AI分析的结果",
-    "notFound": "未找到分析结果",
-    "quickTitle": "分析完成！",
-    "riskSignals": "风险信号",
-    "cautions": "注意事项",
-    "safeIndicators": "安全要素",
-    "detailsPreview": "详细分析",
-    "signupRequired": "注册查看完整详情",
-    "signupMessage": "创建免费账户以获取详细的AI分析和专家建议",
-    "signupDescription": "免费注册获取完整分析结果和AI建议",
-    "signupButton": "免费注册",
-    "signupToView": "注册查看完整分析",
-    "whatToDo": "如何应对",
-    "translation": "翻译与语境",
-    "translationTitle": "翻译",
-    "nuanceTitle": "语境说明",
-    "priceAnalysis": "价格分析",
-    "marketPrice": "市场价格区间",
-    "offeredPrice": "报价",
-    "priceAssessment": "价格评估",
-    "priceWarnings": "价格警告",
-    "safetyChecklist": "安全检查清单",
-    "checklistDescription": "交易前请检查这些项目",
-    "recommendation": "综合建议",
-    "expertAdvice": "专家建议",
-    "expertName": "K-pop交易专家",
-    "riskLevel": {
-      "high": {
-        "title": "高风险",
-        "message": "建议不要进行此交易。检测到多个危险信号。"
+  "page": {
+    "tradeSafety": {
+      "hero": {
+        "title": "担心交易安全？",
+        "subtitle": "为全球K-pop粉丝提供的交易安全验证工具。AI在30秒内分析语言障碍、诈骗风险和价格合理性。",
+        "placeholder": "粘贴交易帖子文本或URL...\n\n示例:\n급처분 ㅠㅠ 공구 실패해서 양도해요\nBTS Jimin 小卡 무탈 DM\n\n或:\nhttps://twitter.com/...",
+        "advancedOptions": "高级选项（可选）",
+        "amountPlaceholder": "交易金额（USD）",
+        "checkSafety": "检查安全性",
+        "analyzing": "分析中...",
+        "analyzingDescription": "AI正在分析语言、诈骗信号和价格...",
+        "tryExample": "试试示例"
       },
-      "medium": {
-        "title": "谨慎进行",
-        "message": "检测到一些可疑迹象。交易前请仔细核实。"
+      "features": {
+        "title": "AI<1>同时分析3个方面</1>",
+        "translation": {
+          "title": "翻译 + 语气解读",
+          "description": "翻译韩语俚语和缩写，识别可疑表达。"
+        },
+        "scamDetection": {
+          "title": "诈骗信号检测",
+          "description": "检测预付款要求、账号年龄、缺少验证等风险模式。"
+        },
+        "priceAnalysis": {
+          "title": "价格合理性分析",
+          "description": "提供市场价格信息，警告价格过高风险。"
+        }
       },
-      "low": {
-        "title": "看起来安全",
-        "message": "未检测到重大危险信号，但请始终保持警惕！"
+      "howItWorks": {
+        "title": "使用方法",
+        "step1": {
+          "title": "粘贴",
+          "description": "复制并粘贴交易帖子文本或URL"
+        },
+        "step2": {
+          "title": "AI分析",
+          "description": "AI在30秒内分析语言、诈骗信号和价格"
+        },
+        "step3": {
+          "title": "查看结果",
+          "description": "查看详细分析结果和安全建议"
+        }
+      },
+      "result": {
+        "title": "交易安全分析",
+        "subtitle": "基于您提供的信息进行AI分析的结果",
+        "notFound": "未找到分析结果",
+        "quickTitle": "分析完成！",
+        "riskSignals": "风险信号",
+        "cautions": "注意事项",
+        "safeIndicators": "安全要素",
+        "detailsPreview": "详细分析",
+        "signupRequired": "注册查看完整详情",
+        "signupMessage": "创建免费账户以获取详细的AI分析和专家建议",
+        "signupDescription": "免费注册获取完整分析结果和AI建议",
+        "signupButton": "免费注册",
+        "signupToView": "注册查看完整分析",
+        "whatToDo": "如何应对",
+        "translation": "翻译与语境",
+        "translationTitle": "翻译",
+        "nuanceTitle": "语境说明",
+        "priceAnalysis": "价格分析",
+        "marketPrice": "市场价格区间",
+        "offeredPrice": "报价",
+        "priceAssessment": "价格评估",
+        "priceWarnings": "价格警告",
+        "safetyChecklist": "安全检查清单",
+        "checklistDescription": "交易前请检查这些项目",
+        "recommendation": "综合建议",
+        "expertAdvice": "专家建议",
+        "expertName": "K-pop交易专家",
+        "riskLevel": {
+          "high": {
+            "title": "高风险",
+            "message": "建议不要进行此交易。检测到多个危险信号。"
+          },
+          "medium": {
+            "title": "谨慎进行",
+            "message": "检测到一些可疑迹象。交易前请仔细核实。"
+          },
+          "low": {
+            "title": "看起来安全",
+            "message": "未检测到重大危险信号，但请始终保持警惕！"
+          }
+        },
+        "companionCta": {
+          "title": "想聊聊吗？",
+          "description": "与您的AI同伴分享您心中所想",
+          "button": "开始聊天"
+        }
       }
-    },
-    "companionCta": {
-      "title": "想聊聊吗？",
-      "description": "与您的AI同伴分享您心中所想",
-      "button": "开始聊天"
     }
   }
 }
