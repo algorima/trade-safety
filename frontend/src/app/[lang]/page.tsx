@@ -1,13 +1,99 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useState, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+
+import { TradeSafetyRepository } from "@/repositories/TradeSafetyRepository";
+import type { TradeSafetyCheckRepositoryResponse } from "@/repositories/TradeSafetyRepository";
+import { getApiService } from "@/services/ApiService";
+
+const isQuickCheckResponse = (
+  data: TradeSafetyCheckRepositoryResponse,
+): data is Extract<
+  TradeSafetyCheckRepositoryResponse,
+  { signup_required: true }
+> => {
+  return "signup_required" in data;
+};
+
 export default function HomePage() {
+  const { t, i18n } = useTranslation();
+  const router = useRouter();
+
+  const repository = useMemo<TradeSafetyRepository>(
+    () => new TradeSafetyRepository(getApiService()),
+    [],
+  );
+
+  const [inputText, setInputText] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async () => {
+    if (!inputText.trim()) {
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await repository.create({
+        variables: { input_text: inputText },
+      });
+
+      if (isQuickCheckResponse(response.data)) {
+        router.push(`/${i18n.language}/result/${response.data.id}?quick=true`);
+      } else {
+        router.push(`/${i18n.language}/result/${response.data.id}`);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred");
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <main className="container mx-auto px-4 py-8">
-      <h1 className="mb-8 text-4xl font-bold">Trade Safety Check</h1>
-      <p className="text-lg text-gray-600">
-        AI-powered safety analysis for K-pop merchandise trading
-      </p>
-      {/* TODO: Add TradeSafetyCheckForm component */}
-    </main>
+    <div className="container mx-auto px-6 py-20">
+      <div className="mx-auto max-w-4xl text-center">
+        <h1 className="mb-4 text-4xl font-bold">
+          {t("page.tradeSafety.hero.title")}
+        </h1>
+        <p className="mb-8 text-xl text-neutral-content">
+          {t("page.tradeSafety.hero.subtitle")}
+        </p>
+
+        <div className="card bg-base-200 shadow-xl">
+          <div className="card-body">
+            <textarea
+              id="trade-input"
+              className="textarea textarea-bordered h-48 w-full"
+              placeholder={t("page.tradeSafety.hero.placeholder")}
+              aria-label={t("page.tradeSafety.hero.title")}
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              disabled={isLoading}
+            />
+
+            {error && (
+              <div className="alert alert-error mt-4">
+                <span>{error}</span>
+              </div>
+            )}
+
+            <button
+              className="btn btn-primary btn-lg mt-4"
+              onClick={handleSubmit}
+              disabled={isLoading || !inputText.trim()}
+            >
+              {isLoading
+                ? t("page.tradeSafety.hero.analyzing")
+                : t("page.tradeSafety.hero.checkSafety")}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
