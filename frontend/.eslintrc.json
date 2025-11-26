@@ -1,7 +1,18 @@
 {
   "extends": [
+    "next/core-web-vitals",
+    "plugin:storybook/recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking"
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:tailwindcss/recommended"
+  ],
+  "overrides": [
+    {
+      "files": ["**/*.stories.tsx", "**/*.stories.ts"],
+      "rules": {
+        "no-console": "off"
+      }
+    }
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -40,6 +51,30 @@
         "allow": ["warn", "error", "debug"]
       }
     ],
-    "prefer-arrow-callback": "warn"
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index"
+        ],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ],
+    "prefer-arrow-callback": "warn",
+    "tailwindcss/no-custom-classname": [
+      "warn",
+      {
+        "whitelist": ["bg\\-(primary|secondary)\\-focus"]
+      }
+    ]
   }
 }
