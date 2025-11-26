@@ -24,9 +24,14 @@ langchain-community = ">=0.1,<1"
 black = "^24.0.0"
 isort = "^5.13.0"
 mypy = "^1.8.0"
+ruff = "^0.1.0"
 uvicorn = "^0.38.0"
 pyright = "^1.1.407"
 pylint = "3.3.7"
+
+[tool.black]
+line-length = 88
+target-version = ['py310', 'py311', 'py312']
 
 [tool.isort]
 multi_line_output = 3
@@ -35,6 +40,18 @@ force_grid_wrap = 0
 use_parentheses = true
 ensure_newline_before_comments = true
 line_length = 88
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+select = ["E", "F", "W", "I", "N"]
+ignore = []
 
 [build-system]
 requires = ["poetry-core"]
