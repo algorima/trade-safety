@@ -18,6 +18,8 @@ import { TranslationSection } from "./TranslationSection";
 interface DetailedResultProps {
   analysis: TradeSafetyAnalysis;
   expertAdvice?: string | null;
+  /** Buppy 통합 시 true로 설정하여 AI 동반자 CTA 표시 */
+  showCompanionCta?: boolean;
 }
 
 const fadeInUp: Variants = {
@@ -40,6 +42,7 @@ const staggerContainer: Variants = {
 export function DetailedResult({
   analysis,
   expertAdvice,
+  showCompanionCta = false,
 }: DetailedResultProps) {
   return (
     <motion.div
@@ -113,10 +116,12 @@ export function DetailedResult({
         />
       </motion.div>
 
-      {/* AI 동반자 CTA */}
-      <motion.div variants={fadeInUp}>
-        <CompanionCtaSection />
-      </motion.div>
+      {/* AI 동반자 CTA - Buppy 통합 시에만 표시 */}
+      {showCompanionCta && (
+        <motion.div variants={fadeInUp}>
+          <CompanionCtaSection />
+        </motion.div>
+      )}
     </motion.div>
   );
 }
