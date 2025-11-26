@@ -6,7 +6,7 @@ import { BaseApiService } from "@aioia/core";
  */
 export class ApiService extends BaseApiService {
   constructor() {
-    super(process.env.NEXT_PUBLIC_API_BASE_URL);
+    super(process.env.NEXT_PUBLIC_API_BASE_URL, "");
   }
 
   /**
