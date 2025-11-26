@@ -18,7 +18,7 @@ import { TranslationSection } from "./TranslationSection";
 interface DetailedResultProps {
   analysis: TradeSafetyAnalysis;
   expertAdvice?: string | null;
-  /** Buppy 통합 시 true로 설정하여 AI 동반자 CTA 표시 */
+  /** Set to true to show AI companion CTA (for external integrations) */
   showCompanionCta?: boolean;
 }
 
@@ -116,7 +116,7 @@ export function DetailedResult({
         />
       </motion.div>
 
-      {/* AI 동반자 CTA - Buppy 통합 시에만 표시 */}
+      {/* AI 동반자 CTA - 외부 통합 시에만 표시 */}
       {showCompanionCta && (
         <motion.div variants={fadeInUp}>
           <CompanionCtaSection />
