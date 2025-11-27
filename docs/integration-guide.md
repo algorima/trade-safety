@@ -17,7 +17,7 @@ pip install git+https://github.com/algorima/trade-safety.git#subdirectory=backen
 ### 사용
 
 ```python
-from trade_safety import TradeSafetyService
+from trade_safety.service import TradeSafetyService
 from trade_safety.settings import TradeSafetyModelSettings
 
 settings = TradeSafetyModelSettings()

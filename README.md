@@ -1,57 +1,95 @@
 # Trade Safety
 
-K-pop 굿즈 거래 안전성 AI 분석 서비스
+K-pop 굿즈 거래글 AI 분석 서비스
+
+---
 
 ## 주요 기능
 
-- LLM 기반 거래글 분석
+- LLM 기반 거래글 분석 (한국어 슬랭 이해)
+- 사기 신호 탐지 (Risk Signals, Cautions, Safe Indicators)
+- 가격 분석 (시세 비교)
+- 안전 체크리스트
+- 감정 지원 (FOMO 완화)
 - 6개 언어 지원
-- 위험 신호 탐지
-- 가격 분석
 - Freemium 모델
 
-## 프로젝트 구조
-
-```
-trade-safety/
-├── backend/          # FastAPI 앱 + 라이브러리
-│   ├── trade_safety/ # 라이브러리 모듈 (다른 프로젝트에서 import 가능)
-│   └── main.py       # Standalone 앱 entry point
-└── frontend/         # Next.js 앱 + React 컴포넌트 라이브러리
-    ├── src/app/      # Next.js App Router (standalone)
-    ├── src/components/ # React 컴포넌트 (라이브러리로 export)
-    └── package.json
-```
+---
 
 ## 빠른 시작
 
-### Backend (FastAPI)
+### Backend
 
 ```bash
-cd trade-safety/backend
+cd backend
 poetry install
 export OPENAI_API_KEY=sk-...
-export JWT_SECRET_KEY=your-secret-key
 poetry run uvicorn main:app --reload
 ```
 
 접속: http://localhost:8000/docs
 
-### Frontend (Next.js)
+### Frontend
 
 ```bash
-cd trade-safety/frontend
+cd frontend
 npm install
 npm run dev
 ```
 
 접속: http://localhost:3000
 
+---
+
+## 라이브러리 사용
+
+### Python
+
+```python
+from aioia_core.settings import OpenAIAPISettings
+from trade_safety.settings import TradeSafetyModelSettings
+from trade_safety.service import TradeSafetyService
+
+# 환경 변수(OPENAI_API_KEY)에서 자동 로드
+openai_api = OpenAIAPISettings()
+model_settings = TradeSafetyModelSettings()
+
+service = TradeSafetyService(openai_api, model_settings)
+analysis = await service.analyze_trade("급처분 양도")
+```
+
+### React
+
+```tsx
+import { DetailedResult } from "@trade-safety/react";
+
+// analysis 객체는 Python 라이브러리나 백엔드 API를 통해 얻은 분석 결과입니다.
+<DetailedResult analysis={analysis} />
+```
+
+---
+
+## 프로젝트 구조
+
+```
+backend/
+├── trade_safety/  # 라이브러리
+└── main.py        # Standalone 앱
+
+frontend/
+├── src/app/       # Next.js
+└── src/components/ # 라이브러리
+```
+
+---
+
 ## 문서
 
-- [통합 가이드](docs/integration-guide.md) - FastAPI/React 프로젝트 통합
-- [기여 가이드](CONTRIBUTING.md) - 개발 환경 및 PR
-- [개발 원칙](CLAUDE.md) - 아키텍처 및 코드 품질
+- [통합 가이드](docs/integration-guide.md)
+- [기여 가이드](CONTRIBUTING.md)
+- [개발 원칙](CLAUDE.md)
+
+---
 
 ## 라이선스
 
