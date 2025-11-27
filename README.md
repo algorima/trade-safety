@@ -63,6 +63,7 @@ analysis = await service.analyze_trade("급처분 양도")
 ```tsx
 import { DetailedResult } from "@trade-safety/react";
 
+// analysis 객체는 Python 라이브러리나 백엔드 API를 통해 얻은 분석 결과입니다.
 <DetailedResult analysis={analysis} />
 ```
 
