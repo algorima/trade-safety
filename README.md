@@ -1,5 +1,7 @@
 # Trade Safety
 
+[![Live](https://img.shields.io/badge/Live-aioia.ai-blue)](https://aioia.ai/trade-safety)
+
 K-pop 굿즈 거래글 AI 분석 서비스
 
 ---
