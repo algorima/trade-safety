@@ -1,0 +1,83 @@
+{
+  "name": "@trade-safety/react",
+  "version": "0.1.0",
+  "description": "React components for Trade Safety - K-pop merchandise trade safety analysis",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "build:lib": "tsc --project tsconfig.lib.json",
+    "dev:lib": "tsc --project tsconfig.lib.json --watch",
+    "clean": "rm -rf dist .next",
+    "type-check": "tsc --noEmit",
+    "lint": "next lint",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "format": "prettier --write .",
+    "check-format": "prettier --check ."
+  },
+  "keywords": [
+    "kpop",
+    "merchandise",
+    "trade",
+    "safety",
+    "react",
+    "components"
+  ],
+  "author": "AIoIA, Inc.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/algorima/trade-safety.git",
+    "directory": "frontend"
+  },
+  "peerDependencies": {
+    "next": "^13.0.0 || ^14.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "dependencies": {
+    "@aioia/core": "^0.2.0",
+    "@heroicons/react": "^2",
+    "clsx": "^2.1.1",
+    "framer-motion": "^11.2.3",
+    "i18next": "^23.11.4",
+    "i18next-resources-to-backend": "^1.2.1",
+    "react-i18next": "^14.1.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@sentry/nextjs": "^7.113.0",
+    "@storybook/react": "^8.0.9",
+    "@tailwindcss/typography": "^0.5.13",
+    "@testing-library/jest-dom": "^6.4.3",
+    "@testing-library/react": "^15.0.6",
+    "@types/jest": "^29.5.x",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "autoprefixer": "^10",
+    "daisyui": "^4.10.5",
+    "eslint": "^8",
+    "eslint-config-next": "13.5.6",
+    "eslint-plugin-storybook": "^0.8.0",
+    "eslint-plugin-tailwindcss": "^3.18.0",
+    "jest": "^29.5.x",
+    "jest-environment-jsdom": "^29",
+    "postcss": "^8",
+    "prettier": "^3",
+    "prettier-plugin-tailwindcss": "^0.5.14",
+    "tailwindcss": "^3",
+    "ts-jest": "^29",
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "page": {
+    "tradeSafety": {
+      "hero": {
+        "title": "걱정되는 거래가 있나요?",
+        "subtitle": "해외 K-pop 팬을 위한 거래 안전 검증 도구. AI가 언어 장벽, 사기 위험, 가격 적정성을 30초 안에 분석합니다.",
+        "placeholder": "거래 글이나 URL을 붙여넣으세요...\n\n예시:\n급처분 ㅠㅠ 공구 실패해서 양도해요\nBTS 지민 포카 무탈 DM\n\n또는:\nhttps://twitter.com/...",
+        "advancedOptions": "추가 옵션 (선택)",
+        "amountPlaceholder": "거래 금액 (USD)",
+        "checkSafety": "안전성 확인하기",
+        "analyzing": "분석 중...",
+        "analyzingDescription": "AI가 언어, 사기 신호, 가격을 분석하고 있습니다...",
+        "tryExample": "예시 보기"
+      },
+      "features": {
+        "title": "AI가 <1>3가지를 동시에</1> 분석합니다",
+        "translation": {
+          "title": "번역 + 뉘앙스 해석",
+          "description": "한국어 슬랭과 줄임말을 번역하고, 의심스러운 표현을 찾아냅니다."
+        },
+        "scamDetection": {
+          "title": "사기 신호 탐지",
+          "description": "선입금 요구, 계정 연령, 인증 부족 등 위험 패턴을 감지합니다."
+        },
+        "priceAnalysis": {
+          "title": "가격 적정성 분석",
+          "description": "시세 정보를 제공하고, 바가지 위험을 경고합니다."
+        }
+      },
+      "howItWorks": {
+        "title": "사용 방법",
+        "step1": {
+          "title": "붙여넣기",
+          "description": "거래 글이나 URL을 복사해서 붙여넣으세요"
+        },
+        "step2": {
+          "title": "AI 분석",
+          "description": "AI가 30초 안에 언어, 사기 신호, 가격을 분석합니다"
+        },
+        "step3": {
+          "title": "결과 확인",
+          "description": "상세한 분석 결과와 안전 권장사항을 확인하세요"
+        }
+      },
+      "result": {
+        "title": "거래 안전 분석",
+        "subtitle": "입력하신 정보를 AI가 분석한 결과입니다",
+        "notFound": "분석 결과를 찾을 수 없습니다",
+        "quickTitle": "분석 완료!",
+        "riskSignals": "위험 신호",
+        "cautions": "주의사항",
+        "safeIndicators": "안전 요소",
+        "detailsPreview": "상세 분석 결과",
+        "signupRequired": "가입하고 전체 정보 확인",
+        "signupMessage": "무료 계정을 만들어 상세한 AI 분석과 전문가 조언을 받아보세요",
+        "signupDescription": "무료 회원가입으로 전체 분석 결과와 AI 조언을 받으세요",
+        "signupButton": "무료 가입하기",
+        "signupToView": "가입하고 전체 분석 보기",
+        "whatToDo": "어떻게 대응할까요",
+        "translation": "번역 및 뉘앙스",
+        "translationTitle": "번역",
+        "nuanceTitle": "뉘앙스 설명",
+        "priceAnalysis": "가격 분석",
+        "marketPrice": "일반 시세",
+        "offeredPrice": "제시된 가격",
+        "priceAssessment": "가격 평가",
+        "priceWarnings": "가격 관련 경고",
+        "safetyChecklist": "안전 체크리스트",
+        "checklistDescription": "거래를 진행하기 전에 다음 항목을 확인하세요",
+        "recommendation": "종합 추천",
+        "expertAdvice": "전문가 조언",
+        "expertName": "K-pop 거래 전문가",
+        "riskLevel": {
+          "high": {
+            "title": "위험도 높음",
+            "message": "이 거래는 진행하지 않는 것을 권장합니다. 여러 위험 신호가 발견되었습니다."
+          },
+          "medium": {
+            "title": "신중하게 진행하세요",
+            "message": "몇 가지 의심스러운 점이 있습니다. 거래 전 신중하게 확인하세요."
+          },
+          "low": {
+            "title": "안전해 보입니다",
+            "message": "큰 위험 신호는 발견되지 않았지만, 항상 주의하세요!"
+          }
+        },
+        "companionCta": {
+          "title": "이야기 나눌까요?",
+          "description": "마음속 이야기를 나눠보세요",
+          "button": "대화 시작하기"
+        }
+      }
+    }
+  }
+}

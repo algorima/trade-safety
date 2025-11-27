@@ -1,0 +1,21 @@
+---
+description: 코딩 관행
+globs: **/*.ts,**/*.tsx,**/*.py,**/*.dart
+alwaysApply: false
+---
+## DRY (Don't Repeat Yourself)
+- 동일한 로직이나 패턴을 반복하지 마세요. 기존 컴포넌트/함수를 먼저 확인하고 재사용하세요.
+
+## 테스트 주도 개발
+- 복잡한 로직 구현 시 실패하는 테스트를 먼저 작성하세요 (TDD: Red → Green → Refactor).
+
+## Opportunistic Refactoring
+- 변경 전 코드를 먼저 변경하기 쉽게 만드세요. (켄트 벡: make the change easy, then make the easy change)
+
+## 가드 클로즈/얼리 리턴
+- 함수 초반에 전제조건/유효성 검사를 배치하고 실패 시 즉시 반환하여 중첩을 피하세요.
+- happy path는 마지막에 두고, 불필요한 else 블록을 줄이세요.
+- 가독성과 예외 흐름의 명료성을 우선합니다.
+
+## PR 작성
+- PR 템플릿: `.github/PULL_REQUEST_TEMPLATE.md` 참고

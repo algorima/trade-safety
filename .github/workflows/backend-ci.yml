@@ -1,0 +1,72 @@
+name: Backend CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    paths:
+      - "backend/**"
+      - ".github/workflows/**"
+
+jobs:
+  backend-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read Python version
+        id: python-version
+        run: echo "version=$(cat backend/.python-version)" >> $GITHUB_OUTPUT
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ steps.python-version.outputs.version }}
+
+      - name: Install Dependencies
+        run: |
+          pip install poetry
+          poetry install
+        working-directory: backend
+
+      - name: Lint
+        run: make lint
+        working-directory: backend
+
+      - name: Type Check
+        run: make type-check
+        working-directory: backend
+
+      - name: Run Unit Tests
+        run: make unit-test
+        working-directory: backend
+
+  integration-tests:
+    needs: backend-ci
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read Python version
+        id: python-version
+        run: echo "version=$(cat backend/.python-version)" >> $GITHUB_OUTPUT
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ steps.python-version.outputs.version }}
+
+      - name: Install Dependencies
+        run: |
+          pip install poetry
+          poetry install
+        working-directory: backend
+
+      - name: Run Integration Tests
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: make integration-test
+        working-directory: backend

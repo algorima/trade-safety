@@ -1,0 +1,95 @@
+{
+  "page": {
+    "tradeSafety": {
+      "hero": {
+        "title": "取引に不安がありますか？",
+        "subtitle": "グローバルK-popファンのための取引安全検証ツール。AIが言語の壁、詐欺リスク、価格の妥当性を30秒で分析します。",
+        "placeholder": "取引投稿のテキストまたはURLを貼り付けてください...\n\n例:\n급처분 ㅠㅠ 공구 실패해서 양도해요\nBTS ジミン フォトカード 무탈 DM\n\nまたは:\nhttps://twitter.com/...",
+        "advancedOptions": "詳細オプション（任意）",
+        "amountPlaceholder": "取引金額（USD）",
+        "checkSafety": "安全性を確認",
+        "analyzing": "分析中...",
+        "analyzingDescription": "AIが言語、詐欺信号、価格を分析しています...",
+        "tryExample": "例を試す"
+      },
+      "features": {
+        "title": "AIが<1>3つを同時に</1>分析します",
+        "translation": {
+          "title": "翻訳 + ニュアンス解釈",
+          "description": "韓国語のスラングや略語を翻訳し、疑わしい表現を見つけます。"
+        },
+        "scamDetection": {
+          "title": "詐欺信号検出",
+          "description": "前払い要求、アカウント年齢、認証不足などのリスクパターンを検出します。"
+        },
+        "priceAnalysis": {
+          "title": "価格の妥当性分析",
+          "description": "市場価格情報を提供し、ぼったくりリスクを警告します。"
+        }
+      },
+      "howItWorks": {
+        "title": "使い方",
+        "step1": {
+          "title": "貼り付け",
+          "description": "取引投稿のテキストまたはURLをコピーして貼り付けます"
+        },
+        "step2": {
+          "title": "AI分析",
+          "description": "AIが30秒で言語、詐欺信号、価格を分析します"
+        },
+        "step3": {
+          "title": "結果確認",
+          "description": "詳細な分析結果と安全推奨事項を確認します"
+        }
+      },
+      "result": {
+        "title": "取引安全性分析",
+        "subtitle": "入力された情報をAIが分析した結果です",
+        "notFound": "分析結果が見つかりません",
+        "quickTitle": "分析完了！",
+        "riskSignals": "リスク信号",
+        "cautions": "注意事項",
+        "safeIndicators": "安全要素",
+        "detailsPreview": "詳細分析",
+        "signupRequired": "サインアップして詳細を確認",
+        "signupMessage": "無料アカウントを作成して詳細なAI分析と専門家のアドバイスを受け取る",
+        "signupDescription": "無料アカウントで完全な分析結果とAIアドバイスを取得",
+        "signupButton": "無料サインアップ",
+        "signupToView": "サインアップして全体分析を見る",
+        "whatToDo": "対応方法",
+        "translation": "翻訳とニュアンス",
+        "translationTitle": "翻訳",
+        "nuanceTitle": "ニュアンスの説明",
+        "priceAnalysis": "価格分析",
+        "marketPrice": "市場価格帯",
+        "offeredPrice": "提示価格",
+        "priceAssessment": "価格評価",
+        "priceWarnings": "価格警告",
+        "safetyChecklist": "安全チェックリスト",
+        "checklistDescription": "取引を進める前にこれらの項目を確認してください",
+        "recommendation": "総合推奨事項",
+        "expertAdvice": "専門家のアドバイス",
+        "expertName": "K-pop取引専門家",
+        "riskLevel": {
+          "high": {
+            "title": "リスク高",
+            "message": "この取引は進めないことをお勧めします。複数の危険信号が検出されました。"
+          },
+          "medium": {
+            "title": "慎重に進めてください",
+            "message": "いくつか懸念される点があります。取引前に慎重に確認してください。"
+          },
+          "low": {
+            "title": "安全そうです",
+            "message": "大きな危険信号は検出されませんでしたが、常に注意してください！"
+          }
+        },
+        "companionCta": {
+          "title": "お話ししませんか？",
+          "description": "心に思っていることをAIコンパニオンと共有しましょう",
+          "button": "チャット開始"
+        }
+      }
+    }
+  }
+}

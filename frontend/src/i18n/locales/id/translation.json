@@ -1,0 +1,95 @@
+{
+  "page": {
+    "tradeSafety": {
+      "hero": {
+        "title": "Khawatir Tentang Transaksi?",
+        "subtitle": "Alat verifikasi keamanan transaksi untuk penggemar K-pop global. AI menganalisis hambatan bahasa, risiko penipuan, dan keadilan harga dalam 30 detik.",
+        "placeholder": "Tempel teks atau URL postingan transaksi...\n\nContoh:\n급처분 ㅠㅠ 공구 실패해서 양도해요\nBTS Jimin photocard 무탈 DM\n\nAtau:\nhttps://twitter.com/...",
+        "advancedOptions": "Opsi Lanjutan (Opsional)",
+        "amountPlaceholder": "Jumlah Transaksi (USD)",
+        "checkSafety": "Periksa Keamanan",
+        "analyzing": "Menganalisis...",
+        "analyzingDescription": "AI sedang menganalisis bahasa, sinyal penipuan, dan harga...",
+        "tryExample": "Coba contoh"
+      },
+      "features": {
+        "title": "AI Menganalisis <1>3 Hal Secara Bersamaan</1>",
+        "translation": {
+          "title": "Terjemahan + Nuansa",
+          "description": "Menerjemahkan slang Korea dan mengidentifikasi ekspresi yang mencurigakan."
+        },
+        "scamDetection": {
+          "title": "Deteksi Sinyal Penipuan",
+          "description": "Mendeteksi pola risiko seperti permintaan pembayaran di muka, usia akun, dan kurangnya verifikasi."
+        },
+        "priceAnalysis": {
+          "title": "Analisis Keadilan Harga",
+          "description": "Memberikan info harga pasar dan memperingatkan tentang harga berlebihan."
+        }
+      },
+      "howItWorks": {
+        "title": "Cara Kerja",
+        "step1": {
+          "title": "Tempel",
+          "description": "Salin dan tempel teks atau URL postingan transaksi"
+        },
+        "step2": {
+          "title": "Analisis AI",
+          "description": "AI menganalisis bahasa, sinyal penipuan, dan harga dalam 30 detik"
+        },
+        "step3": {
+          "title": "Lihat Hasil",
+          "description": "Lihat analisis terperinci dan rekomendasi keamanan"
+        }
+      },
+      "result": {
+        "title": "Analisis Keamanan Transaksi",
+        "subtitle": "Berdasarkan analisis AI dari informasi yang Anda berikan",
+        "notFound": "Hasil analisis tidak ditemukan",
+        "quickTitle": "Analisis Selesai!",
+        "riskSignals": "Sinyal Risiko",
+        "cautions": "Peringatan",
+        "safeIndicators": "Indikator Aman",
+        "detailsPreview": "Analisis Terperinci",
+        "signupRequired": "Daftar untuk melihat detail lengkap",
+        "signupMessage": "Buat akun gratis untuk mendapatkan analisis AI terperinci dan saran ahli",
+        "signupDescription": "Dapatkan analisis lengkap dan saran AI dengan akun gratis",
+        "signupButton": "Daftar Gratis",
+        "signupToView": "Daftar untuk melihat analisis lengkap",
+        "whatToDo": "Apa yang harus dilakukan",
+        "translation": "Terjemahan & Nuansa",
+        "translationTitle": "Terjemahan",
+        "nuanceTitle": "Penjelasan Nuansa",
+        "priceAnalysis": "Analisis Harga",
+        "marketPrice": "Kisaran Harga Pasar",
+        "offeredPrice": "Harga yang Ditawarkan",
+        "priceAssessment": "Penilaian Harga",
+        "priceWarnings": "Peringatan Harga",
+        "safetyChecklist": "Daftar Periksa Keamanan",
+        "checklistDescription": "Periksa item-item ini sebelum melanjutkan transaksi",
+        "recommendation": "Rekomendasi",
+        "expertAdvice": "Saran Ahli",
+        "expertName": "Ahli Transaksi K-pop",
+        "riskLevel": {
+          "high": {
+            "title": "Risiko Tinggi",
+            "message": "Kami merekomendasikan TIDAK melanjutkan transaksi ini. Terdeteksi beberapa tanda bahaya."
+          },
+          "medium": {
+            "title": "Lanjutkan dengan Hati-hati",
+            "message": "Terdeteksi beberapa tanda yang mengkhawatirkan. Harap verifikasi dengan hati-hati sebelum bertransaksi."
+          },
+          "low": {
+            "title": "Terlihat Aman",
+            "message": "Tidak ada tanda bahaya besar yang terdeteksi, tetapi selalu berhati-hati!"
+          }
+        },
+        "companionCta": {
+          "title": "Ingin bicara?",
+          "description": "Bagikan apa yang ada di pikiran Anda dengan rekan AI Anda",
+          "button": "Mulai Chat"
+        }
+      }
+    }
+  }
+}
