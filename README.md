@@ -1,6 +1,6 @@
 # Trade Safety
 
-[![Status](https://img.shields.io/website?url=https%3A%2F%2Faioia.ai%2Ftrade-safety)](https://aioia.ai/trade-safety)
+[![Status](https://img.shields.io/website?url=https%3A%2F%2Faioia.ai%2Ftrade-safety&label=Status)](https://aioia.ai/trade-safety)
 
 K-pop 굿즈 거래글 AI 분석 서비스
 
