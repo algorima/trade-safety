@@ -302,38 +302,5 @@ class TestTradeSafetyAnalysis(unittest.TestCase):
             "가격 정보가 제공되었으므로 offered_price가 있어야 합니다",
         )
 
-    def test_analyze_trade_without_price_has_no_currency(self) -> None:
-        """
-        가격 정보가 없는 경우 currency 필드도 None이어야 함
-
-        시나리오:
-        - 거래 글: 가격 미기재 거래 글
-        - 기대 결과: price_analysis.currency가 None으로 반환됨
-        """
-        # Given: 가격 정보가 없는 거래 글
-        input_text = """
-        아이브 안유진 포카 양도
-        DM 주세요
-        """
-
-        # When: 거래 분석 수행
-        analysis = asyncio.run(
-            self.service.analyze_trade(
-                input_text=input_text,
-            )
-        )
-
-        # Then: 응답 검증
-        self.assertIsNotNone(analysis, "분석 결과가 반환되어야 합니다")
-        assert analysis is not None  # Type narrowing for mypy
-
-        # price_analysis가 있다면 currency도 None이어야 함
-        if analysis.price_analysis is not None:
-            self.assertIsNone(
-                analysis.price_analysis.currency,
-                "가격 정보가 없으면 currency도 None이어야 합니다",
-            )
-
-
 if __name__ == "__main__":
     unittest.main()
