@@ -46,7 +46,13 @@ npm run dev
 ### Python
 
 ```python
+from aioia_core.settings import OpenAIAPISettings
+from trade_safety.settings import TradeSafetyModelSettings
 from trade_safety import TradeSafetyService
+
+# 환경 변수(OPENAI_API_KEY)에서 자동 로드
+openai_api = OpenAIAPISettings()
+model_settings = TradeSafetyModelSettings()
 
 service = TradeSafetyService(openai_api, model_settings)
 analysis = await service.analyze_trade("급처분 양도")
