@@ -22,7 +22,7 @@ poetry install
 ### 서비스 사용
 
 ```python
-from trade_safety import TradeSafetyService
+from trade_safety.service import TradeSafetyService
 from trade_safety.settings import TradeSafetyModelSettings
 
 settings = TradeSafetyModelSettings()
