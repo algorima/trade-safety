@@ -22,7 +22,7 @@ jobs:
           node-version: 20
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
         working-directory: frontend
 
       - name: Type Check
