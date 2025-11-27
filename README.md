@@ -48,7 +48,7 @@ npm run dev
 ```python
 from aioia_core.settings import OpenAIAPISettings
 from trade_safety.settings import TradeSafetyModelSettings
-from trade_safety import TradeSafetyService
+from trade_safety.service import TradeSafetyService
 
 # 환경 변수(OPENAI_API_KEY)에서 자동 로드
 openai_api = OpenAIAPISettings()
