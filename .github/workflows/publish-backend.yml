@@ -31,21 +31,12 @@ jobs:
         with:
           python-version: ${{ steps.python-version.outputs.version }}
 
-      - name: Install dependencies
-        run: pip install poetry python-semantic-release
-
       - name: Release
         id: release
-        working-directory: backend
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          semantic-release version --no-push
-          if [ -d "dist" ] && [ "$(ls -A dist)" ]; then
-            echo "released=true" >> $GITHUB_OUTPUT
-          else
-            echo "released=false" >> $GITHUB_OUTPUT
-          fi
+        uses: python-semantic-release/python-semantic-release@v9
+        with:
+          directory: backend
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
