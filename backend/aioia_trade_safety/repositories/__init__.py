@@ -1,6 +1,6 @@
 """Repositories for Trade Safety data access."""
 
-from trade_safety.repositories.trade_safety_repository import (
+from aioia_trade_safety.repositories.trade_safety_repository import (
     DatabaseTradeSafetyCheckManager,
     TradeSafetyCheckManager,
 )

@@ -18,15 +18,15 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from pydantic import ValidationError
 
 from aioia_core.settings import OpenAIAPISettings
-from trade_safety.prompts import TRADE_SAFETY_SYSTEM_PROMPT
-from trade_safety.schemas import (
+from aioia_trade_safety.prompts import TRADE_SAFETY_SYSTEM_PROMPT
+from aioia_trade_safety.schemas import (
     PriceAnalysis,
     RiskCategory,
     RiskSeverity,
     RiskSignal,
     TradeSafetyAnalysis,
 )
-from trade_safety.settings import TradeSafetyModelSettings
+from aioia_trade_safety.settings import TradeSafetyModelSettings
 
 logger = logging.getLogger(__name__)
 
@@ -55,7 +55,7 @@ class TradeSafetyService:
 
     Example:
         >>> from aioia_core.settings import OpenAIAPISettings
-        >>> from trade_safety.settings import TradeSafetyModelSettings
+        >>> from aioia_trade_safety.settings import TradeSafetyModelSettings
         >>>
         >>> openai_api = OpenAIAPISettings(api_key="sk-...")
         >>> model_settings = TradeSafetyModelSettings()

@@ -16,19 +16,19 @@ from aioia_core.auth import UserRoleProvider
 from aioia_core.errors import RESOURCE_NOT_FOUND, VALIDATION_ERROR, ErrorResponse
 from aioia_core.fastapi import BaseCrudRouter
 from aioia_core.settings import JWTSettings, OpenAIAPISettings
-from trade_safety.factories import TradeSafetyCheckManagerFactory
-from trade_safety.repositories.trade_safety_repository import (
+from aioia_trade_safety.factories import TradeSafetyCheckManagerFactory
+from aioia_trade_safety.repositories.trade_safety_repository import (
     DatabaseTradeSafetyCheckManager,
 )
-from trade_safety.schemas import (
+from aioia_trade_safety.schemas import (
     QuickCheckResponse,
     QuickCheckSummary,
     TradeSafetyCheck,
     TradeSafetyCheckCreate,
     TradeSafetyCheckUpdate,
 )
-from trade_safety.service import TradeSafetyService
-from trade_safety.settings import TradeSafetyModelSettings
+from aioia_trade_safety.service import TradeSafetyService
+from aioia_trade_safety.settings import TradeSafetyModelSettings
 
 logger = logging.getLogger(__name__)
 

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
-from trade_safety.schemas import (
+from aioia_trade_safety.schemas import (
     TradeSafetyCheck,
     TradeSafetyCheckCreate,
     TradeSafetyCheckUpdate,
