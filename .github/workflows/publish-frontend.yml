@@ -1,17 +1,17 @@
 name: Publish Frontend to npm
 
 on:
-  workflow_run:
-    workflows: ["Frontend CI"]
-    types: [completed]
-    branches: [main]
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/**'
 
 permissions:
   contents: read
 
 jobs:
   release:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
