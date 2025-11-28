@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "trade-safety"
+name = "aioia-trade-safety"
 version = "0.1.0"
 description = "AI-powered safety analysis for K-pop merchandise trading"
 authors = ["AIoIA, Inc. <devops@aioia.ai>"]
