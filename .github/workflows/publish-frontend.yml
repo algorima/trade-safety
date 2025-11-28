@@ -31,7 +31,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install
-        run: npm clean-install
+        run: npm install
         working-directory: frontend
 
       - name: Build
