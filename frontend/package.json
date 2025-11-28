@@ -1,5 +1,5 @@
 {
-  "name": "@trade-safety/react",
+  "name": "@aioia/trade-safety",
   "version": "0.1.0",
   "description": "React components for Trade Safety - K-pop merchandise trade safety analysis",
   "main": "dist/index.js",
