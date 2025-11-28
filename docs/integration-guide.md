@@ -17,8 +17,8 @@ pip install git+https://github.com/algorima/trade-safety.git#subdirectory=backen
 ### 사용
 
 ```python
-from trade_safety.service import TradeSafetyService
-from trade_safety.settings import TradeSafetyModelSettings
+from aioia_trade_safety.service import TradeSafetyService
+from aioia_trade_safety.settings import TradeSafetyModelSettings
 
 settings = TradeSafetyModelSettings()
 service = TradeSafetyService(settings)
@@ -29,7 +29,7 @@ analysis = await service.analyze_trade("거래글 내용")
 ### FastAPI 라우터
 
 ```python
-from trade_safety.api.router import create_trade_safety_router
+from aioia_trade_safety.api.router import create_trade_safety_router
 
 router = create_trade_safety_router(app_config)
 app.include_router(router, prefix="/api")
@@ -58,7 +58,7 @@ npm install @aioia/trade-safety @aioia/core
 // tailwind.config.ts
 content: [
   "./src/**/*.{js,ts,jsx,tsx}",
-  "./node_modules/@aioia/**/*.{js,jsx,ts,tsx}",
+  "./node_modules/@aioia/*/dist/**/*.{js,jsx,ts,tsx}",
 ]
 ```
 
