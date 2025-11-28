@@ -12,7 +12,7 @@ K-pop 굿즈 거래 안전성 분석 React 컴포넌트
 ## 설치
 
 ```bash
-npm install @trade-safety/react
+npm install @aioia/trade-safety
 ```
 
 ## 사용법
@@ -20,7 +20,7 @@ npm install @trade-safety/react
 ### 컴포넌트
 
 ```tsx
-import { DetailedResult } from "@trade-safety/react";
+import { DetailedResult } from "@aioia/trade-safety";
 
 <DetailedResult analysis={analysis} expertAdvice={expertAdvice} />
 ```
@@ -28,7 +28,7 @@ import { DetailedResult } from "@trade-safety/react";
 ### Repository
 
 ```tsx
-import { TradeSafetyRepository } from "@trade-safety/react";
+import { TradeSafetyRepository } from "@aioia/trade-safety";
 
 const repository = new TradeSafetyRepository(apiService);
 const response = await repository.create({ input_text: "..." });
@@ -37,7 +37,7 @@ const response = await repository.create({ input_text: "..." });
 ### i18n 통합
 
 ```tsx
-import { enTranslations, koTranslations } from "@trade-safety/react";
+import { enTranslations, koTranslations } from "@aioia/trade-safety";
 
 i18n.init({
   resources: {

@@ -1,5 +1,5 @@
 {
-  "name": "@trade-safety/react",
+  "name": "@aioia/trade-safety",
   "version": "0.1.0",
   "description": "AI-powered safety analysis for K-pop merchandise trading (React components)",
   "main": "frontend/src/index.ts",
