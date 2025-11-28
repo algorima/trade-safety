@@ -5,6 +5,7 @@ import {
   ExclamationTriangleIcon,
   ShieldExclamationIcon,
 } from "@heroicons/react/24/solid";
+import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 
 interface RiskScoreHeroProps {
@@ -43,7 +44,7 @@ export function RiskScoreHero({ score }: RiskScoreHeroProps) {
       <div className="hero-content text-center">
         <div>
           <div className="mb-4">
-            <Icon className={`size-32 ${colorClasses[risk.color]}`} />
+            <Icon className={clsx("size-32", colorClasses[risk.color])} />
           </div>
           <h2 className="mb-4 text-5xl font-bold">
             {t(`page.tradeSafety.result.riskLevel.${risk.level}.title`)}
@@ -52,7 +53,7 @@ export function RiskScoreHero({ score }: RiskScoreHeroProps) {
           {/* 위험도 게이지 */}
           <div className="mx-auto w-64">
             <div
-              className={`radial-progress ${colorClasses[risk.color]}`}
+              className={clsx("radial-progress", colorClasses[risk.color])}
               style={
                 {
                   "--value": score,
