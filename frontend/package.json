@@ -38,6 +38,9 @@
     "url": "https://github.com/algorima/trade-safety.git",
     "directory": "frontend"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "peerDependencies": {
     "next": "^13.0.0 || ^14.0.0",
     "react": "^18.0.0",
