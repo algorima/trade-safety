@@ -49,7 +49,7 @@ export OPENAI_API_KEY=sk-...
 ### 설치
 
 ```bash
-npm install @trade-safety/react @aioia/core
+npm install trade-safety @aioia/core
 ```
 
 ### Tailwind 설정 (필수)
@@ -58,14 +58,15 @@ npm install @trade-safety/react @aioia/core
 // tailwind.config.ts
 content: [
   "./src/**/*.{js,ts,jsx,tsx}",
-  "./node_modules/@trade-safety/**/*.{js,jsx,ts,tsx}",
+  "./node_modules/trade-safety/dist/**/*.{js,jsx,ts,tsx}",
+  "./node_modules/@aioia/core/dist/**/*.{js,jsx,ts,tsx}",
 ]
 ```
 
 ### 컴포넌트
 
 ```tsx
-import { DetailedResult } from "@trade-safety/react";
+import { DetailedResult } from "trade-safety";
 
 <DetailedResult analysis={analysis} />
 ```
@@ -73,7 +74,7 @@ import { DetailedResult } from "@trade-safety/react";
 ### Repository
 
 ```tsx
-import { TradeSafetyRepository } from "@trade-safety/react";
+import { TradeSafetyRepository } from "trade-safety";
 
 const repository = new TradeSafetyRepository(apiService);
 await repository.create({ input_text: "..." });

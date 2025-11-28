@@ -45,29 +45,7 @@ npm run dev
 
 ## 라이브러리 사용
 
-### Python
-
-```python
-from aioia_core.settings import OpenAIAPISettings
-from trade_safety.settings import TradeSafetyModelSettings
-from trade_safety.service import TradeSafetyService
-
-# 환경 변수(OPENAI_API_KEY)에서 자동 로드
-openai_api = OpenAIAPISettings()
-model_settings = TradeSafetyModelSettings()
-
-service = TradeSafetyService(openai_api, model_settings)
-analysis = await service.analyze_trade("급처분 양도")
-```
-
-### React
-
-```tsx
-import { DetailedResult } from "@trade-safety/react";
-
-// analysis 객체는 Python 라이브러리나 백엔드 API를 통해 얻은 분석 결과입니다.
-<DetailedResult analysis={analysis} />
-```
+기존 프로젝트에 통합하려면 [통합 가이드](docs/integration-guide.md)를 참조하세요.
 
 ---
 
