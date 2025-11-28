@@ -12,7 +12,7 @@ K-pop 굿즈 거래 안전성 분석 React 컴포넌트
 ## 설치
 
 ```bash
-npm install trade-safety
+npm install trade-safety @aioia/core
 ```
 
 ## 사용법

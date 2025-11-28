@@ -39,7 +39,7 @@
     "directory": "frontend"
   },
   "peerDependencies": {
-    "@aioia/core": ">=0.1.0",
+    "@aioia/core": "^0.2.0",
     "next": "^13.0.0 || ^14.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"

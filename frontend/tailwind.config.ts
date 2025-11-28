@@ -1,7 +1,11 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
+  content: [
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/trade-safety/dist/**/*.{js,jsx,ts,tsx}",
+    "./node_modules/@aioia/core/dist/**/*.{js,jsx,ts,tsx}",
+  ],
   plugins: [require("@tailwindcss/typography"), require("daisyui")],
   daisyui: {
     themes: [
