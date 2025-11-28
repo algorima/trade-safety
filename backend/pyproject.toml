@@ -60,5 +60,6 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.semantic_release]
+allow_zero_version = true
 version_toml = ["pyproject.toml:tool.poetry.version"]
 build_command = "poetry build"
