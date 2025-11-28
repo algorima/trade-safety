@@ -17,8 +17,8 @@ pip install git+https://github.com/algorima/trade-safety.git#subdirectory=backen
 ### 사용
 
 ```python
-from aioia_trade_safety.service import TradeSafetyService
-from aioia_trade_safety.settings import TradeSafetyModelSettings
+from trade_safety.service import TradeSafetyService
+from trade_safety.settings import TradeSafetyModelSettings
 
 settings = TradeSafetyModelSettings()
 service = TradeSafetyService(settings)
@@ -29,7 +29,7 @@ analysis = await service.analyze_trade("거래글 내용")
 ### FastAPI 라우터
 
 ```python
-from aioia_trade_safety.api.router import create_trade_safety_router
+from trade_safety.api.router import create_trade_safety_router
 
 router = create_trade_safety_router(app_config)
 app.include_router(router, prefix="/api")
@@ -49,7 +49,7 @@ export OPENAI_API_KEY=sk-...
 ### 설치
 
 ```bash
-npm install @aioia/trade-safety @aioia/core
+npm install trade-safety @aioia/core
 ```
 
 ### Tailwind 설정 (필수)
@@ -58,14 +58,15 @@ npm install @aioia/trade-safety @aioia/core
 // tailwind.config.ts
 content: [
   "./src/**/*.{js,ts,jsx,tsx}",
-  "./node_modules/@aioia/*/dist/**/*.{js,jsx,ts,tsx}",
+  "./node_modules/trade-safety/dist/**/*.{js,jsx,ts,tsx}",
+  "./node_modules/@aioia/core/dist/**/*.{js,jsx,ts,tsx}",
 ]
 ```
 
 ### 컴포넌트
 
 ```tsx
-import { DetailedResult } from "@aioia/trade-safety";
+import { DetailedResult } from "trade-safety";
 
 <DetailedResult analysis={analysis} />
 ```
@@ -73,7 +74,7 @@ import { DetailedResult } from "@aioia/trade-safety";
 ### Repository
 
 ```tsx
-import { TradeSafetyRepository } from "@aioia/trade-safety";
+import { TradeSafetyRepository } from "trade-safety";
 
 const repository = new TradeSafetyRepository(apiService);
 await repository.create({ input_text: "..." });
