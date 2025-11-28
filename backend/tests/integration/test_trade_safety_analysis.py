@@ -9,8 +9,8 @@ from decimal import Decimal
 
 from aioia_core.settings import OpenAIAPISettings
 
-from aioia_trade_safety.service import TradeSafetyService
-from aioia_trade_safety.settings import TradeSafetyModelSettings
+from trade_safety.service import TradeSafetyService
+from trade_safety.settings import TradeSafetyModelSettings
 
 
 class TestTradeSafetyAnalysis(unittest.TestCase):

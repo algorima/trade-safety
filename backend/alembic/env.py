@@ -6,7 +6,7 @@ from sqlalchemy.orm import configure_mappers
 from aioia_core.database import Base
 from aioia_core.settings import DatabaseSettings
 from alembic import context  # pylint: disable=no-name-in-module
-from aioia_trade_safety.models import DBTradeSafetyCheck  # Import models to register with Base
+from trade_safety.models import DBTradeSafetyCheck  # Import models to register with Base
 
 database_settings = DatabaseSettings()
 database_url = database_settings.url

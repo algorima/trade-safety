@@ -22,8 +22,8 @@ poetry install
 ### 서비스 사용
 
 ```python
-from aioia_trade_safety.service import TradeSafetyService
-from aioia_trade_safety.settings import TradeSafetyModelSettings
+from trade_safety.service import TradeSafetyService
+from trade_safety.settings import TradeSafetyModelSettings
 
 settings = TradeSafetyModelSettings()
 service = TradeSafetyService(settings)
@@ -35,7 +35,7 @@ print(f"위험도: {analysis.risk_score}/100")
 ### FastAPI 통합
 
 ```python
-from aioia_trade_safety.api.router import create_trade_safety_router
+from trade_safety.api.router import create_trade_safety_router
 
 router = create_trade_safety_router(app_config)
 app.include_router(router, prefix="/api/v2")

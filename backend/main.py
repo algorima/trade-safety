@@ -33,9 +33,9 @@ from fastapi.responses import JSONResponse
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from aioia_trade_safety.api.router import create_trade_safety_router
-from aioia_trade_safety.factories import TradeSafetyCheckManagerFactory
-from aioia_trade_safety.settings import TradeSafetyModelSettings
+from trade_safety.api.router import create_trade_safety_router
+from trade_safety.factories import TradeSafetyCheckManagerFactory
+from trade_safety.settings import TradeSafetyModelSettings
 
 # Configure logging
 logging.basicConfig(

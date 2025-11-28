@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from sqlalchemy.orm import Session
 
-from aioia_trade_safety.repositories.trade_safety_repository import (
+from trade_safety.repositories.trade_safety_repository import (
     DatabaseTradeSafetyCheckManager,
 )
 

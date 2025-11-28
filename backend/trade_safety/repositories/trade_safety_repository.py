@@ -5,9 +5,9 @@ from __future__ import annotations
 from sqlalchemy.orm import Session
 
 from aioia_core.managers import BaseManager
-from aioia_trade_safety.managers import TradeSafetyCheckManager
-from aioia_trade_safety.models import DBTradeSafetyCheck
-from aioia_trade_safety.schemas import (
+from trade_safety.managers import TradeSafetyCheckManager
+from trade_safety.models import DBTradeSafetyCheck
+from trade_safety.schemas import (
     TradeSafetyAnalysis,
     TradeSafetyCheck,
     TradeSafetyCheckCreate,
