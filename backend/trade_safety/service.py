@@ -10,17 +10,14 @@ assess price fairness, and provide actionable safety recommendations.
 
 from __future__ import annotations
 
-import json
 import logging
 
 from langchain_community.chat_models import ChatOpenAI
 from langchain_core.messages import HumanMessage, SystemMessage
-from pydantic import ValidationError
 
 from aioia_core.settings import OpenAIAPISettings
 from trade_safety.prompts import TRADE_SAFETY_SYSTEM_PROMPT
 from trade_safety.schemas import (
-    PriceAnalysis,
     RiskCategory,
     RiskSeverity,
     RiskSignal,
@@ -91,14 +88,15 @@ class TradeSafetyService:
             model_settings.model,
         )
 
-        self.chat_model = ChatOpenAI(
+        # Use with_structured_output for schema-enforced responses
+        # This uses OpenAI's Structured Outputs (json_schema + strict: true)
+        # which guarantees the response adheres to the Pydantic schema
+        base_model = ChatOpenAI(
             model=model_settings.model,
             temperature=0.7,  # Hardcoded - balanced for analytical tasks
             api_key=openai_api.api_key,  # type: ignore[arg-type]
-            model_kwargs={
-                "response_format": {"type": "json_object"}
-            },  # Force JSON response
         )
+        self.chat_model = base_model.with_structured_output(TradeSafetyAnalysis)
         self.system_prompt = system_prompt
 
     # ==========================================
@@ -154,57 +152,32 @@ class TradeSafetyService:
         system_prompt = self._build_system_prompt()
         user_prompt = self._build_user_prompt(input_text)
 
-        response_text: str | None = None  # Initialize for error handling
-        try:
-            # Step 3: Call LLM
-            logger.debug("Calling LLM for trade analysis (%d chars)", len(user_prompt))
-            response = await self.chat_model.agenerate(
-                [
-                    [
-                        SystemMessage(content=system_prompt),
-                        HumanMessage(content=user_prompt),
-                    ]
-                ]
+        # Step 3: Call LLM with structured output
+        # with_structured_output uses OpenAI's Structured Outputs feature,
+        # which guarantees the response adheres to the TradeSafetyAnalysis schema
+        logger.debug("Calling LLM for trade analysis (%d chars)", len(user_prompt))
+        analysis = await self.chat_model.ainvoke(
+            [
+                SystemMessage(content=system_prompt),
+                HumanMessage(content=user_prompt),
+            ]
+        )
+
+        # Type narrowing: with_structured_output returns TradeSafetyAnalysis
+        if not isinstance(analysis, TradeSafetyAnalysis):
+            raise TypeError(
+                f"Unexpected response type: {type(analysis)} (expected TradeSafetyAnalysis)"
             )
 
-            # Step 4: Extract and parse response
-            response_text = response.generations[0][0].text
-            logger.debug("LLM response received (%d chars)", len(response_text))
+        logger.info(
+            "Trade analysis completed successfully: risk_score=%d, signals=%d, cautions=%d, safe=%d",
+            analysis.risk_score,
+            len(analysis.risk_signals),
+            len(analysis.cautions),
+            len(analysis.safe_indicators),
+        )
 
-            analysis = self._parse_llm_response(response_text)
-
-            logger.info(
-                "Trade analysis completed successfully: risk_score=%d, signals=%d, cautions=%d, safe=%d",
-                analysis.risk_score,
-                len(analysis.risk_signals),
-                len(analysis.cautions),
-                len(analysis.safe_indicators),
-            )
-
-            return analysis
-
-        except (KeyError, TypeError, ValueError, ValidationError) as e:
-            # ValueError includes json.JSONDecodeError
-            # ValidationError handles Pydantic validation failures
-            response_preview = "N/A"
-            if response_text is not None:
-                response_preview = response_text[:200]
-            logger.error(
-                "Failed to parse LLM response: %s (response preview: %s...)",
-                e,
-                response_preview,
-                exc_info=True,
-            )
-            # Return fallback analysis for expected parsing errors
-            return self._create_fallback_analysis()
-
-        except Exception as e:
-            logger.error(
-                "Trade analysis failed unexpectedly: %s",
-                e,
-                exc_info=True,
-            )
-            raise
+        return analysis
 
     # ==========================================
     # Prompt Building Methods
@@ -245,102 +218,6 @@ class TradeSafetyService:
         )
 
         return input_text
-
-    # ==========================================
-    # Response Parsing Methods
-    # ==========================================
-
-    def _parse_llm_response(self, response_text: str) -> TradeSafetyAnalysis:
-        """
-        Parse LLM response text into structured TradeSafetyAnalysis object.
-
-        Handles:
-        - Extracting JSON from markdown code blocks
-        - Converting JSON dict to Pydantic models
-        - Building nested objects (RiskSignal, PriceAnalysis)
-
-        Args:
-            response_text: Raw LLM response (may include markdown formatting)
-
-        Returns:
-            Structured analysis object
-
-        Raises:
-            json.JSONDecodeError: If response is not valid JSON
-            KeyError: If response missing required fields (risk_score, etc.)
-            ValidationError: If Pydantic validation fails
-        """
-        logger.debug("Parsing LLM response (%d chars)", len(response_text))
-
-        # Extract JSON from response (LLM might wrap it in markdown code blocks)
-        cleaned_text = self._extract_json_from_markdown(response_text)
-
-        # Parse JSON
-        try:
-            data = json.loads(cleaned_text)
-            logger.debug("JSON parsed successfully, converting to Pydantic models")
-        except json.JSONDecodeError as e:
-            logger.error(
-                "JSON parsing failed: %s (cleaned text preview: %s...)",
-                e,
-                cleaned_text[:200],
-            )
-            raise
-
-        # Convert nested objects to Pydantic models
-        # (Pydantic doesn't auto-convert nested dicts, so we handle them explicitly)
-        data["risk_signals"] = [
-            RiskSignal(**signal) for signal in data.get("risk_signals", [])
-        ]
-        data["cautions"] = [
-            RiskSignal(**caution) for caution in data.get("cautions", [])
-        ]
-        data["safe_indicators"] = [
-            RiskSignal(**indicator) for indicator in data.get("safe_indicators", [])
-        ]
-
-        if data.get("price_analysis"):
-            data["price_analysis"] = PriceAnalysis(**data["price_analysis"])
-
-        # Use Pydantic's direct initialization for validation and type checking
-        analysis = TradeSafetyAnalysis(**data)
-
-        logger.debug(
-            "Response parsed successfully: risk_score=%d, total_signals=%d",
-            analysis.risk_score,
-            len(analysis.risk_signals)
-            + len(analysis.cautions)
-            + len(analysis.safe_indicators),
-        )
-
-        return analysis
-
-    def _extract_json_from_markdown(self, text: str) -> str:
-        """
-        Extract JSON content from markdown code blocks.
-
-        LLMs often wrap JSON in ```json ... ``` or ``` ... ``` blocks.
-        This method strips those wrappers to get clean JSON.
-
-        Args:
-            text: Raw text that may contain markdown formatting
-
-        Returns:
-            Cleaned text with markdown removed
-        """
-        text = text.strip()
-
-        # Remove ```json prefix
-        if text.startswith("```json"):
-            text = text[7:]
-
-        # Remove ``` prefix/suffix
-        if text.startswith("```"):
-            text = text[3:]
-        if text.endswith("```"):
-            text = text[:-3]
-
-        return text.strip()
 
     # ==========================================
     # Fallback and Error Handling
