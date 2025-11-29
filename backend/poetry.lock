@@ -157,29 +157,24 @@ speedups = ["Brotli ; platform_python_implementation == \"CPython\"", "aiodns (>
 
 [[package]]
 name = "aioia-core"
-version = "0.1.0"
+version = "0.2.1"
 description = "Core infrastructure for AIoIA projects"
 optional = false
-python-versions = ">=3.10,<3.13"
+python-versions = "<3.13,>=3.10"
 groups = ["main"]
-files = []
-develop = false
+files = [
+    {file = "aioia_core-0.2.1-py3-none-any.whl", hash = "sha256:2cf9c964a86b16a5fa78b67f881e00b84ec3417bb86f27188b8b4837040af363"},
+    {file = "aioia_core-0.2.1.tar.gz", hash = "sha256:08a48ee1282b3555445f8a64ff99439968de7e86e81f9d906803a4577e3925d0"},
+]
 
 [package.dependencies]
-fastapi = "^0.115.0"
-pydantic = "^2.5.0"
-pydantic-settings = "^2.0.0"
-pyhumps = "^3.8.0"
-python-jose = "^3.3.0"
-sentry-sdk = "^2.0.0"
-sqlalchemy = "^2.0.0"
-
-[package.source]
-type = "git"
-url = "https://github.com/algorima/aioia-core.git"
-reference = "feat/settings-classes"
-resolved_reference = "b567ed4a9a0bf2fdd19185fa52daa4c261cf1b2d"
-subdirectory = "python"
+fastapi = ">=0.115.0,<0.116.0"
+pydantic = ">=2.5.0,<3.0.0"
+pydantic-settings = ">=2.0.0,<3.0.0"
+pyhumps = ">=3.8.0,<4.0.0"
+python-jose = ">=3.3.0,<4.0.0"
+sentry-sdk = ">=2.0.0,<3.0.0"
+sqlalchemy = ">=2.0.0,<3.0.0"
 
 [[package]]
 name = "aiosignal"
@@ -3219,4 +3214,4 @@ cffi = ["cffi (>=1.17,<2.0) ; platform_python_implementation != \"PyPy\" and pyt
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<3.13"
-content-hash = "ea3ced6f106441da58c569b01ab2203da854f240d8a0f2d8cae1c774b1d5e77c"
+content-hash = "e65aa8c30631cb00c0d254490832aa42125e1e76ac942e4be05e24d205e29d21"
