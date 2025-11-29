@@ -2,8 +2,17 @@
   "name": "trade-safety",
   "version": "0.1.0",
   "description": "React components for Trade Safety - K-pop merchandise trade safety analysis",
-  "main": "dist/index.js",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
   "files": [
     "dist"
   ],
@@ -11,8 +20,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "build:lib": "tsc --project tsconfig.lib.json",
-    "dev:lib": "tsc --project tsconfig.lib.json --watch",
+    "build:lib": "vite build",
+    "dev:lib": "vite build --watch",
     "clean": "rm -rf dist .next",
     "type-check": "tsc --noEmit",
     "lint": "next lint",
