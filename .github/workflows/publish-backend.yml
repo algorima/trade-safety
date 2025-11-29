@@ -45,3 +45,9 @@ jobs:
         if: steps.release.outputs.released == 'true'
         with:
           packages-dir: backend/dist
+
+      - name: Create GitHub Release
+        if: steps.release.outputs.released == 'true'
+        run: gh release create ${{ steps.release.outputs.tag }} --generate-notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
