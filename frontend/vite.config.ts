@@ -24,16 +24,9 @@ export default defineConfig({
           (dep) => !["clsx"].includes(dep),
         ),
         // Add peer submodules explicitly
-        "react-dom",
         "react/jsx-runtime",
         /^next\//,
       ],
-      output: {
-        globals: {
-          react: "React",
-          "react-dom": "ReactDOM",
-        },
-      },
     },
   },
   plugins: [
@@ -41,7 +34,6 @@ export default defineConfig({
     dts({
       include: [
         "src/components/**/*",
-        "src/hooks/**/*",
         "src/repositories/**/*",
         "src/types.ts",
         "src/index.ts",
