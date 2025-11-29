@@ -17,12 +17,7 @@ from langchain_core.messages import HumanMessage, SystemMessage
 
 from aioia_core.settings import OpenAIAPISettings
 from trade_safety.prompts import TRADE_SAFETY_SYSTEM_PROMPT
-from trade_safety.schemas import (
-    RiskCategory,
-    RiskSeverity,
-    RiskSignal,
-    TradeSafetyAnalysis,
-)
+from trade_safety.schemas import TradeSafetyAnalysis
 from trade_safety.settings import TradeSafetyModelSettings
 
 logger = logging.getLogger(__name__)
@@ -218,55 +213,6 @@ class TradeSafetyService:
         )
 
         return input_text
-
-    # ==========================================
-    # Fallback and Error Handling
-    # ==========================================
-
-    def _create_fallback_analysis(self) -> TradeSafetyAnalysis:
-        """
-        Create fallback analysis when LLM fails or returns invalid response.
-
-        Returns a safe, neutral analysis that:
-        - Indicates the system error to user
-        - Provides generic safety checklist
-        - Sets neutral risk score (50/100)
-        - Encourages caution without false information
-
-        Returns:
-            Basic fallback analysis with neutral risk assessment
-
-        Note:
-            This is a last-resort fallback. Ideally, LLM should always succeed.
-            Monitor fallback usage rate to detect LLM issues.
-        """
-        logger.warning("Creating fallback analysis due to LLM failure")
-
-        return TradeSafetyAnalysis(
-            translation=None,
-            nuance_explanation=None,
-            risk_signals=[
-                RiskSignal(
-                    category=RiskCategory.CONTENT,
-                    severity=RiskSeverity.MEDIUM,
-                    title="Unable to complete full analysis",
-                    description="The automatic analysis system encountered an error. Please proceed with extra caution.",
-                    what_to_do="Manually verify all details with the seller and check community reviews.",
-                )
-            ],
-            cautions=[],
-            safe_indicators=[],
-            price_analysis=None,
-            safety_checklist=[
-                "Request detailed authentication photos with today's date",
-                "Propose safe payment method (PayPal Goods & Services)",
-                "Search for seller reviews in K-pop communities",
-                "Take your time - don't rush due to FOMO",
-            ],
-            risk_score=50,  # Neutral score when we can't analyze
-            recommendation="We couldn't complete the full safety analysis. Please be extra careful and verify all details before proceeding with this trade.",
-            emotional_support="It's okay to be cautious. If you're unsure, it's better to wait for another opportunity. Your safety is more important than any item.",
-        )
 
     # ==========================================
     # Input Validation
