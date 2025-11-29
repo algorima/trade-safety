@@ -62,4 +62,4 @@ build-backend = "poetry.core.masonry.api"
 allow_zero_version = true
 tag_format = "backend-v{version}"
 version_toml = ["pyproject.toml:tool.poetry.version"]
-build_command = "poetry build"
+build_command = "python -m pip install build && python -m build"
