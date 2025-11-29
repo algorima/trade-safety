@@ -38,7 +38,7 @@ jobs:
           directory: backend
           github_token: ${{ secrets.GITHUB_TOKEN }}
           push: false
-          vcs_release: true
+          vcs_release: false
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
