@@ -57,7 +57,7 @@ jwt_settings = JWTSettings()  # JWT_SECRET_KEY
 
 logger.info("Loaded settings from environment variables")
 logger.info("Model: %s", model_settings.model)
-logger.info("Database: %s", db_settings.url.split("@")[-1])  # Hide credentials
+logger.info("Database: %s", db_settings.url.rsplit("@", maxsplit=1)[-1])  # Hide credentials
 
 
 # ==============================================================================
