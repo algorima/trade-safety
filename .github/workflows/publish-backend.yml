@@ -38,10 +38,16 @@ jobs:
           directory: backend
           github_token: ${{ secrets.GITHUB_TOKEN }}
           push: false
-          vcs_release: true
+          vcs_release: false
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         if: steps.release.outputs.released == 'true'
         with:
           packages-dir: backend/dist
+
+      - name: Create GitHub Release
+        if: steps.release.outputs.released == 'true'
+        run: gh release create ${{ steps.release.outputs.tag }} --target ${{ github.sha }} --generate-notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
