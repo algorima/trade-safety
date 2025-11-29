@@ -142,8 +142,7 @@ class TradeSafetyRouter(
         async def create_check(
             request: TradeSafetyCheckRequest,
             user_id: str | None = Depends(self.get_current_user_id_dep),
-            # pylint: disable=no-member  # Instance attribute set in BaseCrudRouter.__init__
-            repository: DatabaseTradeSafetyCheckManager = Depends(self.get_repository_dep),
+            manager: DatabaseTradeSafetyCheckManager = Depends(self.get_manager_dep),
         ):
             """
             Create a new trade safety check.
@@ -151,7 +150,7 @@ class TradeSafetyRouter(
             Flow:
             1. Analyze trade using LLM (TradeSafetyService)
             2. Convert Request + Analysis → Domain Create schema
-            3. Save to database via repository.create() (BaseRepository)
+            3. Save to database via manager.create() (BaseManager)
             4. Return quick summary for non-auth or full analysis for auth users
             """
             logger.info(
@@ -192,8 +191,8 @@ class TradeSafetyRouter(
                     expert_reviewed_by=None,
                 )
 
-                # Step 3: Save via BaseRepository.create()
-                check = repository.create(create_data)
+                # Step 3: Save via BaseManager.create()
+                check = manager.create(create_data)
 
                 logger.info(
                     "Trade safety check created: id=%s, risk_score=%d, authenticated=%s",
@@ -256,8 +255,7 @@ class TradeSafetyRouter(
         async def get_check(
             check_id: str,
             user_id: str | None = Depends(self.get_current_user_id_dep),
-            # pylint: disable=no-member  # Instance attribute set in BaseCrudRouter.__init__
-            repository: DatabaseTradeSafetyCheckManager = Depends(self.get_repository_dep),
+            manager: DatabaseTradeSafetyCheckManager = Depends(self.get_manager_dep),
         ):
             """
             Get results of a safety check.
@@ -265,8 +263,8 @@ class TradeSafetyRouter(
             Access: Anyone with the check_id URL can view.
             The check_id serves as the access control mechanism.
             """
-            # Retrieve check via repository
-            check = repository.get_by_id(check_id)
+            # Retrieve check via manager
+            check = manager.get_by_id(check_id)
 
             if not check:
                 logger.warning(
