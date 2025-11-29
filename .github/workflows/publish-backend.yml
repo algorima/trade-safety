@@ -48,6 +48,6 @@ jobs:
 
       - name: Create GitHub Release
         if: steps.release.outputs.released == 'true'
-        run: gh release create ${{ steps.release.outputs.tag }} --generate-notes
+        run: gh release create ${{ steps.release.outputs.tag }} --target ${{ github.sha }} --generate-notes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
