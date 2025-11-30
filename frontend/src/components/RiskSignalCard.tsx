@@ -5,6 +5,7 @@ import {
   ExclamationTriangleIcon,
   InformationCircleIcon,
 } from "@heroicons/react/24/solid";
+import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 
 import { RiskSignal } from "../types";
@@ -40,10 +41,10 @@ export function RiskSignalCard({
   const Icon = severityIcon[signal.severity];
 
   return (
-    <div className={`card ${variantStyles[variant]} border-2 backdrop-blur-sm`}>
+    <div className={clsx("card border-2 backdrop-blur-sm", variantStyles[variant])}>
       <div className="card-body">
         <div className="flex items-start gap-4">
-          <Icon className={`size-8 ${iconColor[variant]} mt-1 shrink-0`} />
+          <Icon className={clsx("size-8 mt-1 shrink-0", iconColor[variant])} />
 
           <div className="flex-1">
             <h4 className="card-title text-xl">{signal.title}</h4>
