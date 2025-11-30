@@ -48,7 +48,7 @@
     "directory": "frontend"
   },
   "engines": {
-    "node": ">=20.18.3"
+    "node": "^20.19.0 || >=22.12.0"
   },
   "peerDependencies": {
     "@aioia/core": "^0.2.1",
