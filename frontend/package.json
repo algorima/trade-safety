@@ -47,6 +47,9 @@
     "url": "https://github.com/algorima/trade-safety.git",
     "directory": "frontend"
   },
+  "engines": {
+    "node": ">=20.18.3"
+  },
   "peerDependencies": {
     "@aioia/core": "^0.2.1",
     "next": "^13.0.0 || ^14.0.0",
