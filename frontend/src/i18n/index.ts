@@ -9,7 +9,7 @@ import {
 import resourcesToBackend from "i18next-resources-to-backend";
 import { initReactI18next } from "react-i18next/initReactI18next";
 
-import { fallbackLng } from "./config.cjs";
+import { fallbackLng } from "./config";
 
 /**
  * i18n 인스턴스를 설정하는 공통 함수
