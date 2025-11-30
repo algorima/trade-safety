@@ -3,7 +3,15 @@
   "version": "0.1.0",
   "description": "React components for Trade Safety - K-pop merchandise trade safety analysis",
   "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
   "files": [
     "dist"
   ],
@@ -11,8 +19,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "build:lib": "tsc --project tsconfig.lib.json",
-    "dev:lib": "tsc --project tsconfig.lib.json --watch",
+    "build:lib": "vite build",
+    "dev:lib": "vite build --watch",
     "clean": "rm -rf dist .next",
     "type-check": "tsc --noEmit",
     "lint": "next lint",
@@ -37,6 +45,9 @@
     "type": "git",
     "url": "https://github.com/algorima/trade-safety.git",
     "directory": "frontend"
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
   },
   "peerDependencies": {
     "@aioia/core": "^0.2.1",
@@ -65,6 +76,7 @@
     "@types/react-dom": "^18",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
+    "@vitejs/plugin-react": "^5.1.1",
     "autoprefixer": "^10",
     "daisyui": "^4.10.5",
     "eslint": "^8",
@@ -76,9 +88,11 @@
     "postcss": "^8",
     "prettier": "^3",
     "prettier-plugin-tailwindcss": "^0.5.14",
-    "tailwindcss": "^3",
     "semantic-release": "^24.0.0",
+    "tailwindcss": "^3",
     "ts-jest": "^29",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vite": "^7.2.4",
+    "vite-plugin-dts": "^4.5.4"
   }
 }
