@@ -12,8 +12,8 @@ from __future__ import annotations
 
 import logging
 
-from langchain_community.chat_models import ChatOpenAI
 from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_openai import ChatOpenAI
 
 from aioia_core.settings import OpenAIAPISettings
 from trade_safety.prompts import TRADE_SAFETY_SYSTEM_PROMPT
