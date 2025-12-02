@@ -3,7 +3,7 @@ from logging.config import fileConfig
 from sqlalchemy import create_engine
 from sqlalchemy.orm import configure_mappers
 
-from aioia_core.database import Base
+from aioia_core.models import Base
 from aioia_core.settings import DatabaseSettings
 from alembic import context  # pylint: disable=no-name-in-module
 from trade_safety.models import DBTradeSafetyCheck  # Import models to register with Base

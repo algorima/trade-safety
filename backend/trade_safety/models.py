@@ -26,11 +26,11 @@ class DBTradeSafetyCheck(BaseModel):
 
     __tablename__ = "trade_safety_checks"
 
+    # External user ID from parent application (no FK for open-source portability)
     user_id: Mapped[str | None] = mapped_column(
         String(255),
         nullable=True,
         index=True,
-        comment="External user ID from parent application (no FK for open-source portability)",
     )
     input_text: Mapped[str] = mapped_column(Text, nullable=False)
     llm_analysis: Mapped[dict] = mapped_column(JSON, nullable=False)
