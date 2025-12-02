@@ -15,8 +15,8 @@ class TradeSafetyCheckManagerFactory(BaseRepositoryFactory[DatabaseTradeSafetyCh
     """Factory for creating TradeSafetyCheckManager instances.
 
     Inherits from BaseRepositoryFactory which provides:
-    - create_repository(db_session): Create repository instance
-    - create_manager(db_session): Deprecated alias for backward compatibility
+    - create_repository(db_session=None): Create repository instance
+    - create_manager(db_session=None): Deprecated alias for backward compatibility
     """
 
     def __init__(self, db_session_factory: sessionmaker):
