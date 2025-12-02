@@ -1,5 +1,6 @@
 """Tests for TradeSafetyCheckManagerFactory."""
 
+import unittest
 import warnings
 
 from sqlalchemy import create_engine
@@ -21,21 +22,21 @@ def _create_db_session_factory() -> sessionmaker:
     return sessionmaker(bind=engine)
 
 
-class TestTradeSafetyCheckManagerFactory:
+class TestTradeSafetyCheckManagerFactory(unittest.TestCase):
     """Tests for TradeSafetyCheckManagerFactory."""
 
     def test_inherits_from_base_repository_factory(self):
         """Factory should inherit from BaseRepositoryFactory."""
         factory = TradeSafetyCheckManagerFactory(_create_db_session_factory())
 
-        assert isinstance(factory, BaseRepositoryFactory)
+        self.assertIsInstance(factory, BaseRepositoryFactory)
 
     def test_has_create_repository_method(self):
         """Factory should have create_repository method from BaseRepositoryFactory."""
         factory = TradeSafetyCheckManagerFactory(_create_db_session_factory())
 
-        assert hasattr(factory, "create_repository")
-        assert callable(factory.create_repository)
+        self.assertTrue(hasattr(factory, "create_repository"))
+        self.assertTrue(callable(factory.create_repository))
 
     def test_create_repository_returns_manager_instance(self):
         """create_repository should return DatabaseTradeSafetyCheckManager instance."""
@@ -43,8 +44,9 @@ class TestTradeSafetyCheckManagerFactory:
 
         repository = factory.create_repository()
 
+        self.assertIsNotNone(repository)
         assert repository is not None
-        assert isinstance(repository, DatabaseTradeSafetyCheckManager)
+        self.assertIsInstance(repository, DatabaseTradeSafetyCheckManager)
 
     def test_create_repository_with_session(self):
         """create_repository should accept optional db_session parameter."""
@@ -54,9 +56,10 @@ class TestTradeSafetyCheckManagerFactory:
 
         repository = factory.create_repository(session)
 
+        self.assertIsNotNone(repository)
         assert repository is not None
-        assert isinstance(repository, DatabaseTradeSafetyCheckManager)
-        assert repository.db_session is session
+        self.assertIsInstance(repository, DatabaseTradeSafetyCheckManager)
+        self.assertIs(repository.db_session, session)
 
     def test_deprecated_create_manager_still_works(self):
         """create_manager should still work for backward compatibility."""
@@ -66,6 +69,9 @@ class TestTradeSafetyCheckManagerFactory:
             warnings.simplefilter("always")
             repository = factory.create_manager()
 
+        self.assertIsNotNone(repository)
         assert repository is not None
-        assert isinstance(repository, DatabaseTradeSafetyCheckManager)
-        assert any(issubclass(w.category, DeprecationWarning) for w in caught_warnings)
+        self.assertIsInstance(repository, DatabaseTradeSafetyCheckManager)
+        self.assertTrue(
+            any(issubclass(w.category, DeprecationWarning) for w in caught_warnings)
+        )
