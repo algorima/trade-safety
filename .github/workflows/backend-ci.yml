@@ -39,6 +39,12 @@ jobs:
         run: make type-check
         working-directory: backend
 
+      - name: Apply Database Migrations
+        env:
+          DATABASE_URL: sqlite:///./local_database.db
+        run: make migrate
+        working-directory: backend
+
       - name: Check Migrations
         env:
           DATABASE_URL: sqlite:///./local_database.db
