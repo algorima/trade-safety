@@ -9,7 +9,7 @@ cd trade-safety
 # Backend
 cd backend
 poetry install
-poetry run make test
+make unit-test
 
 # Frontend
 cd frontend
@@ -28,15 +28,17 @@ npm run build
 
 ### Backend
 ```bash
-poetry run make format
-poetry run make lint
-poetry run make type-check
-poetry run make test
+make format
+make lint
+make type-check
+make unit-test
 ```
 
 ### Frontend
 ```bash
-npm run build
+npm run lint
+npm run type-check
+npm test
 ```
 
 ## CLA 서명
