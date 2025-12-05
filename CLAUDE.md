@@ -14,7 +14,6 @@
 ## 테스트
 
 - TDD: Red → Green → Refactor
-- LLM 테스트: 범위 검증, Golden Dataset
 
 ## Python
 
@@ -28,11 +27,6 @@
 ## 다국어
 
 - 모든 언어 동시 추가 (en, ko, ja, zh, es, id)
-
-## LLM 프롬프트
-
-- 변경 시 A/B 테스트 필수
-- Golden Dataset 회귀 테스트
 
 ## 외부 기여
 
