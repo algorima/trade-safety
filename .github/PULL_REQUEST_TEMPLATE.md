@@ -65,10 +65,12 @@ graph TD
 - [ ] 시나리오 2
 
 ### 기술 검증
-- [ ] `cd backend && make unit-test`
 - [ ] `cd backend && make lint`
-- [ ] `cd frontend && npm test`
+- [ ] `cd backend && make type-check`
+- [ ] `cd backend && make unit-test`
 - [ ] `cd frontend && npm run lint`
+- [ ] `cd frontend && npm run type-check`
+- [ ] `cd frontend && npm test`
 
 ---
 
