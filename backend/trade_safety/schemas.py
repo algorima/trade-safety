@@ -99,7 +99,7 @@ class TradeSafetyAnalysis(BaseModel):
     safe_indicators: list[RiskSignal] = Field(
         default_factory=list, description="Positive safety indicators"
     )
-    price_analysis: PriceAnalysis | None = Field(None, description="Price analysis")
+    price_analysis: PriceAnalysis = Field(description="Price analysis")
     safety_checklist: list[str] = Field(
         default_factory=list, description="Safety checklist items"
     )
