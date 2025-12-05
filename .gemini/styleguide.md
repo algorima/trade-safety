@@ -11,15 +11,11 @@ When performing a code review, respond in Korean.
 
 ## 보안
 
-- SQL Injection: SQLAlchemy ORM
-- XSS: React 자동 이스케이핑
 - LLM Prompt Injection 방지
-- API 키 환경 변수 관리
 
 ## 테스트
 
 - TDD: Red → Green → Refactor
-- LLM 테스트: 범위 검증, Golden Dataset
 
 ## Python
 
@@ -33,12 +29,6 @@ When performing a code review, respond in Korean.
 ## 다국어
 
 - 모든 언어 동시 추가 (en, ko, ja, zh, es, id)
-- 기계 번역 금지
-
-## LLM 프롬프트
-
-- 변경 시 A/B 테스트 필수
-- Golden Dataset 회귀 테스트
 
 ## 외부 기여
 
