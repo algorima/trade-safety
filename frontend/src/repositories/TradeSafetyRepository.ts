@@ -10,15 +10,13 @@ const riskSignalSchema = z.object({
   what_to_do: z.string(),
 });
 
-const priceAnalysisSchema = z
-  .object({
-    market_price_range: z.string().nullish(),
-    offered_price: z.number().nullish(),
-    currency: z.string().nullish(),
-    price_assessment: z.string(),
-    warnings: z.array(z.string()),
-  })
-  .nullish();
+const priceAnalysisSchema = z.object({
+  market_price_range: z.string().nullish(),
+  offered_price: z.number().nullish(),
+  currency: z.string().nullish(),
+  price_assessment: z.string(),
+  warnings: z.array(z.string()),
+});
 
 const tradeSafetyAnalysisSchema = z.object({
   translation: z.string().nullish(),

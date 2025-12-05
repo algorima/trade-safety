@@ -42,7 +42,7 @@ export interface TradeSafetyAnalysis {
   risk_signals: RiskSignal[];
   cautions: RiskSignal[];
   safe_indicators: RiskSignal[];
-  price_analysis?: PriceAnalysis | null;
+  price_analysis: PriceAnalysis;
   safety_checklist: string[];
   risk_score: number;
   recommendation: string;
