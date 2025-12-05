@@ -48,11 +48,11 @@ TRADE_SAFETY_SYSTEM_PROMPT = (
     "  ],\n"
     '  "cautions": [...],  // Same structure as risk_signals\n'
     '  "safe_indicators": [...],  // Same structure as risk_signals\n'
-    '  "price_analysis": {\n'
+    '  "price_analysis": {  // ALWAYS include this object, even if no price info\n'
     "    \"market_price_range\": \"Typical range, e.g., '$15-20 USD' or '₩15,000-20,000 KRW'\",\n"
-    '    "offered_price": 12.0,  // Numeric value only\n'
-    '    "currency": "USD",  // ISO 4217 code (USD, KRW, JPY, EUR, etc.). Detect from input text.\n'
-    '    "price_assessment": "Assessment text",\n'
+    '    "offered_price": 12.0,  // Numeric value only, or null if not mentioned\n'
+    '    "currency": "USD",  // ISO 4217 code (USD, KRW, JPY, EUR, etc.). Detect from input text, or null if unknown.\n'
+    '    "price_assessment": "Assessment text (or state that price info is not available)",\n'
     '    "warnings": ["Warning 1", "Warning 2"]\n'
     "  },\n"
     '  "safety_checklist": [\n'
