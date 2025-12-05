@@ -25,4 +25,7 @@ class TradeSafetyCheckManagerFactory(BaseRepositoryFactory[DatabaseTradeSafetyCh
         Args:
             db_session_factory: SQLAlchemy session factory
         """
-        super().__init__(db_session_factory, DatabaseTradeSafetyCheckManager)
+        super().__init__(
+            repository_class=DatabaseTradeSafetyCheckManager,
+            db_session_factory=db_session_factory,
+        )
