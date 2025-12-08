@@ -141,20 +141,3 @@ cython_debug/
 *.swp
 *.swo
 *~
-
-# Config
-*config.ini
-*.csv
-
-# Streamlit
-.streamlit/*
-!.streamlit/config.toml
-
-# Local files
-threads.json
-slack_threads.json
-local_database.db
-
-# Coverage reports
-coverage-unit.xml
-coverage-integration.xml
