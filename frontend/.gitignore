@@ -40,3 +40,10 @@ storybook-static
 
 # Sentry Config File
 .sentryclirc
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
