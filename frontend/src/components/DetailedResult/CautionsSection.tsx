@@ -4,6 +4,7 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/solid";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
+import { TRADE_SAFETY_NS } from "../../i18n";
 import { RiskSignal } from "../../types";
 import { RiskSignalCard } from "../RiskSignalCard";
 
@@ -12,7 +13,7 @@ interface CautionsSectionProps {
 }
 
 export function CautionsSection({ cautions }: CautionsSectionProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(TRADE_SAFETY_NS);
 
   if (cautions.length === 0) return null;
 
@@ -20,7 +21,7 @@ export function CautionsSection({ cautions }: CautionsSectionProps) {
     <section>
       <h3 className="mb-6 flex items-center gap-3 text-3xl font-bold">
         <ExclamationTriangleIcon className="size-10 text-warning" />
-        {t("page.tradeSafety.result.cautions")}
+        {t("result.cautions")}
       </h3>
 
       <div className="space-y-4">

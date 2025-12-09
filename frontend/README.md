@@ -36,16 +36,7 @@ const response = await repository.create({ input_text: "..." });
 
 ### i18n 통합
 
-```tsx
-import { enTranslations, koTranslations } from "trade-safety";
-
-i18n.init({
-  resources: {
-    en: { translation: { page: { tradeSafety: enTranslations } } },
-    ko: { translation: { page: { tradeSafety: koTranslations } } },
-  },
-});
-```
+[통합 가이드](../docs/integration-guide.md#i18n-통합) 참조
 
 ## Peer Dependencies
 
