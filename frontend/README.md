@@ -36,14 +36,7 @@ const response = await repository.create({ input_text: "..." });
 
 ### i18n 통합
 
-```tsx
-import { tradeSafetyTranslations, TRADE_SAFETY_NS } from "trade-safety";
-
-// 호스트 앱의 i18n 인스턴스에 번역 리소스 추가
-Object.entries(tradeSafetyTranslations).forEach(([lang, resources]) => {
-  i18n.addResourceBundle(lang, TRADE_SAFETY_NS, resources);
-});
-```
+[통합 가이드](../docs/integration-guide.md#i18n-통합) 참조
 
 ## Peer Dependencies
 
