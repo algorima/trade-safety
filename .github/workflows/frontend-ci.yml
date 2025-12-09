@@ -40,3 +40,9 @@ jobs:
       - name: Build App
         run: npm run build
         working-directory: frontend
+
+      - name: Verify Semantic Release Config
+        run: npx semantic-release --dry-run
+        working-directory: frontend
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
