@@ -11,6 +11,9 @@ import { initReactI18next } from "react-i18next/initReactI18next";
 
 import { fallbackLng } from "./config";
 
+/** Trade Safety namespace */
+export const TRADE_SAFETY_NS = "tradeSafety";
+
 /**
  * i18n 인스턴스를 설정하는 공통 함수
  */
@@ -56,6 +59,8 @@ const getDefaultOptions = (
 ): InitOptions => ({
   lng: lang,
   fallbackLng,
+  ns: [TRADE_SAFETY_NS],
+  defaultNS: TRADE_SAFETY_NS,
   debug: false,
   interpolation: {
     escapeValue: false,

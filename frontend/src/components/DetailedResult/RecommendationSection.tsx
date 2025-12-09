@@ -3,6 +3,8 @@
 import { HeartIcon, LightBulbIcon } from "@heroicons/react/24/solid";
 import { useTranslation } from "react-i18next";
 
+import { TRADE_SAFETY_NS } from "../../i18n";
+
 interface RecommendationSectionProps {
   recommendation: string;
   emotionalSupport: string;
@@ -12,13 +14,13 @@ export function RecommendationSection({
   recommendation,
   emotionalSupport,
 }: RecommendationSectionProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(TRADE_SAFETY_NS);
 
   return (
     <section>
       <h3 className="mb-6 flex items-center gap-3 text-3xl font-bold">
         <LightBulbIcon className="size-10 text-warning" />
-        {t("page.tradeSafety.result.recommendation")}
+        {t("result.recommendation")}
       </h3>
 
       <div className="card bg-base-200 shadow-xl">

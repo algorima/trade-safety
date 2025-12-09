@@ -8,6 +8,7 @@ import {
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 
+import { TRADE_SAFETY_NS } from "../i18n";
 import { RiskSignal } from "../types";
 
 interface RiskSignalCardProps {
@@ -37,14 +38,14 @@ export function RiskSignalCard({
   signal,
   variant = "error",
 }: RiskSignalCardProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(TRADE_SAFETY_NS);
   const Icon = severityIcon[signal.severity];
 
   return (
     <div className={clsx("card border-2 backdrop-blur-sm", variantStyles[variant])}>
       <div className="card-body">
         <div className="flex items-start gap-4">
-          <Icon className={clsx("size-8 mt-1 shrink-0", iconColor[variant])} />
+          <Icon className={clsx("mt-1 size-8 shrink-0", iconColor[variant])} />
 
           <div className="flex-1">
             <h4 className="card-title text-xl">{signal.title}</h4>
@@ -53,7 +54,7 @@ export function RiskSignalCard({
             {/* What to do */}
             <div className="mt-4 rounded-lg bg-base-100/50 p-4">
               <p className="mb-2 text-sm font-semibold">
-                💡 {t("page.tradeSafety.result.whatToDo")}
+                💡 {t("result.whatToDo")}
               </p>
               <p className="text-sm">{signal.what_to_do}</p>
             </div>

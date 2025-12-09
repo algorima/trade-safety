@@ -6,6 +6,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { useTranslation } from "react-i18next";
 
+import { TRADE_SAFETY_NS } from "../../i18n";
 import { PriceAnalysis } from "../../types";
 
 interface PriceAnalysisSectionProps {
@@ -13,7 +14,7 @@ interface PriceAnalysisSectionProps {
 }
 
 export function PriceAnalysisSection({ data }: PriceAnalysisSectionProps) {
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation(TRADE_SAFETY_NS);
 
   if (!data) return null;
 
@@ -21,7 +22,7 @@ export function PriceAnalysisSection({ data }: PriceAnalysisSectionProps) {
     <section>
       <h3 className="mb-6 flex items-center gap-3 text-3xl font-bold">
         <CurrencyDollarIcon className="size-10 text-secondary" />
-        {t("page.tradeSafety.result.priceAnalysis")}
+        {t("result.priceAnalysis")}
       </h3>
 
       <div className="card bg-base-200 shadow-xl">
@@ -30,7 +31,7 @@ export function PriceAnalysisSection({ data }: PriceAnalysisSectionProps) {
             {data.market_price_range && (
               <div>
                 <h4 className="mb-2 text-lg font-semibold">
-                  {t("page.tradeSafety.result.marketPrice")}
+                  {t("result.marketPrice")}
                 </h4>
                 <p className="text-2xl font-bold">{data.market_price_range}</p>
               </div>
@@ -39,7 +40,7 @@ export function PriceAnalysisSection({ data }: PriceAnalysisSectionProps) {
             {data.offered_price && (
               <div>
                 <h4 className="mb-2 text-lg font-semibold">
-                  {t("page.tradeSafety.result.offeredPrice")}
+                  {t("result.offeredPrice")}
                 </h4>
                 <p className="text-2xl font-bold text-primary">
                   {new Intl.NumberFormat(i18n.language, {
@@ -54,7 +55,7 @@ export function PriceAnalysisSection({ data }: PriceAnalysisSectionProps) {
           {/* Price Assessment */}
           <div className="mt-6 rounded-lg bg-base-100 p-4">
             <h4 className="mb-2 text-lg font-semibold">
-              {t("page.tradeSafety.result.priceAssessment")}
+              {t("result.priceAssessment")}
             </h4>
             <p className="text-neutral-content">{data.price_assessment}</p>
           </div>
@@ -64,7 +65,7 @@ export function PriceAnalysisSection({ data }: PriceAnalysisSectionProps) {
             <div className="mt-4">
               <h4 className="mb-2 flex items-center gap-2 text-lg font-semibold text-warning">
                 <ExclamationTriangleIcon className="size-6" />
-                {t("page.tradeSafety.result.priceWarnings")}
+                {t("result.priceWarnings")}
               </h4>
               <ul className="list-inside list-disc space-y-1">
                 {data.warnings.map((warning, index) => (

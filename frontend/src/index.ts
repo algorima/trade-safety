@@ -20,10 +20,33 @@ export type {
 // Types & Constants
 export * from "./types";
 
-// i18n - Export translation objects for integration
-export { default as enTranslations } from "./i18n/locales/en/translation.json";
-export { default as koTranslations } from "./i18n/locales/ko/translation.json";
-export { default as jaTranslations } from "./i18n/locales/ja/translation.json";
-export { default as zhTranslations } from "./i18n/locales/zh/translation.json";
-export { default as esTranslations } from "./i18n/locales/es/translation.json";
-export { default as idTranslations } from "./i18n/locales/id/translation.json";
+// i18n - Export namespace constant and translations for library integration
+export { TRADE_SAFETY_NS } from "./i18n";
+
+import enTranslations from "./i18n/locales/en/tradeSafety.json";
+import esTranslations from "./i18n/locales/es/tradeSafety.json";
+import idTranslations from "./i18n/locales/id/tradeSafety.json";
+import jaTranslations from "./i18n/locales/ja/tradeSafety.json";
+import koTranslations from "./i18n/locales/ko/tradeSafety.json";
+import zhTranslations from "./i18n/locales/zh/tradeSafety.json";
+
+/**
+ * Translation resources for the tradeSafety namespace.
+ * Use with i18next.addResourceBundle(lang, 'tradeSafety', translations)
+ *
+ * @example
+ * import { tradeSafetyTranslations, TRADE_SAFETY_NS } from '@trade-safety/react';
+ *
+ * // Add to existing i18n instance
+ * Object.entries(tradeSafetyTranslations).forEach(([lang, resources]) => {
+ *   i18n.addResourceBundle(lang, TRADE_SAFETY_NS, resources);
+ * });
+ */
+export const tradeSafetyTranslations = {
+  en: enTranslations,
+  es: esTranslations,
+  id: idTranslations,
+  ja: jaTranslations,
+  ko: koTranslations,
+  zh: zhTranslations,
+};

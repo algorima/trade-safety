@@ -6,13 +6,14 @@ import { useTranslation } from "react-i18next";
 
 import { DetailedResult } from "@/components/DetailedResult";
 import { QuickResultTeaser } from "@/components/QuickResultTeaser";
+import { TRADE_SAFETY_NS } from "@/i18n";
 import { TradeSafetyRepository } from "@/repositories/TradeSafetyRepository";
 import type { TradeSafetyCheckRepositoryResponse } from "@/repositories/TradeSafetyRepository";
 import { getApiService } from "@/services/ApiService";
 
 export default function TradeSafetyResultPage() {
   const params = useParams();
-  const { t } = useTranslation();
+  const { t } = useTranslation(TRADE_SAFETY_NS);
   const checkId = params.checkId as string;
 
   const repository = useMemo<TradeSafetyRepository>(
@@ -53,7 +54,7 @@ export default function TradeSafetyResultPage() {
     return (
       <div className="container mx-auto px-6 py-20">
         <div className="alert alert-error">
-          <span>{error || t("page.tradeSafety.result.notFound")}</span>
+          <span>{error || t("result.notFound")}</span>
         </div>
       </div>
     );
@@ -72,12 +73,8 @@ export default function TradeSafetyResultPage() {
   return (
     <div className="container mx-auto px-6 py-20">
       <div className="mx-auto mb-12 max-w-4xl text-center">
-        <h1 className="mb-4 text-4xl font-bold">
-          {t("page.tradeSafety.result.title")}
-        </h1>
-        <p className="text-xl text-neutral-content">
-          {t("page.tradeSafety.result.subtitle")}
-        </p>
+        <h1 className="mb-4 text-4xl font-bold">{t("result.title")}</h1>
+        <p className="text-xl text-neutral-content">{t("result.subtitle")}</p>
       </div>
 
       <DetailedResult

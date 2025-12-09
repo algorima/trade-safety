@@ -4,12 +4,14 @@ import { ClipboardDocumentCheckIcon } from "@heroicons/react/24/solid";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
+import { TRADE_SAFETY_NS } from "../../i18n";
+
 interface SafetyChecklistSectionProps {
   items: string[];
 }
 
 export function SafetyChecklistSection({ items }: SafetyChecklistSectionProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(TRADE_SAFETY_NS);
 
   if (items.length === 0) return null;
 
@@ -17,13 +19,13 @@ export function SafetyChecklistSection({ items }: SafetyChecklistSectionProps) {
     <section>
       <h3 className="mb-6 flex items-center gap-3 text-3xl font-bold">
         <ClipboardDocumentCheckIcon className="size-10 text-primary" />
-        {t("page.tradeSafety.result.safetyChecklist")}
+        {t("result.safetyChecklist")}
       </h3>
 
       <div className="card border-2 border-primary/30 bg-base-200">
         <div className="card-body">
           <p className="mb-6 text-lg text-neutral-content">
-            {t("page.tradeSafety.result.checklistDescription")}
+            {t("result.checklistDescription")}
           </p>
 
           <div className="space-y-3">

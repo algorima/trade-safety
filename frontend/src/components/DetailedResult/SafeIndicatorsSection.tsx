@@ -4,6 +4,7 @@ import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
+import { TRADE_SAFETY_NS } from "../../i18n";
 import { RiskSignal } from "../../types";
 import { RiskSignalCard } from "../RiskSignalCard";
 
@@ -14,7 +15,7 @@ interface SafeIndicatorsSectionProps {
 export function SafeIndicatorsSection({
   indicators,
 }: SafeIndicatorsSectionProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(TRADE_SAFETY_NS);
 
   if (indicators.length === 0) return null;
 
@@ -22,7 +23,7 @@ export function SafeIndicatorsSection({
     <section>
       <h3 className="mb-6 flex items-center gap-3 text-3xl font-bold">
         <CheckCircleIcon className="size-10 text-success" />
-        {t("page.tradeSafety.result.safeIndicators")}
+        {t("result.safeIndicators")}
       </h3>
 
       <div className="space-y-4">

@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
+import { TRADE_SAFETY_NS } from "@/i18n";
 import { TradeSafetyRepository } from "@/repositories/TradeSafetyRepository";
 import type { TradeSafetyCheckRepositoryResponse } from "@/repositories/TradeSafetyRepository";
 import { getApiService } from "@/services/ApiService";
@@ -18,7 +19,7 @@ const isQuickCheckResponse = (
 };
 
 export default function HomePage() {
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation(TRADE_SAFETY_NS);
   const router = useRouter();
 
   const repository = useMemo<TradeSafetyRepository>(
@@ -57,11 +58,9 @@ export default function HomePage() {
   return (
     <div className="container mx-auto px-6 py-20">
       <div className="mx-auto max-w-4xl text-center">
-        <h1 className="mb-4 text-4xl font-bold">
-          {t("page.tradeSafety.hero.title")}
-        </h1>
+        <h1 className="mb-4 text-4xl font-bold">{t("hero.title")}</h1>
         <p className="mb-8 text-xl text-neutral-content">
-          {t("page.tradeSafety.hero.subtitle")}
+          {t("hero.subtitle")}
         </p>
 
         <div className="card bg-base-200 shadow-xl">
@@ -69,8 +68,8 @@ export default function HomePage() {
             <textarea
               id="trade-input"
               className="textarea textarea-bordered h-48 w-full"
-              placeholder={t("page.tradeSafety.hero.placeholder")}
-              aria-label={t("page.tradeSafety.hero.title")}
+              placeholder={t("hero.placeholder")}
+              aria-label={t("hero.title")}
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               disabled={isLoading}
@@ -87,9 +86,7 @@ export default function HomePage() {
               onClick={handleSubmit}
               disabled={isLoading || !inputText.trim()}
             >
-              {isLoading
-                ? t("page.tradeSafety.hero.analyzing")
-                : t("page.tradeSafety.hero.checkSafety")}
+              {isLoading ? t("hero.analyzing") : t("hero.checkSafety")}
             </button>
           </div>
         </div>

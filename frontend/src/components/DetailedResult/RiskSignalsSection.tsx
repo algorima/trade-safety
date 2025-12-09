@@ -4,6 +4,7 @@ import { ShieldExclamationIcon } from "@heroicons/react/24/solid";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
+import { TRADE_SAFETY_NS } from "../../i18n";
 import { RiskSignal } from "../../types";
 import { RiskSignalCard } from "../RiskSignalCard";
 
@@ -12,7 +13,7 @@ interface RiskSignalsSectionProps {
 }
 
 export function RiskSignalsSection({ signals }: RiskSignalsSectionProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(TRADE_SAFETY_NS);
 
   if (signals.length === 0) return null;
 
@@ -20,7 +21,7 @@ export function RiskSignalsSection({ signals }: RiskSignalsSectionProps) {
     <section>
       <h3 className="mb-6 flex items-center gap-3 text-3xl font-bold">
         <ShieldExclamationIcon className="size-10 text-error" />
-        {t("page.tradeSafety.result.riskSignals")}
+        {t("result.riskSignals")}
       </h3>
 
       <div className="space-y-4">
