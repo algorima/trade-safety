@@ -55,6 +55,12 @@ jobs:
         run: make unit-test
         working-directory: backend
 
+      - name: Verify Semantic Release Config
+        run: poetry run semantic-release version --dry-run
+        working-directory: backend
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   integration-tests:
     needs: backend-ci
     runs-on: ubuntu-latest
