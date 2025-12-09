@@ -10,9 +10,9 @@ import resourcesToBackend from "i18next-resources-to-backend";
 import { initReactI18next } from "react-i18next/initReactI18next";
 
 import { fallbackLng } from "./config";
+import { TRADE_SAFETY_NS } from "./translations";
 
-/** Trade Safety namespace */
-export const TRADE_SAFETY_NS = "tradeSafety";
+export { TRADE_SAFETY_NS };
 
 /**
  * i18n 인스턴스를 설정하는 공통 함수
