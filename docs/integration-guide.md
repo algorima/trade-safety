@@ -83,7 +83,7 @@ await repository.create({ input_text: "..." });
 ### i18n 통합
 
 ```tsx
-import { tradeSafetyTranslations, TRADE_SAFETY_NS } from "trade-safety";
+import { tradeSafetyTranslations, TRADE_SAFETY_NS } from "trade-safety/locale";
 
 // 호스트 앱의 i18n 인스턴스에 번역 리소스 추가
 Object.entries(tradeSafetyTranslations).forEach(([lang, resources]) => {
