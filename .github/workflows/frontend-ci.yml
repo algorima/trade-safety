@@ -15,6 +15,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Required for Chromatic baseline detection
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -40,6 +42,18 @@ jobs:
       - name: Build App
         run: npm run build
         working-directory: frontend
+
+      - name: Build Storybook
+        run: npm run build-storybook
+        working-directory: frontend
+
+      - name: Publish Storybook to Chromatic
+        uses: chromaui/action@latest
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          workingDir: frontend
+          onlyChanged: true
+          autoAcceptChanges: "main"
 
       - name: Verify Semantic Release Config
         run: npx semantic-release --dry-run
