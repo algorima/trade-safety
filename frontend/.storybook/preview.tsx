@@ -1,13 +1,13 @@
 import "../src/styles/globals.css";
 
-import type { Preview } from "@storybook/react";
+import type { Preview, Decorator } from "@storybook/react";
 import { I18nextProvider } from "react-i18next";
 import { createClientI18nInstance, TRADE_SAFETY_NS } from "../src/i18n";
 import { tradeSafetyTranslations } from "../src/i18n/translations";
 import { fallbackLng, languages, languageNames } from "../src/i18n/config";
 
-const withI18next = (Story, context) => {
-  const lang = context.globals.locale;
+const withI18next: Decorator = (Story, context) => {
+  const lang = context.globals.locale as string;
 
   // Create i18n instance with pre-loaded resources for the selected language
   const i18nInstance = createClientI18nInstance(lang, {
