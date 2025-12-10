@@ -82,23 +82,13 @@ await repository.create({ input_text: "..." });
 
 ### i18n 통합
 
-**권장: locale 전용 entry point 사용** (Next.js RSC 호환)
-
 ```tsx
-// 서버 컴포넌트에서도 안전하게 사용 가능 (React 의존성 없음)
 import { tradeSafetyTranslations, TRADE_SAFETY_NS } from "trade-safety/locale";
 
 // 호스트 앱의 i18n 인스턴스에 번역 리소스 추가
 Object.entries(tradeSafetyTranslations).forEach(([lang, resources]) => {
   i18n.addResourceBundle(lang, TRADE_SAFETY_NS, resources);
 });
-```
-
-**레거시: 기본 entry point** (클라이언트 컴포넌트만)
-
-```tsx
-// ⚠️ Next.js RSC에서 사용 시 오류 발생 (framer-motion 포함)
-import { tradeSafetyTranslations, TRADE_SAFETY_NS } from "trade-safety";
 ```
 
 지원 언어: `en`, `ko`, `ja`, `zh`, `es`, `id`
