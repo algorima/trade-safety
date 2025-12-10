@@ -54,7 +54,6 @@ const preview: Preview = {
       },
     },
     chromatic: {
-      disableSnapshot: true,
       modes: {
         light: allModes["light"],
         dark: allModes["dark"],
