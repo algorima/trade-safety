@@ -11,9 +11,13 @@ export default defineConfig({
   build: {
     sourcemap: true,
     lib: {
-      entry: resolve(__dirname, "src/index.ts"),
+      entry: {
+        index: resolve(__dirname, "src/index.ts"),
+        locale: resolve(__dirname, "src/i18n/translations.ts"),
+      },
       formats: ["es", "cjs"],
-      fileName: (format) => `index.${format === "es" ? "mjs" : "js"}`,
+      fileName: (format, entryName) =>
+        `${entryName}.${format === "es" ? "mjs" : "js"}`,
     },
     rollupOptions: {
       external: [
@@ -38,6 +42,7 @@ export default defineConfig({
         "src/repositories/**/*",
         "src/types.ts",
         "src/index.ts",
+        "src/i18n/translations.ts",
       ],
       exclude: [
         "src/app",
