@@ -1,0 +1,209 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Design System/Guidelines" />
+
+# Trade Safety Design Guidelines
+
+## Foundations
+
+모든 디자인의 기초가 되는 핵심 요소
+
+---
+
+### Color System
+
+#### Semantic Token 시스템
+
+**중요**: Trade Safety는 DaisyUI semantic token으로만 컬러를 관리합니다. Hex 코드, Tailwind 기본 컬러, arbitrary values를 사용하지 않습니다. 이는 다음을 보장합니다:
+
+- Light/Dark 테마 자동 전환
+- 컬러 변경 시 전체 UI 일관성 유지
+- 접근성 대비 비율 준수
+
+**주요 토큰:**
+
+- `primary` / `primary-content` - 브랜드 컬러, 주요 액션
+- `secondary` - 부수적 강조
+- `neutral` / `neutral-content` - 구분, 비활성
+- `base-100` / `base-200` / `base-300` - 배경 (밝음 → 어두움)
+- `base-content` - 본문 텍스트
+- `info` - 알림, 정보
+
+**시각적 팔레트**: [Colors](?path=/docs/design-system-colors--docs) 페이지에서 모든 컬러를 확인하세요.
+
+#### ✅ 올바른 사용
+
+- Figma Color Styles 사용: `Primary`, `Base-200`, `Neutral-Content`
+- 의미 기반 이름으로 컬러 지정
+
+#### ❌ 금지
+
+- Hex 코드 직접 입력: `#1E9CFD`, `#3B82F6`
+- 색상 이름 직접 사용: `Blue`, `Red`, `Gray-500`
+
+**이유**: 테마 전환 시 자동 대응 불가, 일관성 해침
+
+#### Figma 작업
+
+1. Color Styles를 의미 기반 이름으로 등록: `Primary`, `Neutral`, `Base-100` 등
+2. Light/Dark 모드를 별도 페이지 또는 Variant로 관리
+3. 모든 디자인은 양쪽 테마에서 검토 필수
+
+---
+
+### Typography
+
+#### Font Family
+
+**Inter (Google Fonts)** - Latin 전용
+
+- Latin 문자: Inter 폰트 사용
+- CJK(한중일): 시스템 폰트 자동 fallback
+- 이유: 다국어 환경에서 안정적 렌더링, 오픈소스, 가독성
+
+**알려진 제한사항**: 명시적인 CJK 폰트 fallback 정의가 없으며, 현재는 브라우저 기본값에 의존합니다.
+
+#### Scale & Weight
+
+```
+본문: text-xs / text-sm / text-base (기본) / text-lg
+제목: text-xl / text-2xl / text-3xl / text-4xl / text-5xl
+
+강조: font-medium / font-semibold / font-bold
+```
+
+참고: [Tailwind Font Size](https://tailwindcss.com/docs/font-size)
+
+#### 다국어 고려사항
+
+Trade Safety는 6개 언어 지원: `en`, `ko`, `ja`, `zh`, `es`, `id`
+
+**텍스트 길이 비율** (영어 대비):
+
+- 한국어: 약 50-60%
+- 일본어: 약 50-60%
+- 중국어: 약 30-40%
+- 스페인어: 약 110-120%
+- 인도네시아어: 유사
+
+**디자인 고려사항**:
+
+- Figma에서 Auto Layout으로 텍스트 확장/축소 대응 필수
+- 줄바꿈 위치가 언어마다 다르므로 충분한 여유 공간 확보
+
+---
+
+### Spacing
+
+#### Scale (4px 기준)
+
+```
+1: 4px
+1.5: 6px
+2: 8px
+3: 12px
+4: 16px
+6: 24px
+8: 32px
+12: 48px
+16: 64px
+20: 80px
+```
+
+#### 사용 규칙
+
+- **컴포넌트 내부 패딩**: 4 (16px), 6 (24px)
+- **컴포넌트 간 간격**: 2 (8px), 4 (16px), 8 (32px)
+- **섹션 간격**: 12 (48px), 16 (64px)
+
+**금지**: `5px`, `17px` 같은 비규격 값 → 시각적 일관성 해침, 개발 혼선
+
+참고: [Tailwind Spacing](https://tailwindcss.com/docs/padding)
+
+---
+
+### Layout
+
+#### Breakpoints (Tailwind 기본)
+
+```
+sm: 640px
+md: 768px (태블릿)
+lg: 1024px (데스크톱)
+xl: 1280px
+2xl: 1536px
+```
+
+#### Grid
+
+Tailwind의 12-column grid 사용
+
+참고: [Tailwind Grid](https://tailwindcss.com/docs/grid-template-columns)
+
+---
+
+### Radius & Shadow
+
+```
+Radius: rounded-md / rounded-lg / rounded-2xl / rounded-full
+Shadow: shadow-md / shadow-lg / shadow-xl / shadow-2xl
+```
+
+참고: [Tailwind Border Radius](https://tailwindcss.com/docs/border-radius)
+
+---
+
+## Components
+
+재사용 가능한 UI 컴포넌트
+
+---
+
+### DaisyUI 기반
+
+Trade Safety는 커스텀 컴포넌트 대신 **DaisyUI의 표준 컴포넌트**를 기반으로 합니다.
+
+**이유**:
+
+- 개발 속도 우선
+- 일관성 자동 확보
+- 접근성 기본 지원
+
+**주요 컴포넌트**:
+
+- Button: `btn`, `btn-primary`, `btn-ghost`, `btn-circle`
+- Input: `input`, `input-bordered`
+- Card: `card`, `card-body`
+- Alert: `alert`, `alert-info`
+- Modal: `modal`, `modal-box`
+
+참고: [DaisyUI Components](https://daisyui.com/components/)
+
+**Figma 작업:**
+
+1. DaisyUI 문서를 참고하여 동일한 스타일로 컴포넌트 제작
+2. Variant 활용: Size(sm/md/lg), Style(primary/secondary/ghost)
+3. 커스텀 디자인 전 DaisyUI 기본 컴포넌트로 해결 가능한지 먼저 확인
+
+**금지**: 기존 컴포넌트를 무시한 완전히 새로운 디자인 → 개발 비용 증가, 일관성 해침
+
+---
+
+### Iconography
+
+**Heroicons v2 (Tailwind Labs 공식)**
+
+- **크기**: 24x24px (고정)
+- **스타일**: outline (기본), solid (강조)
+- **라이선스**: MIT
+- **Figma**: [Tailwind Labs 공식 페이지](https://www.figma.com/@tailwindlabs)
+
+**금지**: Font Awesome, Material Icons 등 다른 아이콘 세트 혼용 → 시각적 불일치
+
+---
+
+## 참고 자료
+
+- **DaisyUI**: https://daisyui.com/
+- **Heroicons**: https://heroicons.com/
+- **Tailwind CSS**: https://tailwindcss.com/docs

@@ -1,0 +1,24 @@
+import { Meta, Canvas, Story } from "@storybook/addon-docs";
+import { Colors } from "./Colors";
+import * as ColorsStories from "./Colors.stories";
+
+<Meta title="Design System/Colors" of={ColorsStories} />
+
+# Colors
+
+Trade Safety 프로젝트에서는 [daisyUI](https://daisyui.com/) 테마를 사용하여 일관된 색상 팔레트를 적용하고 있습니다. daisyUI는 미리 정의된 색상 클래스를 제공하여 쉽게 색상을 적용할 수 있습니다.
+
+<Canvas>
+  <Story name="Default Colors" story={ColorsStories.Default} />
+</Canvas>
+
+위 예시는 daisyUI에서 제공하는 기본 색상 팔레트를 보여줍니다. 각 색상은 배경색과 텍스트 색상을 함께 표현하고 있습니다.
+
+- `primary`, `secondary`, `neutral`, `base`: 주요 색상
+- `info`, `success`, `warning`, `error`: 상태 표시를 위한 색상
+
+이러한 색상 클래스를 사용하여 컴포넌트의 배경색과 텍스트 색상을 일관되게 적용할 수 있습니다.
+
+## References
+
+- [daisyUI Colors](https://daisyui.com/docs/colors/)
