@@ -91,7 +91,10 @@ class TradeSafetyService:
             temperature=0.7,  # Hardcoded - balanced for analytical tasks
             api_key=openai_api.api_key,  # type: ignore[arg-type]
         )
-        self.chat_model = base_model.with_structured_output(TradeSafetyAnalysis)
+        self.chat_model = base_model.with_structured_output(
+            TradeSafetyAnalysis,
+            strict=True,  # Enforce enum constraints and schema validation
+        )
         self.system_prompt = system_prompt
 
     # ==========================================
