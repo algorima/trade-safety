@@ -12,10 +12,10 @@ from __future__ import annotations
 
 import logging
 
+from aioia_core.settings import OpenAIAPISettings
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
 
-from aioia_core.settings import OpenAIAPISettings
 from trade_safety.prompts import TRADE_SAFETY_SYSTEM_PROMPT
 from trade_safety.schemas import TradeSafetyAnalysis
 from trade_safety.settings import TradeSafetyModelSettings
