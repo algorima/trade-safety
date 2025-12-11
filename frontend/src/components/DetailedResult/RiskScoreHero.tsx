@@ -8,6 +8,8 @@ import {
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 
+import { TRADE_SAFETY_NS } from "../../i18n";
+
 interface RiskScoreHeroProps {
   score: number;
 }
@@ -29,7 +31,7 @@ function getRiskLevel(score: number): RiskLevel {
 }
 
 export function RiskScoreHero({ score }: RiskScoreHeroProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(TRADE_SAFETY_NS);
   const risk = getRiskLevel(score);
   const { Icon } = risk;
 
@@ -47,7 +49,7 @@ export function RiskScoreHero({ score }: RiskScoreHeroProps) {
             <Icon className={clsx("size-32", colorClasses[risk.color])} />
           </div>
           <h2 className="mb-4 text-5xl font-bold">
-            {t(`page.tradeSafety.result.riskLevel.${risk.level}.title`)}
+            {t(`result.riskLevel.${risk.level}.title`)}
           </h2>
 
           {/* 위험도 게이지 */}
@@ -68,7 +70,7 @@ export function RiskScoreHero({ score }: RiskScoreHeroProps) {
           </div>
 
           <p className="mt-6 max-w-lg text-xl text-neutral-content">
-            {t(`page.tradeSafety.result.riskLevel.${risk.level}.message`)}
+            {t(`result.riskLevel.${risk.level}.message`)}
           </p>
         </div>
       </div>
