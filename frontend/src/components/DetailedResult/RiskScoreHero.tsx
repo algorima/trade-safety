@@ -8,6 +8,8 @@ import {
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 
+import { TRADE_SAFETY_NS } from "../../i18n";
+
 interface RiskScoreHeroProps {
   score: number;
 }
@@ -29,7 +31,7 @@ function getRiskLevel(score: number): RiskLevel {
 }
 
 export function RiskScoreHero({ score }: RiskScoreHeroProps) {
-  const { t } = useTranslation("tradeSafety");
+  const { t } = useTranslation(TRADE_SAFETY_NS);
   const risk = getRiskLevel(score);
   const { Icon } = risk;
 
