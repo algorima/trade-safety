@@ -17,7 +17,6 @@ Environment Variables:
 import logging
 import os
 
-from aioia_core.models import Base
 from aioia_core.errors import (
     INTERNAL_SERVER_ERROR,
     VALIDATION_ERROR,
@@ -25,6 +24,7 @@ from aioia_core.errors import (
     extract_error_code_from_exception,
     get_error_detail_from_exception,
 )
+from aioia_core.models import Base
 from aioia_core.settings import DatabaseSettings, JWTSettings, OpenAIAPISettings
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
@@ -57,7 +57,9 @@ jwt_settings = JWTSettings()  # JWT_SECRET_KEY
 
 logger.info("Loaded settings from environment variables")
 logger.info("Model: %s", model_settings.model)
-logger.info("Database: %s", db_settings.url.rsplit("@", maxsplit=1)[-1])  # Hide credentials
+logger.info(
+    "Database: %s", db_settings.url.rsplit("@", maxsplit=1)[-1]
+)  # Hide credentials
 
 
 # ==============================================================================

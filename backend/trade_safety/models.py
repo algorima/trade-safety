@@ -1,9 +1,8 @@
 from datetime import datetime
 
+from aioia_core.models import BaseModel
 from sqlalchemy import JSON, Boolean, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
-
-from aioia_core.models import BaseModel
 
 
 class DBTradeSafetyCheck(BaseModel):

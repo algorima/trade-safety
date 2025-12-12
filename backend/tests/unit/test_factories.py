@@ -3,11 +3,10 @@
 import unittest
 import warnings
 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-
 from aioia_core.factories import BaseRepositoryFactory
 from aioia_core.models import Base
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 from trade_safety.factories import TradeSafetyCheckManagerFactory
 from trade_safety.repositories.trade_safety_repository import (

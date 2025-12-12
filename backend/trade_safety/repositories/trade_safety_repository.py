@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
+from aioia_core.managers import BaseManager
 from sqlalchemy.orm import Session
 
-from aioia_core.managers import BaseManager
 from trade_safety.managers import TradeSafetyCheckManager
 from trade_safety.models import DBTradeSafetyCheck
 from trade_safety.schemas import (

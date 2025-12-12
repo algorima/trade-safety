@@ -148,8 +148,12 @@ class TestTradeSafetyAnalysis(unittest.TestCase):
 
         # Risk score가 설정되어야 함
         self.assertIsNotNone(analysis.risk_score, "위험 점수가 설정되어야 합니다")
-        self.assertGreaterEqual(analysis.risk_score, 0, "위험 점수는 0 이상이어야 합니다")
-        self.assertLessEqual(analysis.risk_score, 100, "위험 점수는 100 이하여야 합니다")
+        self.assertGreaterEqual(
+            analysis.risk_score, 0, "위험 점수는 0 이상이어야 합니다"
+        )
+        self.assertLessEqual(
+            analysis.risk_score, 100, "위험 점수는 100 이하여야 합니다"
+        )
 
     def test_analyze_trade_returns_safety_checklist(self) -> None:
         """
@@ -175,7 +179,9 @@ class TestTradeSafetyAnalysis(unittest.TestCase):
 
         # Then: 안전 체크리스트가 제공되어야 함
         self.assertIsNotNone(analysis, "분석 결과가 반환되어야 합니다")
-        self.assertIsNotNone(analysis.safety_checklist, "안전 체크리스트가 포함되어야 합니다")
+        self.assertIsNotNone(
+            analysis.safety_checklist, "안전 체크리스트가 포함되어야 합니다"
+        )
         self.assertGreater(
             len(analysis.safety_checklist),
             0,
@@ -301,6 +307,7 @@ class TestTradeSafetyAnalysis(unittest.TestCase):
             analysis.price_analysis.offered_price,
             "가격 정보가 제공되었으므로 offered_price가 있어야 합니다",
         )
+
 
 if __name__ == "__main__":
     unittest.main()
