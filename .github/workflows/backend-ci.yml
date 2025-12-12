@@ -35,6 +35,10 @@ jobs:
         run: make lint
         working-directory: backend
 
+      - name: Check Code Style
+        run: make code-style
+        working-directory: backend
+
       - name: Type Check
         run: make type-check
         working-directory: backend
