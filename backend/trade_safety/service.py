@@ -12,10 +12,10 @@ from __future__ import annotations
 
 import logging
 
+from aioia_core.settings import OpenAIAPISettings
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
 
-from aioia_core.settings import OpenAIAPISettings
 from trade_safety.prompts import TRADE_SAFETY_SYSTEM_PROMPT
 from trade_safety.schemas import TradeSafetyAnalysis
 from trade_safety.settings import TradeSafetyModelSettings
@@ -91,7 +91,10 @@ class TradeSafetyService:
             temperature=0.7,  # Hardcoded - balanced for analytical tasks
             api_key=openai_api.api_key,  # type: ignore[arg-type]
         )
-        self.chat_model = base_model.with_structured_output(TradeSafetyAnalysis)
+        self.chat_model = base_model.with_structured_output(
+            TradeSafetyAnalysis,
+            strict=True,  # Enforce enum constraints and schema validation
+        )
         self.system_prompt = system_prompt
 
     # ==========================================
