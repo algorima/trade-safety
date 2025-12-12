@@ -1,5 +1,11 @@
 # Trade Safety 개발 가이드
 
+## 프로젝트 구조
+
+- `frontend/`: NPM 라이브러리 + Next.js 애플리케이션 (데모/개발용)
+  - `package.json`, `package-lock.json` 모두 git에 커밋 (dual-purpose 프로젝트)
+  - dependencies 변경 시 `npm install` 실행하여 `package-lock.json` 업데이트 필요
+
 ## 코드 품질
 
 - DRY: 중복 금지, aioia-core 재사용
