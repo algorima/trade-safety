@@ -21,7 +21,8 @@ export default function TradeSafetyResultPage() {
     [],
   );
 
-  const [result, setResult] = useState<TradeSafetyCheckRepositoryResponse | null>(null);
+  const [result, setResult] =
+    useState<TradeSafetyCheckRepositoryResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

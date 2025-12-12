@@ -42,7 +42,9 @@ export function RiskSignalCard({
   const Icon = severityIcon[signal.severity];
 
   return (
-    <div className={clsx("card border-2 backdrop-blur-sm", variantStyles[variant])}>
+    <div
+      className={clsx("card border-2 backdrop-blur-sm", variantStyles[variant])}
+    >
       <div className="card-body">
         <div className="flex items-start gap-4">
           <Icon className={clsx("mt-1 size-8 shrink-0", iconColor[variant])} />
