@@ -53,6 +53,12 @@ When performing a code review, respond in Korean.
 3. `npm run type-check` - TypeScript 타입 검사
 4. `npm test` - Jest 단위 테스트 실행
 
+백엔드 코드를 수정한 후에는 **반드시** 다음 명령을 프로젝트 루트에서 실행하세요:
+1. `make -C backend format` - isort, black 코드 포맷팅
+2. `make -C backend lint` - Pylint 검사
+3. `make -C backend type-check` - mypy, pyright 타입 검사
+4. `make -C backend unit-test` - 단위 테스트 실행
+
 ## Python
 
 - Tests: `assert <var> is not None` 로 타입 안정성 유지
