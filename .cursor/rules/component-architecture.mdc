@@ -10,5 +10,5 @@ alwaysApply: false
 - 금지: API 호출, 전역 상태 접근, 비즈니스 로직, 라우팅
 - 예외: i18n(useTranslation)은 UI 표현의 일부로 허용
 
-**Container (`/page.tsx`, `/screens`)**
+**Container (`/page.tsx`)**
 - 데이터 페칭, 전역 상태, 비즈니스 로직, 라우팅 담당

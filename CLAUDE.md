@@ -17,7 +17,7 @@
 ## 아키텍처 원칙
 
 - **Presentational** (`/components/**`): UI만 담당. API/전역상태/라우팅 금지. i18n(useTranslation)은 허용.
-- **Container** (`/page.tsx`, `/screens/**`): 데이터 페칭, 전역 상태, 비즈니스 로직 담당.
+- **Container** (`/page.tsx`): 데이터 페칭, 전역 상태, 비즈니스 로직 담당.
 
 ### 코드 추출 체크리스트
 
