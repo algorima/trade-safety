@@ -1,0 +1,12 @@
+---
+description: 프론트엔드 포맷팅·린트 기준; 수정 후 format, lint:fix, type-check, test를 항상 실행
+globs: frontend/**
+alwaysApply: false
+---
+- `frontend/`에서 코드를 수정한 후에는 반드시 실행하세요:
+  1. `npm run format` (Prettier 포맷)
+  2. `npm run lint:fix` (ESLint 자동 수정)
+  3. `npm run type-check` (TypeScript 타입 검사)
+  4. `npm test` (Jest 테스트)
+
+자세한 스크립트는 [frontend/package.json](mdc:frontend/package.json)을 참고하세요.
