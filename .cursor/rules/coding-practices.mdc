@@ -5,7 +5,7 @@ alwaysApply: false
 ---
 ## TDD (Test-Driven Development)
 - 복잡한 로직 구현 시 실패하는 테스트를 먼저 작성하세요 (Red → Green → Refactor).
-- 테스트 삭제 금지: 추출된 테스트에 원래 레포지토리 import가 있으면 수정하세요. 삭제는 코드 품질 포기입니다.
+- 테스트 삭제는 코드 품질 포기입니다.
 - 테스트 격리: `setUp` 변경 전 다른 테스트에 미치는 side effect를 확인하세요.
 
 ## DRY (Don't Repeat Yourself)
