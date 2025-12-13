@@ -2,16 +2,17 @@
 
 from __future__ import annotations
 
-from sqlalchemy.orm import sessionmaker
-
 from aioia_core.factories import BaseRepositoryFactory
+from sqlalchemy.orm import sessionmaker
 
 from trade_safety.repositories.trade_safety_repository import (
     DatabaseTradeSafetyCheckManager,
 )
 
 
-class TradeSafetyCheckManagerFactory(BaseRepositoryFactory[DatabaseTradeSafetyCheckManager]):
+class TradeSafetyCheckManagerFactory(
+    BaseRepositoryFactory[DatabaseTradeSafetyCheckManager]
+):
     """Factory for creating TradeSafetyCheckManager instances.
 
     Inherits from BaseRepositoryFactory which provides:

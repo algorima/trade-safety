@@ -35,6 +35,10 @@ jobs:
         run: npm run lint
         working-directory: frontend
 
+      - name: Check Format
+        run: npm run check-format
+        working-directory: frontend
+
       - name: Build Library
         run: npm run build:lib
         working-directory: frontend

@@ -8,14 +8,14 @@ This module provides public API endpoints for trade safety analysis:
 
 import logging
 
-from fastapi import APIRouter, Depends, HTTPException, status
-from pydantic import BaseModel, Field
-from sqlalchemy.orm import sessionmaker
-
 from aioia_core.auth import UserRoleProvider
 from aioia_core.errors import RESOURCE_NOT_FOUND, VALIDATION_ERROR, ErrorResponse
 from aioia_core.fastapi import BaseCrudRouter
 from aioia_core.settings import JWTSettings, OpenAIAPISettings
+from fastapi import APIRouter, Depends, HTTPException, status
+from pydantic import BaseModel, Field
+from sqlalchemy.orm import sessionmaker
+
 from trade_safety.factories import TradeSafetyCheckManagerFactory
 from trade_safety.repositories.trade_safety_repository import (
     DatabaseTradeSafetyCheckManager,
