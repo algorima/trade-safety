@@ -1,5 +1,0 @@
----
-description: Stories
-globs: **/*.stories.tsx
----
-스토리북의 비동기 핸들러는 필요한 경우 `() => Promise.resolve()`로 작성하여 TypeScript 경고를 방지하세요.
