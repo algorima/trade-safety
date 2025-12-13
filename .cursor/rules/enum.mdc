@@ -1,0 +1,6 @@
+---
+description:
+globs: backend/models/db/*.py
+alwaysApply: false
+---
+SQLAlchemy Enum 정의 시 `name="snake_case"` 형식으로 명시하여, DB 타입 이름을 관리하세요.

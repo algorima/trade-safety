@@ -1,0 +1,11 @@
+---
+description: Alembic ENUM 마이그레이션 모범 사례
+globs: backend/alembic/versions/*.py
+alwaysApply: false
+---
+- ENUM 값 추가는 반드시 별도 리비전으로 분리하세요.
+- 데이터베이스별 분기 처리를 구현하세요:
+  - PostgreSQL: `ALTER TYPE ... ADD VALUE IF NOT EXISTS` 사용
+  - SQLite: `batch_alter_table` 사용하여 테이블 재생성
+- 일관된 ENUM 정의를 위해 old_enum과 new_enum을 명시적으로 정의하고 SQLAlchemy Enum 타입의 `name` 파라미터는 snake_case로 지정하세요.
+- PostgreSQL downgrade에서 ENUM 값 제거는 복잡하고 파괴적이므로 pass 처리하세요.

@@ -1,0 +1,5 @@
+---
+description: 테스트
+globs: backend/tests/**/*.py
+---
+assert <변수> is not None으로 타입 안정성을 유지하며 테스트를 작성하세요.
