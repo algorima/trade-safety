@@ -13,7 +13,6 @@ alwaysApply: false
 
 ## Opportunistic Refactoring (켄트 벡)
 - 변경 전 코드를 먼저 변경하기 쉽게 만드세요. (make the change easy, then make the easy change)
-- 코드 추출 체크리스트: (1) 복사, (2) 원본 제거, (3) import 수정, (4) 테스트도 독립 실행 가능하게 수정, (5) lint/type-check 통과.
 
 ## 문제 해결 (5 Whys - 도요타)
 - 새로운 문제가 발생하면, "왜?"를 충분히 반복하여 근본 원인을 먼저 파악하세요.
