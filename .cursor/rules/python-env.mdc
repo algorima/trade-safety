@@ -1,0 +1,14 @@
+---
+description: 백엔드 Python 실행 환경
+globs: backend/**/*.py
+alwaysApply: false
+---
+- 항상 Poetry를 사용해 Python 명령을 실행하세요. 시스템 인터프리터로 `python`을 직접 실행하지 마세요.
+- 명령 실행은 Makefile 타겟을 우선 사용하세요:
+  - `make -C backend unit-test`
+  - `make -C backend lint`
+  - `make -C backend type-check`
+  - `make -C backend format`
+  - `make -C backend code-style` (코드 스타일 검사)
+- 단일 명령이 필요하면 `backend/`에서 `poetry run`으로 실행하세요.
+- 마이그레이션 파일은 **반드시** `alembic revision -m "message"` 명령어로 자동 생성하세요. 수동으로 파일을 만들거나 revision ID를 직접 설정하지 마세요.

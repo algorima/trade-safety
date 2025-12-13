@@ -1,0 +1,9 @@
+---
+description: 컴포넌트
+globs: frontend/src/components/**/*.tsx
+---
+## 컴포넌트 정의
+
+컴포넌트는 Named Exports를 사용하고, 함수 선언 방식으로 정의하세요.
+
+**예외**: Next.js App Router의 페이지 컴포넌트(`page.tsx`, `layout.tsx`, `error.tsx` 등)는 프레임워크 요구사항에 따라 default export를 사용합니다.

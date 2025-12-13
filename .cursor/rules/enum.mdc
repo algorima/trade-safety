@@ -1,5 +1,5 @@
 ---
-description: 
+description:
 globs: backend/models/db/*.py
 alwaysApply: false
 ---
