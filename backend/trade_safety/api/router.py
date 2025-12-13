@@ -176,6 +176,7 @@ class TradeSafetyRouter(
                     )
                 analysis = await service.analyze_trade(
                     input_text=request.input_text,
+                    output_language=request.output_language,
                 )
 
                 # Step 2: Convert API Request → Domain Create schema (type-safe!)
