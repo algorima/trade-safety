@@ -43,7 +43,10 @@ class TradeSafetyCheckRequest(BaseModel):
     with optional output language selection for analysis results."""
 
     input_text: str = Field(description="Trade post URL or text")
-    output_language: str = Field(default="en", description="Output language for analysis results")
+    output_language: str = Field(
+        default="en", description="Output language for analysis results"
+    )
+
 
 class SingleItemResponseModel(BaseModel):
     """Standard CRUD response wrapping single item in data field"""

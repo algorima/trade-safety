@@ -18,72 +18,63 @@ class TestTradeSafetyCheckRequest(unittest.TestCase):
     def test_request_with_korean_output_language(self):
         """Test that output_language can be set to 'ko' (Korean)."""
         request = TradeSafetyCheckRequest(
-            input_text="[WTS] K-pop goods for sale",
-            output_language="ko"
+            input_text="[WTS] K-pop goods for sale", output_language="ko"
         )
         self.assertEqual(request.output_language, "ko")
 
     def test_request_with_spanish_output_language(self):
         """Test that output_language can be set to 'es' (Spanish)."""
         request = TradeSafetyCheckRequest(
-            input_text="[WTS] K-pop goods for sale",
-            output_language="es"
+            input_text="[WTS] K-pop goods for sale", output_language="es"
         )
         self.assertEqual(request.output_language, "es")
 
     def test_request_with_indonesian_output_language(self):
         """Test that output_language can be set to 'id' (Indonesian)."""
         request = TradeSafetyCheckRequest(
-            input_text="[WTS] K-pop goods for sale",
-            output_language="id"
+            input_text="[WTS] K-pop goods for sale", output_language="id"
         )
         self.assertEqual(request.output_language, "id")
 
     def test_request_with_japanese_output_language(self):
         """Test that output_language can be set to 'ja' (Japanese)."""
         request = TradeSafetyCheckRequest(
-            input_text="[WTS] K-pop goods for sale",
-            output_language="ja"
+            input_text="[WTS] K-pop goods for sale", output_language="ja"
         )
         self.assertEqual(request.output_language, "ja")
 
     def test_request_with_chinese_output_language(self):
         """Test that output_language can be set to 'zh' (Chinese)."""
         request = TradeSafetyCheckRequest(
-            input_text="[WTS] K-pop goods for sale",
-            output_language="zh"
+            input_text="[WTS] K-pop goods for sale", output_language="zh"
         )
         self.assertEqual(request.output_language, "zh")
 
     def test_request_with_thai_output_language(self):
         """Test that output_language can be set to 'th' (Thai)."""
         request = TradeSafetyCheckRequest(
-            input_text="[WTS] K-pop goods for sale",
-            output_language="th"
+            input_text="[WTS] K-pop goods for sale", output_language="th"
         )
         self.assertEqual(request.output_language, "th")
 
     def test_request_with_vietnamese_output_language(self):
         """Test that output_language can be set to 'vi' (Vietnamese)."""
         request = TradeSafetyCheckRequest(
-            input_text="[WTS] K-pop goods for sale",
-            output_language="vi"
+            input_text="[WTS] K-pop goods for sale", output_language="vi"
         )
         self.assertEqual(request.output_language, "vi")
 
     def test_request_with_tagalog_output_language(self):
         """Test that output_language can be set to 'tl' (Tagalog/Filipino)."""
         request = TradeSafetyCheckRequest(
-            input_text="[WTS] K-pop goods for sale",
-            output_language="tl"
+            input_text="[WTS] K-pop goods for sale", output_language="tl"
         )
         self.assertEqual(request.output_language, "tl")
 
     def test_request_with_url_input(self):
         """Test that input_text accepts URL format."""
         request = TradeSafetyCheckRequest(
-            input_text="https://www.reddit.com/",
-            output_language="en"
+            input_text="https://www.reddit.com/", output_language="en"
         )
         self.assertEqual(request.input_text, "https://www.reddit.com/")
         self.assertEqual(request.output_language, "en")
@@ -91,8 +82,7 @@ class TestTradeSafetyCheckRequest(unittest.TestCase):
     def test_request_with_url_and_korean_language(self):
         """Test that URL input works with Korean output language."""
         request = TradeSafetyCheckRequest(
-            input_text="https://www.reddit.com/",
-            output_language="ko"
+            input_text="https://www.reddit.com/", output_language="ko"
         )
         self.assertEqual(request.input_text, "https://www.reddit.com/")
         self.assertEqual(request.output_language, "ko")
@@ -109,8 +99,7 @@ class TestTradeSafetyCheckRequest(unittest.TestCase):
     def test_request_serialization_includes_output_language(self):
         """Test that serialized request includes output_language field."""
         request = TradeSafetyCheckRequest(
-            input_text="[WTS] K-pop goods for sale",
-            output_language="ko"
+            input_text="[WTS] K-pop goods for sale", output_language="ko"
         )
         data = request.model_dump()
         self.assertIn("output_language", data)
