@@ -78,7 +78,7 @@ When performing a code review, respond in Korean.
 ## Pull Request 작성 가이드
 
 ### 제목
-- Conventional Commits 형식으로 72자 이내 영문 작성: `<type>(<scope>): <subject>`
+- Conventional Commits 형식으로 72자 이내 한국어 작성: `<type>(<scope>): <한국어 제목>`
 
 ### 설명 구조
 1. **요약 (한글, 1-2문장)** - 사용자 관점에서 무엇이 달라지는지 요약, 중요한 키워드 **볼드** 처리
