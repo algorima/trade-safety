@@ -15,6 +15,7 @@ import logging
 from aioia_core.settings import OpenAIAPISettings
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
+from urllib.parse import urlparse
 
 from trade_safety.prompts import TRADE_SAFETY_SYSTEM_PROMPT
 from trade_safety.schemas import TradeSafetyAnalysis
@@ -141,16 +142,19 @@ class TradeSafetyService:
         # Step 1: Validate input
         self._validate_input(input_text)
 
+        # Step 2: Validate URL
+        self._validate_URL(input_text)
+
         logger.info(
             "Starting trade analysis: text_length=%d",
             len(input_text),
         )
 
-        # Step 2: Build prompts
+        # Step 3: Build prompts
         system_prompt = self._build_system_prompt()
         user_prompt = self._build_user_prompt(input_text)
 
-        # Step 3: Call LLM with structured output
+        # Step 4: Call LLM with structured output
         # with_structured_output uses OpenAI's Structured Outputs feature,
         # which guarantees the response adheres to the TradeSafetyAnalysis schema
         logger.debug("Calling LLM for trade analysis (%d chars)", len(user_prompt))
@@ -245,3 +249,30 @@ class TradeSafetyService:
             "Input validation passed: text_length=%d",
             len(input_text),
         )
+
+    def _validate_URL(self, input_text: str) -> None:
+        """
+        Validate input text is URL?
+
+        Args:
+            input_text: Trade Post text
+
+        Returns:
+
+        """
+        text = input_text.strip()
+
+        # use to urlparse
+        try:
+            parsed = urlparse(text)
+            if parsed.scheme in ('http', 'https') and parsed.netloc:
+                # URL - true
+                logger.warning("URL input detected: %s", text[:100])
+                raise ValueError(
+                    "URL input is not supported yet. "
+                    "Please copy and paste the trade post text content instead of the URL."
+                )
+        except Exception as e:
+            logger.debug("URL parsing failed, treating as text: %s", e)
+            # error -> general text
+            pass
