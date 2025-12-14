@@ -32,7 +32,7 @@ export function TranslationSection({
               <h4 className="mb-2 text-lg font-semibold">
                 {t("result.translationTitle")}
               </h4>
-              <p className="whitespace-pre-wrap text-neutral-content">
+              <p className="whitespace-pre-wrap text-base-content/70">
                 {translation}
               </p>
             </div>
@@ -43,7 +43,7 @@ export function TranslationSection({
               <h4 className="mb-2 text-lg font-semibold">
                 {t("result.nuanceTitle")}
               </h4>
-              <p className="whitespace-pre-wrap text-neutral-content">
+              <p className="whitespace-pre-wrap text-base-content/70">
                 {nuance}
               </p>
             </div>

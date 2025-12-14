@@ -74,7 +74,7 @@ export default function TradeSafetyResultPage() {
     <div className="container mx-auto px-6 py-20">
       <div className="mx-auto mb-12 max-w-4xl text-center">
         <h1 className="mb-4 text-4xl font-bold">{t("result.title")}</h1>
-        <p className="text-xl text-neutral-content">{t("result.subtitle")}</p>
+        <p className="text-xl text-base-content/70">{t("result.subtitle")}</p>
       </div>
 
       <DetailedResult

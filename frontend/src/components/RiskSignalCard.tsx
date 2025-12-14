@@ -49,7 +49,7 @@ export function RiskSignalCard({
 
           <div className="flex-1">
             <h4 className="card-title text-xl">{signal.title}</h4>
-            <p className="mt-2 text-neutral-content">{signal.description}</p>
+            <p className="mt-2 text-base-content/70">{signal.description}</p>
 
             {/* What to do */}
             <div className="mt-4 rounded-lg bg-base-100/50 p-4">
