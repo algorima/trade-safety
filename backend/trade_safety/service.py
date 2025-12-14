@@ -143,7 +143,8 @@ class TradeSafetyService:
         self._validate_input(input_text)
 
         # Step 2: Validate URL
-        self._validate_URL(input_text)
+        is_url = self._is_url(input_text)
+        logger.info(f"Is URL? : {is_url}")
 
         logger.info(
             "Starting trade analysis: text_length=%d",
@@ -250,7 +251,7 @@ class TradeSafetyService:
             len(input_text),
         )
 
-    def _validate_URL(self, input_text: str) -> None:
+    def _is_url(self, input_text: str) -> bool:
         """
         Validate input text is URL?
 
@@ -263,16 +264,11 @@ class TradeSafetyService:
         text = input_text.strip()
 
         # use to urlparse
-        try:
-            parsed = urlparse(text)
-            if parsed.scheme in ('http', 'https') and parsed.netloc:
-                # URL - true
-                logger.warning("URL input detected: %s", text[:100])
-                raise ValueError(
-                    "URL input is not supported yet. "
-                    "Please copy and paste the trade post text content instead of the URL."
-                )
-        except Exception as e:
-            logger.debug("URL parsing failed, treating as text: %s", e)
-            # error -> general text
-            pass
+        parsed = urlparse(text)
+
+        if parsed.scheme in ('http', 'https') and parsed.netloc:
+            logger.debug("URL detected: %s", text[:100])
+            return True
+
+        logger.debug("Not a URL, treating as text")
+        return False
