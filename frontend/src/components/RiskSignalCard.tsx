@@ -42,14 +42,16 @@ export function RiskSignalCard({
   const Icon = severityIcon[signal.severity];
 
   return (
-    <div className={clsx("card border-2 backdrop-blur-sm", variantStyles[variant])}>
+    <div
+      className={clsx("card border-2 backdrop-blur-sm", variantStyles[variant])}
+    >
       <div className="card-body">
         <div className="flex items-start gap-4">
           <Icon className={clsx("mt-1 size-8 shrink-0", iconColor[variant])} />
 
           <div className="flex-1">
             <h4 className="card-title text-xl">{signal.title}</h4>
-            <p className="mt-2 text-neutral-content">{signal.description}</p>
+            <p className="mt-2 text-base-content/70">{signal.description}</p>
 
             {/* What to do */}
             <div className="mt-4 rounded-lg bg-base-100/50 p-4">

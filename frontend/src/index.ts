@@ -22,7 +22,4 @@ export * from "./types";
 
 // i18n - Export namespace constant and translations for library integration
 // Note: These exports are from a server-safe module (no React dependencies)
-export {
-  TRADE_SAFETY_NS,
-  tradeSafetyTranslations,
-} from "./i18n/translations";
+export { TRADE_SAFETY_NS, tradeSafetyTranslations } from "./i18n/translations";
