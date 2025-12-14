@@ -22,7 +22,7 @@ npm install trade-safety @aioia/core
 ```tsx
 import { DetailedResult } from "trade-safety";
 
-<DetailedResult analysis={analysis} expertAdvice={expertAdvice} />;
+<DetailedResult analysis={analysis} expertAdvice={expertAdvice} />
 ```
 
 ### Repository
