@@ -1,5 +1,5 @@
 <!--
-제목 형식: <type>(<scope>): <subject within 72 chars>
+제목 형식: <type>(<scope>): <한국어 제목 (72자 이내)>
 
 <type>:
   - feat: 새로운 기능 추가

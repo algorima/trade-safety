@@ -21,7 +21,7 @@ npm run build
 
 1. Feature 브랜치 생성
 2. 코드 작성 + 테스트
-3. Conventional Commits 형식
+3. Conventional Commits 형식 (제목은 한국어)
 4. PR 생성 (CLA 서명 필요)
 
 ## 브랜치 네이밍
