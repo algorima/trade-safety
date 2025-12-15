@@ -20,6 +20,7 @@ from urllib.parse import urlparse
 from trade_safety.prompts import TRADE_SAFETY_SYSTEM_PROMPT
 from trade_safety.schemas import TradeSafetyAnalysis
 from trade_safety.settings import TradeSafetyModelSettings
+from trade_safety.twitter_extract_text_service import TwitterService
 
 logger = logging.getLogger(__name__)
 
@@ -97,6 +98,7 @@ class TradeSafetyService:
             strict=True,  # Enforce enum constraints and schema validation
         )
         self.system_prompt = system_prompt
+        self.twitter_service = TwitterService()
 
     # ==========================================
     # Main Analysis Method
@@ -144,16 +146,22 @@ class TradeSafetyService:
 
         # Step 2: Validate URL
         is_url = self._is_url(input_text)
-        logger.info(f"Is URL? : {is_url}")
+        if is_url:
+            logger.info("URL detected, fetching content from: %s", input_text[:100])
+            content = self._fetch_url_content(input_text)
+            logger.info("Fetched content length: %d chars", len(content))
+        else:
+            logger.info("Text input detected, using as-is")
+            content = input_text
 
         logger.info(
             "Starting trade analysis: text_length=%d",
-            len(input_text),
+            len(content),
         )
 
         # Step 3: Build prompts
         system_prompt = self._build_system_prompt()
-        user_prompt = self._build_user_prompt(input_text)
+        user_prompt = self._build_user_prompt(content)
 
         # Step 4: Call LLM with structured output
         # with_structured_output uses OpenAI's Structured Outputs feature,
@@ -272,3 +280,28 @@ class TradeSafetyService:
 
         logger.debug("Not a URL, treating as text")
         return False
+
+    def _fetch_url_content(self, url: str) -> str:
+        """
+        Fetch content from URL.
+
+        Args:
+            url: URL to fetch content from
+
+        Returns:
+            str: Text content from the URL
+
+        Raises:
+            ValueError: If URL fetch fails or returns error status
+        """
+
+        # X(트위터) URL인지 먼저 판별
+        if TwitterService.is_twitter_url(url):
+            logger.info("Detected Twitter/X URL, using TwitterService")
+            return self.twitter_service.fetch_tweet_content(url)
+
+        logger.warning("Unsupported URL type: %s", url)
+        raise ValueError(
+            f"Unsupported URL. Currently only Twitter/X URLs are supported. "
+            f"Please paste the text content directly instead of the URL."
+        )
