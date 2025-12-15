@@ -56,7 +56,7 @@ export function QuickResultTeaser({
       <div className="card bg-base-200 shadow-xl">
         <div className="card-body items-center text-center">
           <h2 className="card-title text-2xl">{t("result.signupRequired")}</h2>
-          <p className="mb-4 text-neutral-content">
+          <p className="mb-4 text-base-content/70">
             {t("result.signupMessage")}
           </p>
           <Link

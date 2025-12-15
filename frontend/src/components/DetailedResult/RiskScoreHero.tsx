@@ -69,7 +69,7 @@ export function RiskScoreHero({ score }: RiskScoreHeroProps) {
             </div>
           </div>
 
-          <p className="mt-6 max-w-lg text-xl text-neutral-content">
+          <p className="mt-6 max-w-lg text-xl text-base-content/70">
             {t(`result.riskLevel.${risk.level}.message`)}
           </p>
         </div>
