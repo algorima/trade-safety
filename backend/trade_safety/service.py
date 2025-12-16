@@ -101,9 +101,11 @@ class TradeSafetyService:
     # Main Analysis Method
     # ==========================================
 
+    # pylint: disable=unused-argument
     async def analyze_trade(
         self,
         input_text: str,
+        output_language: str = "en",  # TODO: Use in prompt (separate PR)
     ) -> TradeSafetyAnalysis:
         """
         Analyze a trade post for safety issues using LLM.
@@ -117,6 +119,7 @@ class TradeSafetyService:
 
         Args:
             input_text: Trade post text or URL to analyze
+            output_language: Language for analysis results (default: "en")
 
         Returns:
             TradeSafetyAnalysis: Complete analysis including:

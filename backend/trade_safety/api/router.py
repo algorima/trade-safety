@@ -39,9 +39,13 @@ logger = logging.getLogger(__name__)
 
 
 class TradeSafetyCheckRequest(BaseModel):
-    """Public API request for creating a trade safety check (user input only)"""
+    """Public API request for creating a trade safety check
+    with optional output language selection for analysis results."""
 
     input_text: str = Field(description="Trade post URL or text")
+    output_language: str = Field(
+        default="en", description="Output language for analysis results"
+    )
 
 
 class SingleItemResponseModel(BaseModel):
@@ -175,6 +179,7 @@ class TradeSafetyRouter(
                     )
                 analysis = await service.analyze_trade(
                     input_text=request.input_text,
+                    output_language=request.output_language,
                 )
 
                 # Step 2: Convert API Request → Domain Create schema (type-safe!)
