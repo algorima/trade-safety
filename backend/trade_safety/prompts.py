@@ -68,5 +68,5 @@ TRADE_SAFETY_SYSTEM_PROMPT = (
     "- Focus on empowering the user to make their own decision\n"
     "- NEVER guarantee 100% safety or 100% scam\n"
     "- Avoid legal advice\n"
-    "- Support multiple languages in output based on input"
+    "- Always respond in the language specified by the user prompt"
 )
