@@ -101,11 +101,10 @@ class TradeSafetyService:
     # Main Analysis Method
     # ==========================================
 
-    # pylint: disable=unused-argument
     async def analyze_trade(
         self,
         input_text: str,
-        output_language: str = "en",  # TODO: Use in prompt (separate PR)
+        output_language: str = "en",
     ) -> TradeSafetyAnalysis:
         """
         Analyze a trade post for safety issues using LLM.
@@ -151,7 +150,7 @@ class TradeSafetyService:
 
         # Step 2: Build prompts
         system_prompt = self._build_system_prompt()
-        user_prompt = self._build_user_prompt(input_text)
+        user_prompt = self._build_user_prompt(input_text, output_language)
 
         # Step 3: Call LLM with structured output
         # with_structured_output uses OpenAI's Structured Outputs feature,
@@ -203,22 +202,26 @@ class TradeSafetyService:
     def _build_user_prompt(
         self,
         input_text: str,
+        output_language: str,
     ) -> str:
         """
         Build user prompt with trade post content.
 
         Args:
             input_text: Trade post text/URL
+            output_language: Language for analysis results
 
         Returns:
             The input text to be analyzed
         """
+        prompt = f"Analyze the following trade post and respond in {output_language}:\n\n{input_text}"
+
         logger.debug(
             "Built user prompt: text_length=%d",
-            len(input_text),
+            len(prompt),
         )
 
-        return input_text
+        return prompt
 
     # ==========================================
     # Input Validation
