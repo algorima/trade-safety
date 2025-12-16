@@ -59,6 +59,7 @@ local_settings.py
 
 # Local database
 local_database.db
+local_database.db-journal
 
 # Flask stuff:
 instance/
