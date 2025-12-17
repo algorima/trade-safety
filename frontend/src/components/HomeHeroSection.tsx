@@ -55,7 +55,7 @@ export function HomeHeroSection({
               }}
             />
             <button
-              className="btn btn-neutral absolute right-2 top-1/2 h-[56px] min-h-0 -translate-y-1/2 px-6 font-bold text-neutral-content"
+              className="btn btn-neutral absolute right-2 top-1/2 h-[56px] min-h-0 -translate-y-1/2 !animate-none px-6 font-bold text-neutral-content"
               onClick={onSubmit}
               disabled={isButtonDisabled}
             >
@@ -79,13 +79,15 @@ export function HomeHeroSection({
                 </div>
               )}
 
-              <textarea
-                className="textarea size-full resize-none bg-transparent p-4 pb-24 leading-6 text-base-content focus:outline-none"
-                value={value}
-                onChange={(e) => onChange(e.target.value)}
-                disabled={isLoading}
-                placeholder=""
-              />
+              <div className="absolute inset-0 overflow-hidden pb-24">
+                <textarea
+                  className="textarea size-full resize-none overflow-auto bg-transparent p-4 leading-6 text-base-content focus:outline-none"
+                  value={value}
+                  onChange={(e) => onChange(e.target.value)}
+                  disabled={isLoading}
+                  placeholder=""
+                />
+              </div>
 
               <div className="absolute inset-x-4 bottom-4 z-10">
                 <button
