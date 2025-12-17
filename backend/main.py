@@ -9,7 +9,7 @@ Usage:
 Environment Variables:
     DATABASE_URL: PostgreSQL database URL
     OPENAI_API_KEY: OpenAI API key
-    TRADE_SAFETY_MODEL: OpenAI model name (default: gpt-4o-2024-11-20)
+    TRADE_SAFETY_MODEL: OpenAI model name (default: gpt-5.2)
     JWT_SECRET_KEY: JWT secret key (default: dev-secret for development)
     LOG_LEVEL: Logging level (default: INFO)
 """
