@@ -4,8 +4,6 @@ import { useParams } from "next/navigation";
 import { useMemo, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { DetailedResult } from "@/components/DetailedResult";
-import { QuickResultTeaser } from "@/components/QuickResultTeaser";
 import { TRADE_SAFETY_NS } from "@/i18n";
 import { TradeSafetyRepository } from "@/repositories/TradeSafetyRepository";
 import type { TradeSafetyCheckRepositoryResponse } from "@/repositories/TradeSafetyRepository";
@@ -61,15 +59,6 @@ export default function TradeSafetyResultPage() {
     );
   }
 
-  // Check if it's a quick summary (non-authenticated user)
-  if ("signup_required" in result) {
-    return (
-      <div className="container mx-auto px-6 py-20">
-        <QuickResultTeaser summary={result.quick_summary} checkId={checkId} />
-      </div>
-    );
-  }
-
   // Detailed result
   return (
     <div className="container mx-auto px-6 py-20">
@@ -77,11 +66,6 @@ export default function TradeSafetyResultPage() {
         <h1 className="mb-4 text-4xl font-bold">{t("result.title")}</h1>
         <p className="text-xl text-base-content/70">{t("result.subtitle")}</p>
       </div>
-
-      <DetailedResult
-        analysis={result.llm_analysis}
-        expertAdvice={result.expert_advice}
-      />
     </div>
   );
 }
