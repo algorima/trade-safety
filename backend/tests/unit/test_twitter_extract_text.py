@@ -270,7 +270,7 @@ class TestTwitterService(unittest.TestCase):
     def test_fetch_tweet_content_real_request(self):
         """Test fetching actual tweet content from Twitter API with real HTTP request."""
         # Given: Real Twitter URL
-        url = "https://x.com/1eeyeon__/status/2000554827546521867"
+        url = "https://x.com/mkticket7/status/2000111727493718384?s=20"
 
         try:
             # When: fetch_tweet_content is called with real HTTP request
@@ -286,7 +286,7 @@ class TestTwitterService(unittest.TestCase):
             self.assertIn('티켓', result)  # Ticket keyword
 
             print(f"\n✅ Successfully fetched tweet content: {len(result)} chars")
-            print(f"✅ Tweet preview: {result[:200]}...")
+            print(f"✅ Tweet preview: {result}...")
 
         except ValueError as e:
             # If Twitter API requires authentication or rate limits

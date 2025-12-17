@@ -12,6 +12,10 @@ from aioia_core.settings import OpenAIAPISettings
 from trade_safety.service import TradeSafetyService
 from trade_safety.settings import TradeSafetyModelSettings
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 class TestTradeSafetyAnalysis(unittest.TestCase):
     """
@@ -308,6 +312,187 @@ class TestTradeSafetyAnalysis(unittest.TestCase):
             "가격 정보가 제공되었으므로 offered_price가 있어야 합니다",
         )
 
+    def test_analyze_trade_with_twitter_url(self) -> None:
+        """
+        Twitter/X URL을 입력받아 트윗 내용을 추출하고 분석해야 함
+
+        시나리오:
+        - 입력: Twitter/X URL (실제 존재하는 트윗)
+        - 기대 결과: URL에서 트윗 내용을 추출하여 분석 수행
+
+        Note:
+        - 이 테스트는 실제 Twitter API를 호출합니다
+        - Twitter API Bearer Token이 필요합니다 (TWITTER_BEARER_TOKEN 환경변수)
+        - 네트워크 연결이 필요합니다
+        """
+        # Given: 실제 Twitter URL
+        # 예시: K-pop 관련 티켓/굿즈 양도 트윗
+        twitter_url = "https://x.com/mkticket7/status/2000111727493718384"
+
+        # When: Twitter URL로 거래 분석 수행
+        try:
+            analysis = asyncio.run(
+                self.service.analyze_trade(
+                    input_text=twitter_url,
+                )
+            )
+
+            # Then: 분석 결과 검증
+            self.assertIsNotNone(analysis, "분석 결과가 반환되어야 합니다")
+            assert analysis is not None  # Type narrowing for mypy
+
+            # 기본 필드들이 존재해야 함
+            self.assertIsNotNone(
+                analysis.risk_score,
+                "위험 점수가 반환되어야 합니다"
+            )
+            self.assertGreaterEqual(
+                analysis.risk_score,
+                0,
+                "위험 점수는 0 이상이어야 합니다"
+            )
+            self.assertLessEqual(
+                analysis.risk_score,
+                100,
+                "위험 점수는 100 이하여야 합니다"
+            )
+
+            # 안전 체크리스트가 제공되어야 함
+            self.assertIsNotNone(
+                analysis.safety_checklist,
+                "안전 체크리스트가 포함되어야 합니다"
+            )
+            self.assertGreater(
+                len(analysis.safety_checklist),
+                0,
+                "안전 체크리스트에 최소 1개 이상의 항목이 있어야 합니다"
+            )
+
+            # 번역 또는 뉘앙스 설명이 제공되어야 함
+            has_translation = (
+                    analysis.translation is not None
+                    and len(analysis.translation.strip()) > 0
+            )
+            has_nuance = (
+                    analysis.nuance_explanation is not None
+                    and len(analysis.nuance_explanation.strip()) > 0
+            )
+            self.assertTrue(
+                has_translation or has_nuance,
+                "Twitter 콘텐츠에 대한 번역 또는 뉘앙스 설명이 제공되어야 합니다"
+            )
+
+            print("\n✅ Twitter URL 분석 성공")
+            print(f"   Risk Score: {analysis.risk_score}/100")
+            print(f"   Risk Signals: {len(analysis.risk_signals)}개")
+            print(f"   Cautions: {len(analysis.cautions)}개")
+            print(f"   Safe Indicators: {len(analysis.safe_indicators)}개")
+
+        except ValueError as e:
+            # Twitter API 접근 불가 또는 네트워크 에러인 경우 테스트 스킵
+            if "Twitter Bearer Token" in str(e) or "Failed to fetch tweet" in str(e):
+                self.skipTest(f"Twitter API 사용 불가: {e}")
+            else:
+                raise
+
+    def test_analyze_trade_with_reddit_url(self) -> None:
+        """
+        Reddit URL을 입력받아 게시글 내용을 추출하고 분석해야 함
+
+        시나리오:
+        - 입력: Reddit URL (실제 존재하는 게시글)
+        - 기대 결과: URL에서 게시글 내용을 추출하여 분석 수행
+
+        Note:
+        - 이 테스트는 Reddit의 공개 JSON API를 호출합니다
+        - 인증이 필요하지 않습니다
+        - 네트워크 연결이 필요합니다
+        """
+        # Given: 실제 Reddit URL
+        # 예시: 실제 거래 관련 게시글
+        reddit_url = (
+            "https://www.reddit.com/r/mildlyinfuriating/comments/"
+            "1pog0er/got_screwed_over_in_a_white_elephant_gift_exchange/"
+        )
+
+        # When: Reddit URL로 거래 분석 수행
+        try:
+            analysis = asyncio.run(
+                self.service.analyze_trade(
+                    input_text=reddit_url,
+                )
+            )
+
+            # Then: 분석 결과 검증
+            self.assertIsNotNone(analysis, "분석 결과가 반환되어야 합니다")
+            assert analysis is not None  # Type narrowing for mypy
+
+            # 기본 필드들이 존재해야 함
+            self.assertIsNotNone(
+                analysis.risk_score,
+                "위험 점수가 반환되어야 합니다"
+            )
+            self.assertGreaterEqual(
+                analysis.risk_score,
+                0,
+                "위험 점수는 0 이상이어야 합니다"
+            )
+            self.assertLessEqual(
+                analysis.risk_score,
+                100,
+                "위험 점수는 100 이하여야 합니다"
+            )
+
+            # 안전 체크리스트가 제공되어야 함
+            self.assertIsNotNone(
+                analysis.safety_checklist,
+                "안전 체크리스트가 포함되어야 합니다"
+            )
+            self.assertGreater(
+                len(analysis.safety_checklist),
+                0,
+                "안전 체크리스트에 최소 1개 이상의 항목이 있어야 합니다"
+            )
+
+            # 번역 또는 뉘앙스 설명이 제공되어야 함
+            has_translation = (
+                    analysis.translation is not None
+                    and len(analysis.translation.strip()) > 0
+            )
+            has_nuance = (
+                    analysis.nuance_explanation is not None
+                    and len(analysis.nuance_explanation.strip()) > 0
+            )
+            self.assertTrue(
+                has_translation or has_nuance,
+                "Reddit 콘텐츠에 대한 번역 또는 뉘앙스 설명이 제공되어야 합니다"
+            )
+
+            # Reddit 게시글은 일반적으로 긴 텍스트이므로 추가 검증
+            # risk_signals, cautions, safe_indicators 중 하나는 있어야 함
+            total_signals = (
+                    len(analysis.risk_signals)
+                    + len(analysis.cautions)
+                    + len(analysis.safe_indicators)
+            )
+            self.assertGreater(
+                total_signals,
+                0,
+                "Reddit 게시글 분석 시 최소 1개 이상의 신호/주의사항/안전지표가 있어야 합니다"
+            )
+
+            print("\n✅ Reddit URL 분석 성공")
+            print(f"   Risk Score: {analysis.risk_score}/100")
+            print(f"   Risk Signals: {len(analysis.risk_signals)}개")
+            print(f"   Cautions: {len(analysis.cautions)}개")
+            print(f"   Safe Indicators: {len(analysis.safe_indicators)}개")
+
+        except ValueError as e:
+            # Reddit API 접근 불가 또는 네트워크 에러인 경우 테스트 스킵
+            if "Failed to fetch Reddit post" in str(e) or "Post not found" in str(e):
+                self.skipTest(f"Reddit API 사용 불가: {e}")
+            else:
+                raise
 
 if __name__ == "__main__":
     unittest.main()

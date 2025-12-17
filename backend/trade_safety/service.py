@@ -21,6 +21,7 @@ from trade_safety.prompts import TRADE_SAFETY_SYSTEM_PROMPT
 from trade_safety.schemas import TradeSafetyAnalysis
 from trade_safety.settings import TradeSafetyModelSettings
 from trade_safety.twitter_extract_text_service import TwitterService
+from trade_safety.reddit_extract_text_service import RedditService
 
 logger = logging.getLogger(__name__)
 
@@ -99,6 +100,7 @@ class TradeSafetyService:
         )
         self.system_prompt = system_prompt
         self.twitter_service = TwitterService()
+        self.reddit_service = RedditService()
 
     # ==========================================
     # Main Analysis Method
@@ -299,6 +301,10 @@ class TradeSafetyService:
         if TwitterService.is_twitter_url(url):
             logger.info("Detected Twitter/X URL, using TwitterService")
             return self.twitter_service.fetch_tweet_content(url)
+
+        if RedditService.is_reddit_url(url):
+            logger.info("Detected Reddit URL, using RedditService")
+            return self.reddit_service.fetch_post_content(url)
 
         logger.warning("Unsupported URL type: %s", url)
         raise ValueError(
