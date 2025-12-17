@@ -26,7 +26,7 @@ export function RecommendationSection({
       <div className="card bg-base-200 shadow-xl">
         <div className="card-body">
           <div className="prose max-w-none">
-            <p className="whitespace-pre-wrap text-lg text-neutral-content">
+            <p className="whitespace-pre-wrap text-lg text-base-content/70">
               {recommendation}
             </p>
           </div>

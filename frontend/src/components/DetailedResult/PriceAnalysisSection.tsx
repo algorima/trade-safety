@@ -57,7 +57,7 @@ export function PriceAnalysisSection({ data }: PriceAnalysisSectionProps) {
             <h4 className="mb-2 text-lg font-semibold">
               {t("result.priceAssessment")}
             </h4>
-            <p className="text-neutral-content">{data.price_assessment}</p>
+            <p className="text-base-content/70">{data.price_assessment}</p>
           </div>
 
           {/* Warnings */}
@@ -69,7 +69,7 @@ export function PriceAnalysisSection({ data }: PriceAnalysisSectionProps) {
               </h4>
               <ul className="list-inside list-disc space-y-1">
                 {data.warnings.map((warning, index) => (
-                  <li key={index} className="text-neutral-content">
+                  <li key={index} className="text-base-content/70">
                     {warning}
                   </li>
                 ))}

@@ -24,7 +24,7 @@ export function SafetyChecklistSection({ items }: SafetyChecklistSectionProps) {
 
       <div className="card border-2 border-primary/30 bg-base-200">
         <div className="card-body">
-          <p className="mb-6 text-lg text-neutral-content">
+          <p className="mb-6 text-lg text-base-content/70">
             {t("result.checklistDescription")}
           </p>
 
