@@ -18,7 +18,7 @@ from langchain_openai import ChatOpenAI
 
 from trade_safety.prompts import TRADE_SAFETY_SYSTEM_PROMPT
 from trade_safety.schemas import TradeSafetyAnalysis
-from trade_safety.settings import TradeSafetyModelSettings
+from trade_safety.settings import TradeSafetyModelSettings, ALLOWED_LANGUAGES 
 
 logger = logging.getLogger(__name__)
 
@@ -141,7 +141,7 @@ class TradeSafetyService:
             Risk: 35/100
         """
         # Step 1: Validate input
-        self._validate_input(input_text)
+        self._validate_input(input_text, output_language)
 
         logger.info(
             "Starting trade analysis: text_length=%d",
@@ -227,7 +227,7 @@ class TradeSafetyService:
     # Input Validation
     # ==========================================
 
-    def _validate_input(self, input_text: str) -> None:
+    def _validate_input(self, input_text: str, output_language: str) -> None:
         """
         Validate input parameters before analysis.
 
@@ -237,6 +237,11 @@ class TradeSafetyService:
         Raises:
             ValueError: If input validation fails
         """
+        if output_language.upper() not in ALLOWED_LANGUAGES:
+            error_msg = f"Invalid output_language: {output_language} (allowed: {ALLOWED_LANGUAGES})"
+            logger.error("Validation failed: %s", error_msg)
+            raise ValueError(error_msg)
+
         if not input_text or not input_text.strip():
             error_msg = "input_text cannot be empty"
             logger.error("Validation failed: %s", error_msg)
