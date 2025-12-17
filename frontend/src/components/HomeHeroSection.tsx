@@ -45,6 +45,7 @@ export function HomeHeroSection({
               type="text"
               className="input input-bordered h-[72px] w-full pr-36 text-sm placeholder:text-base-300 focus:outline-none"
               placeholder={t("hero.placeholder")}
+              aria-label={t("hero.placeholder")}
               value={value}
               onChange={(e) => onChange(e.target.value)}
               disabled={isLoading}
@@ -83,6 +84,7 @@ export function HomeHeroSection({
                 <textarea
                   className="textarea size-full resize-none overflow-auto bg-transparent p-4 leading-6 text-base-content focus:outline-none"
                   value={value}
+                  aria-label={t("hero.placeholder")}
                   onChange={(e) => onChange(e.target.value)}
                   disabled={isLoading}
                   placeholder=""
@@ -113,8 +115,22 @@ export function HomeHeroSection({
         </p>
 
         <div className="flex items-center justify-start gap-6 sm:justify-center">
-          <FaXTwitter className="size-6 text-base-content transition-colors hover:text-base-content/70" />
-          <FaReddit className="size-6 text-base-content transition-colors hover:text-base-content/70" />
+          <a
+            href="x.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="X"
+          >
+            <FaXTwitter className="size-6 text-base-content transition-colors hover:text-base-content/70" />
+          </a>
+          <a
+            href="reddit.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Reddit"
+          >
+            <FaReddit className="size-6 text-base-content transition-colors hover:text-base-content/70" />
+          </a>
         </div>
       </div>
     </div>
