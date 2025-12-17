@@ -1,14 +1,16 @@
 {
   "hero": {
-    "title": "Khawatir Tentang Transaksi?",
-    "subtitle": "Alat verifikasi keamanan transaksi untuk penggemar K-pop global. AI menganalisis hambatan bahasa, risiko penipuan, dan keadilan harga dalam 30 detik.",
-    "placeholder": "Tempel teks atau URL postingan transaksi...\n\nContoh:\n급처분 ㅠㅠ 공구 실패해서 양도해요\nBTS Jimin photocard 무탈 DM\n\nAtau:\nhttps://twitter.com/...",
+    "title": "Tempelkan Konten Transaksi",
+    "subtitle": "Kami menganalisis postingan perdagangan barang K-pop di X dan Reddit untuk mengidentifikasi risiko penipuan",
+    "placeholder": "Salin dan tempel konten transaksi, atau masukkan tautan postingan",
+    "placeholderExample": "Contoh:\nwts lfb\nseventeen assorted pcs\n100ea!\nif getting jh ww mg 2:1 to doremiz\ncan meetup at ammb on sat\nwtt lft ph\nsvt stf fts fml dagat burstday heaven",
     "advancedOptions": "Opsi Lanjutan (Opsional)",
     "amountPlaceholder": "Jumlah Transaksi (USD)",
-    "checkSafety": "Periksa Keamanan",
+    "checkSafety": "Analisis",
     "analyzing": "Menganalisis...",
     "analyzingDescription": "AI sedang menganalisis bahasa, sinyal penipuan, dan harga...",
-    "tryExample": "Coba contoh"
+    "tryExample": "Coba contoh",
+    "disclaimer": "Hasil analisis AI hanya untuk referensi dan mungkin tidak 100% akurat. Layanan ini tidak memberikan jaminan atau kompensasi untuk kerugian transaksi."
   },
   "features": {
     "title": "AI Menganalisis <1>3 Hal Secara Bersamaan</1>",
