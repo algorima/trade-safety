@@ -311,6 +311,6 @@ class TradeSafetyService:
 
         logger.warning("Unsupported URL type: %s", url)
         raise ValueError(
-            f"Unsupported URL. Currently only Twitter/X URLs are supported. "
-            f"Please paste the text content directly instead of the URL."
+            "Unsupported URL. Currently only Twitter/X and Reddit URLs are supported."
+            "Please paste the text content directly instead of the URL."
         )

@@ -40,6 +40,7 @@ app.include_router(router, prefix="/api")
 ```bash
 export DATABASE_URL=postgresql://...
 export OPENAI_API_KEY=sk-...
+export TWITTER_BEARER_TOKEN=..
 ```
 
 ---
