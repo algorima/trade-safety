@@ -116,7 +116,7 @@ export function HomeHeroSection({
 
         <div className="flex items-center justify-start gap-6 sm:justify-center">
           <a
-            href="x.com"
+            href="https://x.com"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="X"
@@ -124,7 +124,7 @@ export function HomeHeroSection({
             <FaXTwitter className="size-6 text-base-content transition-colors hover:text-base-content/70" />
           </a>
           <a
-            href="reddit.com"
+            href="https://reddit.com"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Reddit"
