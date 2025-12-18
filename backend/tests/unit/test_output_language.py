@@ -1,10 +1,12 @@
 """Unit tests for TradeSafetyCheckRequest API schema."""
 
 import unittest
+from unittest.mock import MagicMock, patch
 
 from pydantic import ValidationError
 
 from trade_safety.api.router import TradeSafetyCheckRequest
+from trade_safety.service import TradeSafetyService
 
 
 class TestTradeSafetyCheckRequest(unittest.TestCase):
@@ -112,7 +114,6 @@ class TestServiceLanguageValidation(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures with mocked dependencies."""
-        from unittest.mock import MagicMock, patch
 
         self.mock_openai_settings = MagicMock()
         self.mock_openai_settings.api_key = "test-api-key"
@@ -129,7 +130,6 @@ class TestServiceLanguageValidation(unittest.TestCase):
 
     def test_validate_input_raises_valueerror_for_invalid_language(self):
         """Test that ValueError is raised for invalid output_language."""
-        from trade_safety.service import TradeSafetyService
 
         service = TradeSafetyService(
             self.mock_openai_settings, self.mock_model_settings

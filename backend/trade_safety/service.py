@@ -236,6 +236,7 @@ class TradeSafetyService:
 
         Args:
             input_text: Trade post text
+            output_language: Language code for analysis results
 
         Raises:
             ValueError: If input validation fails

@@ -10,7 +10,7 @@ from decimal import Decimal
 from aioia_core.settings import OpenAIAPISettings
 
 from trade_safety.service import TradeSafetyService
-from trade_safety.settings import TradeSafetyModelSettings
+from trade_safety.settings import ALLOWED_LANGUAGES, TradeSafetyModelSettings
 
 
 class TestTradeSafetyAnalysis(unittest.TestCase):
@@ -715,7 +715,6 @@ class TestOutputLanguageCompliance(unittest.TestCase):
         
         비율 기반 검증: 각 언어별로 80% 이상의 필드가 해당 언어로 작성되면 통과
         """
-        from trade_safety.settings import ALLOWED_LANGUAGES
 
         # 모든 지원 언어 테스트
         test_languages = ["EN", "KO", "ES", "ID", "JA", "ZH", "TH", "VI", "TL"]
