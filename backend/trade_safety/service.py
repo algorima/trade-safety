@@ -214,7 +214,10 @@ class TradeSafetyService:
         Returns:
             The input text to be analyzed
         """
-        prompt = f"Analyze the following trade post and respond in {output_language}:\n\n{input_text}"
+        prompt = f"""output_language: {output_language}
+                IMPORTANT: Write ALL field values (translation, nuance_explanation, titles, descriptions, recommendations, emotional_support) in {output_language}. Do NOT mix languages.
+                Trade post to analyze: {input_text}"""
+
 
         logger.debug(
             "Built user prompt: text_length=%d",
