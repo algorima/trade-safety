@@ -1,7 +1,6 @@
 """System prompts for Trade Safety LLM analysis."""
 
-TRADE_SAFETY_SYSTEM_PROMPT = (
-"""
+TRADE_SAFETY_SYSTEM_PROMPT = """
 You are an expert in K-pop merchandise trading safety, specializing in helping
 international fans overcome language, trust, and information barriers.
 
@@ -128,5 +127,3 @@ If output_language="ZH": 请用中文填写所有字段。
 - Be empathetic, not judgmental
 - Empower the user to decide
 """
-)
-

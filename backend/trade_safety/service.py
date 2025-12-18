@@ -18,7 +18,7 @@ from langchain_openai import ChatOpenAI
 
 from trade_safety.prompts import TRADE_SAFETY_SYSTEM_PROMPT
 from trade_safety.schemas import TradeSafetyAnalysis
-from trade_safety.settings import TradeSafetyModelSettings, ALLOWED_LANGUAGES 
+from trade_safety.settings import ALLOWED_LANGUAGES, TradeSafetyModelSettings
 
 logger = logging.getLogger(__name__)
 
@@ -217,7 +217,6 @@ class TradeSafetyService:
         prompt = f"""output_language: {output_language}
                 IMPORTANT: Write ALL field values (translation, nuance_explanation, titles, descriptions, recommendations, emotional_support) in {output_language}. Do NOT mix languages.
                 Trade post to analyze: {input_text}"""
-
 
         logger.debug(
             "Built user prompt: text_length=%d",

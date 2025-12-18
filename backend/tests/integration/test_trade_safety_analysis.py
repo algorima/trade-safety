@@ -308,6 +308,7 @@ class TestTradeSafetyAnalysis(unittest.TestCase):
             "가격 정보가 제공되었으므로 offered_price가 있어야 합니다",
         )
 
+
 class TestOutputLanguageCompliance(unittest.TestCase):
     """
     통합 테스트: LLM이 output_language 파라미터에 맞는 언어로 응답하는지 검증
@@ -349,19 +350,19 @@ class TestOutputLanguageCompliance(unittest.TestCase):
         """
         if not text or len(text.strip()) < 5:
             return None
-        
+
         sample = text.strip()[:200]
-        
-        # 각 언어의 문자 수 카운트
-        counts = {
-            "ko": 0,  # 한글: AC00-D7AF (가-힣), 1100-11FF (자모)
-            "ja": 0,  # 일본어: 3040-309F (히라가나), 30A0-30FF (가타카나)
-            "zh": 0,  # 중국어: 4E00-9FFF (CJK 한자)
-            "th": 0,  # 태국어: 0E00-0E7F
-            "vi": 0,  # 베트남어: 라틴 + 성조 부호 (1EA0-1EF9)
-            "en": 0,  # 영어/라틴: 0041-007A
+
+        # 각 언어의 문자 수 카운트 (float: 일본어 한자 가중치 때문)
+        counts: dict[str, float] = {
+            "ko": 0.0,  # 한글: AC00-D7AF (가-힣), 1100-11FF (자모)
+            "ja": 0.0,  # 일본어: 3040-309F (히라가나), 30A0-30FF (가타카나)
+            "zh": 0.0,  # 중국어: 4E00-9FFF (CJK 한자)
+            "th": 0.0,  # 태국어: 0E00-0E7F
+            "vi": 0.0,  # 베트남어: 라틴 + 성조 부호 (1EA0-1EF9)
+            "en": 0.0,  # 영어/라틴: 0041-007A
         }
-        
+
         for char in sample:
             code = ord(char)
             if 0xAC00 <= code <= 0xD7AF or 0x1100 <= code <= 0x11FF:
@@ -377,12 +378,12 @@ class TestOutputLanguageCompliance(unittest.TestCase):
                 counts["vi"] += 1
             elif 0x0041 <= code <= 0x007A:
                 counts["en"] += 1
-        
+
         # 가장 많은 언어 반환
         if max(counts.values()) == 0:
             # 라틴 문자 기반 언어 (ES, ID, TL 등)는 영어로 분류됨
             return "en"
-        
+
         detected = max(counts, key=lambda k: counts[k])
         return detected
 
@@ -417,7 +418,7 @@ class TestOutputLanguageCompliance(unittest.TestCase):
     def _get_all_text_fields_to_check(self, analysis) -> list[tuple[str, str | None]]:
         """
         프롬프트 로직에 따라 언어 검증이 필요한 모든 텍스트 필드를 수집합니다.
-        
+
         프롬프트에서 명시한 검증 대상:
         - translation, nuance_explanation
         - risk_signals의 title, description, what_to_do
@@ -428,41 +429,46 @@ class TestOutputLanguageCompliance(unittest.TestCase):
         - recommendation, emotional_support
         """
         fields: list[tuple[str, str | None]] = []
-        
+
         # 기본 필드들
         fields.append(("recommendation", analysis.recommendation))
         fields.append(("emotional_support", analysis.emotional_support))
         fields.append(("nuance_explanation", analysis.nuance_explanation))
-        
+
         # risk_signals 내부 필드들
         for i, signal in enumerate(analysis.risk_signals):
             fields.append((f"risk_signals[{i}].title", signal.title))
             fields.append((f"risk_signals[{i}].description", signal.description))
             fields.append((f"risk_signals[{i}].what_to_do", signal.what_to_do))
-        
+
         # cautions 내부 필드들
         for i, caution in enumerate(analysis.cautions):
             fields.append((f"cautions[{i}].title", caution.title))
             fields.append((f"cautions[{i}].description", caution.description))
             fields.append((f"cautions[{i}].what_to_do", caution.what_to_do))
-        
+
         # safe_indicators 내부 필드들
         for i, indicator in enumerate(analysis.safe_indicators):
             fields.append((f"safe_indicators[{i}].title", indicator.title))
             fields.append((f"safe_indicators[{i}].description", indicator.description))
             fields.append((f"safe_indicators[{i}].what_to_do", indicator.what_to_do))
-        
+
         # price_analysis 필드들
         if analysis.price_analysis:
-            fields.append(("price_analysis.price_assessment", analysis.price_analysis.price_assessment))
+            fields.append(
+                (
+                    "price_analysis.price_assessment",
+                    analysis.price_analysis.price_assessment,
+                )
+            )
             if analysis.price_analysis.warnings:
                 for i, warning in enumerate(analysis.price_analysis.warnings):
                     fields.append((f"price_analysis.warnings[{i}]", warning))
-        
+
         # safety_checklist
         for i, item in enumerate(analysis.safety_checklist):
             fields.append((f"safety_checklist[{i}]", item))
-        
+
         return fields
 
     def _check_language_compliance_ratio(
@@ -470,7 +476,7 @@ class TestOutputLanguageCompliance(unittest.TestCase):
     ) -> tuple[float, int, int, list[str]]:
         """
         언어 일치 비율을 계산합니다.
-        
+
         Returns:
             (match_ratio, matched_count, total_count, failed_fields)
         """
@@ -478,7 +484,7 @@ class TestOutputLanguageCompliance(unittest.TestCase):
         matched_count = 0
         total_count = 0
         failed_fields = []
-        
+
         for field_name, field_value in fields_to_check:
             if field_value and len(str(field_value).strip()) > 20:
                 total_count += 1
@@ -486,17 +492,15 @@ class TestOutputLanguageCompliance(unittest.TestCase):
                 if self._is_language_match(detected, expected_lang):
                     matched_count += 1
                 else:
-                    failed_fields.append(
-                        f"{field_name}: detected={detected}"
-                    )
-        
+                    failed_fields.append(f"{field_name}: detected={detected}")
+
         match_ratio = matched_count / total_count if total_count > 0 else 1.0
         return match_ratio, matched_count, total_count, failed_fields
 
     def test_output_language_english(self) -> None:
         """
         output_language='EN'으로 요청 시 영어로 응답해야 함
-        
+
         비율 기반 검증: 80% 이상의 필드가 영어로 작성되면 통과
         """
         # When
@@ -508,19 +512,22 @@ class TestOutputLanguageCompliance(unittest.TestCase):
         )
 
         # Then: 80% 이상의 필드가 영어로 작성되어야 함
-        ratio, matched, total, failed = self._check_language_compliance_ratio(analysis, "EN")
-        
+        ratio, matched, total, failed = self._check_language_compliance_ratio(
+            analysis, "EN"
+        )
+
         self.assertGreaterEqual(
-            ratio, self.LANGUAGE_MATCH_THRESHOLD,
+            ratio,
+            self.LANGUAGE_MATCH_THRESHOLD,
             f"영어 응답 비율이 {self.LANGUAGE_MATCH_THRESHOLD*100}% 미만입니다. "
             f"실제: {ratio*100:.1f}% ({matched}/{total})\n"
-            f"실패 필드: {failed}"
+            f"실패 필드: {failed}",
         )
 
     def test_output_language_korean(self) -> None:
         """
         output_language='KO'로 요청 시 한국어로 응답해야 함
-        
+
         비율 기반 검증: 80% 이상의 필드가 한국어로 작성되면 통과
         """
         # When
@@ -532,19 +539,22 @@ class TestOutputLanguageCompliance(unittest.TestCase):
         )
 
         # Then: 80% 이상의 필드가 한국어로 작성되어야 함
-        ratio, matched, total, failed = self._check_language_compliance_ratio(analysis, "KO")
-        
+        ratio, matched, total, failed = self._check_language_compliance_ratio(
+            analysis, "KO"
+        )
+
         self.assertGreaterEqual(
-            ratio, self.LANGUAGE_MATCH_THRESHOLD,
+            ratio,
+            self.LANGUAGE_MATCH_THRESHOLD,
             f"한국어 응답 비율이 {self.LANGUAGE_MATCH_THRESHOLD*100}% 미만입니다. "
             f"실제: {ratio*100:.1f}% ({matched}/{total})\n"
-            f"실패 필드: {failed}"
+            f"실패 필드: {failed}",
         )
 
     def test_output_language_japanese(self) -> None:
         """
         output_language='JA'로 요청 시 일본어로 응답해야 함
-        
+
         비율 기반 검증: 80% 이상의 필드가 일본어로 작성되면 통과
         """
         # When
@@ -556,19 +566,22 @@ class TestOutputLanguageCompliance(unittest.TestCase):
         )
 
         # Then: 80% 이상의 필드가 일본어로 작성되어야 함
-        ratio, matched, total, failed = self._check_language_compliance_ratio(analysis, "JA")
-        
+        ratio, matched, total, failed = self._check_language_compliance_ratio(
+            analysis, "JA"
+        )
+
         self.assertGreaterEqual(
-            ratio, self.LANGUAGE_MATCH_THRESHOLD,
+            ratio,
+            self.LANGUAGE_MATCH_THRESHOLD,
             f"일본어 응답 비율이 {self.LANGUAGE_MATCH_THRESHOLD*100}% 미만입니다. "
             f"실제: {ratio*100:.1f}% ({matched}/{total})\n"
-            f"실패 필드: {failed}"
+            f"실패 필드: {failed}",
         )
 
     def test_output_language_chinese(self) -> None:
         """
         output_language='ZH'로 요청 시 중국어로 응답해야 함
-        
+
         비율 기반 검증: 80% 이상의 필드가 중국어로 작성되면 통과
         """
         # When
@@ -580,19 +593,22 @@ class TestOutputLanguageCompliance(unittest.TestCase):
         )
 
         # Then: 80% 이상의 필드가 중국어로 작성되어야 함
-        ratio, matched, total, failed = self._check_language_compliance_ratio(analysis, "ZH")
-        
+        ratio, matched, total, failed = self._check_language_compliance_ratio(
+            analysis, "ZH"
+        )
+
         self.assertGreaterEqual(
-            ratio, self.LANGUAGE_MATCH_THRESHOLD,
+            ratio,
+            self.LANGUAGE_MATCH_THRESHOLD,
             f"중국어 응답 비율이 {self.LANGUAGE_MATCH_THRESHOLD*100}% 미만입니다. "
             f"실제: {ratio*100:.1f}% ({matched}/{total})\n"
-            f"실패 필드: {failed}"
+            f"실패 필드: {failed}",
         )
 
     def test_output_language_spanish(self) -> None:
         """
         output_language='ES'로 요청 시 스페인어로 응답해야 함
-        
+
         비율 기반 검증: 80% 이상의 필드가 스페인어로 작성되면 통과
         """
         # When
@@ -604,19 +620,22 @@ class TestOutputLanguageCompliance(unittest.TestCase):
         )
 
         # Then: 80% 이상의 필드가 스페인어로 작성되어야 함
-        ratio, matched, total, failed = self._check_language_compliance_ratio(analysis, "ES")
-        
+        ratio, matched, total, failed = self._check_language_compliance_ratio(
+            analysis, "ES"
+        )
+
         self.assertGreaterEqual(
-            ratio, self.LANGUAGE_MATCH_THRESHOLD,
+            ratio,
+            self.LANGUAGE_MATCH_THRESHOLD,
             f"스페인어 응답 비율이 {self.LANGUAGE_MATCH_THRESHOLD*100}% 미만입니다. "
             f"실제: {ratio*100:.1f}% ({matched}/{total})\n"
-            f"실패 필드: {failed}"
+            f"실패 필드: {failed}",
         )
 
     def test_output_language_thai(self) -> None:
         """
         output_language='TH'로 요청 시 태국어로 응답해야 함
-        
+
         비율 기반 검증: 80% 이상의 필드가 태국어로 작성되면 통과
         """
         # When
@@ -628,19 +647,22 @@ class TestOutputLanguageCompliance(unittest.TestCase):
         )
 
         # Then: 80% 이상의 필드가 태국어로 작성되어야 함
-        ratio, matched, total, failed = self._check_language_compliance_ratio(analysis, "TH")
-        
+        ratio, matched, total, failed = self._check_language_compliance_ratio(
+            analysis, "TH"
+        )
+
         self.assertGreaterEqual(
-            ratio, self.LANGUAGE_MATCH_THRESHOLD,
+            ratio,
+            self.LANGUAGE_MATCH_THRESHOLD,
             f"태국어 응답 비율이 {self.LANGUAGE_MATCH_THRESHOLD*100}% 미만입니다. "
             f"실제: {ratio*100:.1f}% ({matched}/{total})\n"
-            f"실패 필드: {failed}"
+            f"실패 필드: {failed}",
         )
 
     def test_output_language_vietnamese(self) -> None:
         """
         output_language='VI'로 요청 시 베트남어로 응답해야 함
-        
+
         비율 기반 검증: 80% 이상의 필드가 베트남어로 작성되면 통과
         """
         # When
@@ -652,19 +674,22 @@ class TestOutputLanguageCompliance(unittest.TestCase):
         )
 
         # Then: 80% 이상의 필드가 베트남어로 작성되어야 함
-        ratio, matched, total, failed = self._check_language_compliance_ratio(analysis, "VI")
-        
+        ratio, matched, total, failed = self._check_language_compliance_ratio(
+            analysis, "VI"
+        )
+
         self.assertGreaterEqual(
-            ratio, self.LANGUAGE_MATCH_THRESHOLD,
+            ratio,
+            self.LANGUAGE_MATCH_THRESHOLD,
             f"베트남어 응답 비율이 {self.LANGUAGE_MATCH_THRESHOLD*100}% 미만입니다. "
             f"실제: {ratio*100:.1f}% ({matched}/{total})\n"
-            f"실패 필드: {failed}"
+            f"실패 필드: {failed}",
         )
 
     def test_output_language_indonesian(self) -> None:
         """
         output_language='ID'로 요청 시 인도네시아어로 응답해야 함
-        
+
         비율 기반 검증: 80% 이상의 필드가 인도네시아어로 작성되면 통과
         """
         # When
@@ -676,19 +701,22 @@ class TestOutputLanguageCompliance(unittest.TestCase):
         )
 
         # Then: 80% 이상의 필드가 인도네시아어로 작성되어야 함
-        ratio, matched, total, failed = self._check_language_compliance_ratio(analysis, "ID")
-        
+        ratio, matched, total, failed = self._check_language_compliance_ratio(
+            analysis, "ID"
+        )
+
         self.assertGreaterEqual(
-            ratio, self.LANGUAGE_MATCH_THRESHOLD,
+            ratio,
+            self.LANGUAGE_MATCH_THRESHOLD,
             f"인도네시아어 응답 비율이 {self.LANGUAGE_MATCH_THRESHOLD*100}% 미만입니다. "
             f"실제: {ratio*100:.1f}% ({matched}/{total})\n"
-            f"실패 필드: {failed}"
+            f"실패 필드: {failed}",
         )
 
     def test_output_language_tagalog(self) -> None:
         """
         output_language='TL'로 요청 시 타갈로그어로 응답해야 함
-        
+
         비율 기반 검증: 80% 이상의 필드가 타갈로그어로 작성되면 통과
         """
         # When
@@ -700,19 +728,22 @@ class TestOutputLanguageCompliance(unittest.TestCase):
         )
 
         # Then: 80% 이상의 필드가 타갈로그어로 작성되어야 함
-        ratio, matched, total, failed = self._check_language_compliance_ratio(analysis, "TL")
-        
+        ratio, matched, total, failed = self._check_language_compliance_ratio(
+            analysis, "TL"
+        )
+
         self.assertGreaterEqual(
-            ratio, self.LANGUAGE_MATCH_THRESHOLD,
+            ratio,
+            self.LANGUAGE_MATCH_THRESHOLD,
             f"타갈로그어 응답 비율이 {self.LANGUAGE_MATCH_THRESHOLD*100}% 미만입니다. "
             f"실제: {ratio*100:.1f}% ({matched}/{total})\n"
-            f"실패 필드: {failed}"
+            f"실패 필드: {failed}",
         )
 
     def test_all_supported_languages_consistency(self) -> None:
         """
         모든 지원 언어에 대해 일관성 테스트
-        
+
         비율 기반 검증: 각 언어별로 80% 이상의 필드가 해당 언어로 작성되면 통과
         """
 
@@ -733,7 +764,9 @@ class TestOutputLanguageCompliance(unittest.TestCase):
             )
 
             # 비율 기반 검증
-            ratio, matched, total, failed = self._check_language_compliance_ratio(analysis, lang)
+            ratio, matched, total, failed = self._check_language_compliance_ratio(
+                analysis, lang
+            )
 
             results[lang] = {
                 "expected": lang,
@@ -742,11 +775,15 @@ class TestOutputLanguageCompliance(unittest.TestCase):
                 "total": total,
                 "failed_fields": failed,
                 "passed": ratio >= self.LANGUAGE_MATCH_THRESHOLD,
-                "sample": analysis.recommendation[:50] if analysis.recommendation else "",
+                "sample": (
+                    analysis.recommendation[:50] if analysis.recommendation else ""
+                ),
             }
 
         # 결과 출력 (디버깅용)
-        print(f"\n=== Language Compliance Test Results (threshold: {self.LANGUAGE_MATCH_THRESHOLD*100}%) ===")
+        print(
+            f"\n=== Language Compliance Test Results (threshold: {self.LANGUAGE_MATCH_THRESHOLD*100}%) ==="
+        )
         for lang, result in results.items():
             status = "✅" if result["passed"] else "❌"
             print(f"{status} {lang}: {result['ratio']*100:.1f}% ({result['matched']}/{result['total']})")  # type: ignore
@@ -757,7 +794,7 @@ class TestOutputLanguageCompliance(unittest.TestCase):
         # 모든 언어가 임계값 이상이어야 함
         failed_languages = [
             f"{lang} ({result['ratio']*100:.1f}%)"  # type: ignore
-            for lang, result in results.items() 
+            for lang, result in results.items()
             if not result["passed"]
         ]
         self.assertEqual(

@@ -4,6 +4,7 @@ from pydantic_settings import BaseSettings
 
 ALLOWED_LANGUAGES = {"EN", "KO", "ES", "ID", "JA", "ZH", "TH", "VI", "TL"}
 
+
 class TradeSafetyModelSettings(BaseSettings):
     """
     Trade Safety LLM model settings.
