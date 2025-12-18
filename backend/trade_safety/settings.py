@@ -8,10 +8,10 @@ class TradeSafetyModelSettings(BaseSettings):
     Trade Safety LLM model settings.
 
     Environment variables:
-        TRADE_SAFETY_MODEL: OpenAI model name (default: gpt-4o-2024-11-20)
+        TRADE_SAFETY_MODEL: OpenAI model name (default: gpt-5.2)
     """
 
-    model: str = "gpt-4o-2024-11-20"
+    model: str = "gpt-5.2"
 
     class Config:
         env_prefix = "TRADE_SAFETY_"
