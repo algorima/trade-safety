@@ -26,7 +26,7 @@ export function PriceAnalysisSection({ data }: PriceAnalysisSectionProps) {
 
       {data.offered_price && (
         <div className="mb-2">
-          <h3 className="text-sm font-bold"> {t("result.offeredPrice")}</h3>
+          <h3 className="text-sm font-bold">{t("result.offeredPrice")}</h3>
           <p className="text-xs">
             {new Intl.NumberFormat(i18n.language, {
               style: "currency",
@@ -38,7 +38,7 @@ export function PriceAnalysisSection({ data }: PriceAnalysisSectionProps) {
 
       {data.price_assessment && (
         <div>
-          <h3 className="text-sm font-bold"> {t("result.priceAssessment")}</h3>
+          <h3 className="text-sm font-bold">{t("result.priceAssessment")}</h3>
           <p className="text-xs">{data.price_assessment}</p>
         </div>
       )}
