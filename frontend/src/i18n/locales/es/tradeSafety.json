@@ -1,14 +1,16 @@
 {
   "hero": {
-    "title": "¿Preocupado por una transacción?",
-    "subtitle": "Herramienta de verificación de seguridad en transacciones para fans globales de K-pop. La IA analiza barreras lingüísticas, riesgos de estafa y precios justos en 30 segundos.",
-    "placeholder": "Pega el texto o URL de la publicación...\n\nEjemplo:\n급처분 ㅠㅠ 공구 실패해서 양도해요\nBTS Jimin photocard 무탈 DM\n\nO:\nhttps://twitter.com/...",
+    "title": "Pegue el Contenido de la Transacción",
+    "subtitle": "Analizamos publicaciones de intercambio de productos K-pop en X y Reddit para identificar riesgos de estafa",
+    "placeholder": "Copie y pegue el contenido de la transacción o ingrese el enlace de la publicación",
+    "placeholderExample": "Ejemplo:\nwts lfb\nseventeen assorted pcs\n100ea!\nif getting jh ww mg 2:1 to doremiz\ncan meetup at ammb on sat\nwtt lft ph\nsvt stf fts fml dagat burstday heaven",
     "advancedOptions": "Opciones Avanzadas (Opcional)",
     "amountPlaceholder": "Monto de la Transacción (USD)",
-    "checkSafety": "Verificar Seguridad",
+    "checkSafety": "Analizar",
     "analyzing": "Analizando...",
     "analyzingDescription": "La IA está analizando idioma, señales de estafa y precio...",
-    "tryExample": "Probar ejemplo"
+    "tryExample": "Probar ejemplo",
+    "disclaimer": "Los resultados del análisis de IA son solo de referencia y pueden no ser 100% precisos. Este servicio no proporciona garantías ni compensación por daños comerciales."
   },
   "features": {
     "title": "La IA Analiza <1>3 Cosas Simultáneamente</1>",
