@@ -18,11 +18,14 @@ from langchain_openai import ChatOpenAI
 
 
 from trade_safety.prompts import TRADE_SAFETY_SYSTEM_PROMPT
-from trade_safety.schemas import TradeSafetyAnalysis
-from trade_safety.twitter_extract_text_service import TwitterService
 from trade_safety.reddit_extract_text_service import RedditService
-
-from trade_safety.settings import ALLOWED_LANGUAGES, TradeSafetyModelSettings
+from trade_safety.schemas import TradeSafetyAnalysis
+from trade_safety.settings import (
+    ALLOWED_LANGUAGES,
+    TradeSafetyModelSettings,
+    TwitterAPISettings,
+)
+from trade_safety.twitter_extract_text_service import TwitterService
 
 logger = logging.getLogger(__name__)
 
@@ -68,7 +71,7 @@ class TradeSafetyService:
         openai_api: OpenAIAPISettings,
         model_settings: TradeSafetyModelSettings,
         system_prompt: str = TRADE_SAFETY_SYSTEM_PROMPT,
-        twitter_bearer_token: str | None = None,
+        twitter_api: TwitterAPISettings | None = None,
     ):
         """
         Initialize TradeSafetyService with LLM configuration.
@@ -77,8 +80,8 @@ class TradeSafetyService:
             openai_api: OpenAI API settings (api_key)
             model_settings: Model settings (model name)
             system_prompt: System prompt for trade safety analysis (default: TRADE_SAFETY_SYSTEM_PROMPT)
-            twitter_bearer_token: Twitter API Bearer Token for URL analysis (optional).
-                                  If not provided, will try TWITTER_BEARER_TOKEN env var.
+            twitter_api: Twitter API settings (bearer_token). If not provided, will try
+                         TWITTER_BEARER_TOKEN env var via TwitterAPISettings().
 
         Note:
             Temperature is hardcoded to 0.7 for balanced analytical reasoning.
@@ -103,7 +106,8 @@ class TradeSafetyService:
             strict=True,  # Enforce enum constraints and schema validation
         )
         self.system_prompt = system_prompt
-        self.twitter_service = TwitterService(bearer_token=twitter_bearer_token)
+        twitter_settings = twitter_api or TwitterAPISettings()
+        self.twitter_service = TwitterService(bearer_token=twitter_settings.bearer_token)
         self.reddit_service = RedditService()
 
     # ==========================================
