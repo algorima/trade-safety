@@ -36,6 +36,9 @@ class TestTradeSafetyAnalysis(unittest.TestCase):
                 "Set it in backend/.envrc or export it before running tests."
             )
 
+        twitter_token = os.getenv("TWITTER_BEARER_TOKEN")
+        if not twitter_token:
+            self.skipTest("TWITTER_BEARER_TOKEN not configured")
         openai_api = OpenAIAPISettings(api_key=api_key)
         model_settings = TradeSafetyModelSettings()
 
