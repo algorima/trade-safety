@@ -95,10 +95,10 @@ class RedditService:
 
             return selftext
 
-        except requests.exceptions.Timeout:
+        except requests.exceptions.Timeout as exc:
             error_msg = f"Request timeout while fetching Reddit post: {reddit_url}"
             logger.error(error_msg)
-            raise ValueError(error_msg)
+            raise ValueError(error_msg) from exc
 
         except requests.exceptions.HTTPError as e:
             error_msg = f"Reddit API error: {e.response.status_code} - {e.response.text}"
