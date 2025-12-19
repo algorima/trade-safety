@@ -12,10 +12,10 @@ from __future__ import annotations
 
 import logging
 from urllib.parse import urlparse
+
 from aioia_core.settings import OpenAIAPISettings
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
-
 
 from trade_safety.prompts import TRADE_SAFETY_SYSTEM_PROMPT
 from trade_safety.reddit_extract_text_service import RedditService
@@ -58,7 +58,10 @@ class TradeSafetyService:
         >>>
         >>> openai_api = OpenAIAPISettings(api_key="sk-...")
         >>> model_settings = TradeSafetyModelSettings()
-        >>> service = TradeSafetyService(openai_api, model_settings)
+        >>> service = TradeSafetyService(
+        ...     openai_api=openai_api,
+        ...     model_settings=model_settings,
+        ... )
         >>> analysis = await service.analyze_trade(
         ...     input_text="급처분 공구 실패해서 양도해요"
         ... )
@@ -70,8 +73,8 @@ class TradeSafetyService:
         self,
         openai_api: OpenAIAPISettings,
         model_settings: TradeSafetyModelSettings,
-        system_prompt: str = TRADE_SAFETY_SYSTEM_PROMPT,
         twitter_api: TwitterAPISettings | None = None,
+        system_prompt: str = TRADE_SAFETY_SYSTEM_PROMPT,
     ):
         """
         Initialize TradeSafetyService with LLM configuration.
@@ -79,9 +82,9 @@ class TradeSafetyService:
         Args:
             openai_api: OpenAI API settings (api_key)
             model_settings: Model settings (model name)
-            system_prompt: System prompt for trade safety analysis (default: TRADE_SAFETY_SYSTEM_PROMPT)
             twitter_api: Twitter API settings (bearer_token). If not provided, will try
                          TWITTER_BEARER_TOKEN env var via TwitterAPISettings().
+            system_prompt: System prompt for trade safety analysis (default: TRADE_SAFETY_SYSTEM_PROMPT)
 
         Note:
             Temperature is hardcoded to 0.7 for balanced analytical reasoning.
@@ -298,7 +301,7 @@ class TradeSafetyService:
         # use to urlparse
         parsed = urlparse(text)
 
-        if parsed.scheme in {'http', 'https'} and parsed.netloc:
+        if parsed.scheme in {"http", "https"} and parsed.netloc:
             logger.debug("URL detected: %s", text[:100])
             return True
 

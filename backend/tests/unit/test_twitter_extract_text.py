@@ -5,6 +5,7 @@ from unittest.mock import MagicMock, patch
 
 import requests
 
+from trade_safety.settings import TwitterAPISettings
 from trade_safety.twitter_extract_text_service import TwitterService
 
 
@@ -15,6 +16,10 @@ class TestTwitterService(unittest.TestCase):
         """Set up test fixtures before each test method."""
         # Lazy validation: token not required at initialization
         self.service = TwitterService()
+        # Service with dummy token for API call tests
+        self.service_with_token = TwitterService(
+            twitter_api=TwitterAPISettings(bearer_token="test-dummy-token")
+        )
 
     # ==============================================
     # URL Detection Tests
@@ -92,7 +97,7 @@ class TestTwitterService(unittest.TestCase):
     # Integration Tests with Mocked API
     # ==============================================
 
-    @patch('trade_safety.twitter_extract_text_service.requests.get')
+    @patch("trade_safety.twitter_extract_text_service.requests.get")
     def test_fetch_tweet_content_success(self, mock_get):
         """Test fetching tweet content with mocked API response."""
         # Given: Twitter URL
@@ -101,35 +106,35 @@ class TestTwitterService(unittest.TestCase):
         # Mock API response with Twitter API v2 structure
         mock_response = MagicMock()
         mock_response.json.return_value = {
-            'data': {
-                'text': '2025 권진아 연말 콘서트 티켓양도\n\n12/24\n중앙블럭 1열 연석 14.5'
+            "data": {
+                "text": "2025 권진아 연말 콘서트 티켓양도\n\n12/24\n중앙블럭 1열 연석 14.5"
             }
         }
         mock_response.raise_for_status = MagicMock()
         mock_get.return_value = mock_response
 
-        # When: fetch_tweet_content is called
-        result = self.service.fetch_tweet_content(url)
+        # When: fetch_tweet_content is called (using service with token)
+        result = self.service_with_token.fetch_tweet_content(url)
 
         # Then: tweet text should be returned
-        self.assertIn('2025 권진아 연말 콘서트', result)
-        self.assertIn('12/24', result)
+        self.assertIn("2025 권진아 연말 콘서트", result)
+        self.assertIn("12/24", result)
         mock_get.assert_called_once()
 
-    @patch('trade_safety.twitter_extract_text_service.requests.get')
+    @patch("trade_safety.twitter_extract_text_service.requests.get")
     def test_fetch_tweet_content_invalid_url(self, mock_get):
         """Test that ValueError is raised for invalid Twitter URL."""
         # Given: Invalid Twitter URL (no status)
         url = "https://x.com/user/profile"
 
-        # When/Then: Should raise ValueError
+        # When/Then: Should raise ValueError (using service with token)
         with self.assertRaises(ValueError) as context:
-            self.service.fetch_tweet_content(url)
+            self.service_with_token.fetch_tweet_content(url)
 
         self.assertIn("Could not extract tweet ID", str(context.exception))
         mock_get.assert_not_called()
 
-    @patch('trade_safety.twitter_extract_text_service.requests.get')
+    @patch("trade_safety.twitter_extract_text_service.requests.get")
     def test_fetch_tweet_content_api_timeout(self, mock_get):
         """Test that ValueError is raised on API timeout."""
         # Given: Twitter URL
@@ -138,13 +143,13 @@ class TestTwitterService(unittest.TestCase):
         # Mock timeout
         mock_get.side_effect = requests.exceptions.Timeout()
 
-        # When/Then: Should raise ValueError
+        # When/Then: Should raise ValueError (using service with token)
         with self.assertRaises(ValueError) as context:
-            self.service.fetch_tweet_content(url)
+            self.service_with_token.fetch_tweet_content(url)
 
         self.assertIn("Request timeout", str(context.exception))
 
-    @patch('trade_safety.twitter_extract_text_service.requests.get')
+    @patch("trade_safety.twitter_extract_text_service.requests.get")
     def test_fetch_tweet_content_api_error(self, mock_get):
         """Test that ValueError is raised on API error."""
         # Given: Twitter URL
@@ -153,9 +158,9 @@ class TestTwitterService(unittest.TestCase):
         # Mock API error
         mock_get.side_effect = requests.exceptions.RequestException("API error")
 
-        # When/Then: Should raise ValueError
+        # When/Then: Should raise ValueError (using service with token)
         with self.assertRaises(ValueError) as context:
-            self.service.fetch_tweet_content(url)
+            self.service_with_token.fetch_tweet_content(url)
 
         self.assertIn("Failed to fetch tweet", str(context.exception))
 

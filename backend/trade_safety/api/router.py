@@ -168,14 +168,14 @@ class TradeSafetyRouter(
                 # Use custom prompt if provided, otherwise TradeSafetyService uses default
                 if self.system_prompt:
                     service = TradeSafetyService(
-                        self.openai_api,
-                        self.model_settings,
+                        openai_api=self.openai_api,
+                        model_settings=self.model_settings,
                         system_prompt=self.system_prompt,
                     )
                 else:
                     service = TradeSafetyService(
-                        self.openai_api,
-                        self.model_settings,
+                        openai_api=self.openai_api,
+                        model_settings=self.model_settings,
                     )
                 analysis = await service.analyze_trade(
                     input_text=request.input_text,
