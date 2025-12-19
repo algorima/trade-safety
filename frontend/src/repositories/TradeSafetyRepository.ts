@@ -19,6 +19,7 @@ const priceAnalysisSchema = z.object({
 });
 
 const tradeSafetyAnalysisSchema = z.object({
+  ai_summary: z.string(),
   translation: z.string().nullish(),
   nuance_explanation: z.string().nullish(),
   risk_signals: z.array(riskSignalSchema),

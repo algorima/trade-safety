@@ -12,6 +12,8 @@ export const mockTradeSafetyResult: TradeSafetyCheckResponse = {
   updated_at: new Date().toISOString(),
 
   llm_analysis: {
+    ai_summary:
+      "The listing is for selling and trading Seventeen photocards, with specific trade ratios mentioned. The seller is looking to meet at a location abbreviated as AMMB on Saturday. The text includes several abbreviations common in K-pop trading communities, but also contains some unclear terms that may need clarification.",
     translation:
       "Want to sell (WTS) and looking for buyers (LFB). Selling Seventeen assorted photocards for 100 each (currency not specified). If you're getting Jeonghan (JH), Wonwoo (WW), or Mingyu (MG), the trade ratio is 2:1 for Doremiz (likely referring to a specific photocard set). Can meet up at AMMB (likely a location abbreviation) on Saturday. Want to trade (WTT) and looking for trade (LFT) for Seventeen stuff (likely merchandise). The rest of the text ('fts fml dagat burstday heaven') appears to be a mix of slang, typos, or references that are unclear.",
 
