@@ -1,10 +1,12 @@
 """Unit tests for TradeSafetyCheckRequest API schema."""
 
 import unittest
+from unittest.mock import MagicMock, patch
 
 from pydantic import ValidationError
 
 from trade_safety.api.router import TradeSafetyCheckRequest
+from trade_safety.service import TradeSafetyService
 
 
 class TestTradeSafetyCheckRequest(unittest.TestCase):
@@ -105,6 +107,41 @@ class TestTradeSafetyCheckRequest(unittest.TestCase):
         self.assertIn("output_language", data)
         self.assertEqual(data["output_language"], "ko")
         self.assertEqual(data["input_text"], "[WTS] K-pop goods for sale")
+
+
+class TestServiceLanguageValidation(unittest.TestCase):
+    """Test TradeSafetyService._validate_input for invalid language."""
+
+    def setUp(self):
+        """Set up test fixtures with mocked dependencies."""
+
+        self.mock_openai_settings = MagicMock()
+        self.mock_openai_settings.api_key = "test-api-key"
+        self.mock_model_settings = MagicMock()
+        self.mock_model_settings.model = "gpt-4o"
+
+        # Patch ChatOpenAI to avoid actual API initialization
+        self.patcher = patch("trade_safety.service.ChatOpenAI")
+        self.mock_chat = self.patcher.start()
+
+    def tearDown(self):
+        """Clean up patches."""
+        self.patcher.stop()
+
+    def test_validate_input_raises_valueerror_for_invalid_language(self):
+        """Test that ValueError is raised for invalid output_language."""
+
+        service = TradeSafetyService(
+            self.mock_openai_settings, self.mock_model_settings
+        )
+
+        invalid_languages = ["fr", "de", "ru", "123", "abc", "korean"]
+
+        for lang in invalid_languages:
+            with self.assertRaises(ValueError) as context:
+                service._validate_input("Test input text", lang)
+
+            self.assertIn("Invalid output_language", str(context.exception))
 
 
 if __name__ == "__main__":
