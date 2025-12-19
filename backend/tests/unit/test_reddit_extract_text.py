@@ -2,7 +2,7 @@
 
 import unittest
 from unittest.mock import patch, MagicMock
-
+import requests
 from trade_safety.reddit_extract_text_service import RedditService
 
 
@@ -305,7 +305,6 @@ class TestRedditService(unittest.TestCase):
         url = "https://www.reddit.com/r/test/comments/123/title"
 
         # Mock timeout
-        import requests
         mock_get.side_effect = requests.exceptions.Timeout()
 
         # When/Then: Should raise ValueError
@@ -321,7 +320,6 @@ class TestRedditService(unittest.TestCase):
         url = "https://www.reddit.com/r/test/comments/123/title"
 
         # Mock HTTP error
-        import requests
         mock_response = MagicMock()
         mock_response.status_code = 404
         mock_response.text = "Not Found"
@@ -343,7 +341,6 @@ class TestRedditService(unittest.TestCase):
         url = "https://www.reddit.com/r/test/comments/123/title"
 
         # Mock API error
-        import requests
         mock_get.side_effect = requests.exceptions.RequestException("API error")
 
         # When/Then: Should raise ValueError
