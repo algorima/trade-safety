@@ -6,17 +6,7 @@ import { useTranslation } from "react-i18next";
 
 import { TRADE_SAFETY_NS } from "@/i18n";
 import { TradeSafetyRepository } from "@/repositories/TradeSafetyRepository";
-import type { TradeSafetyCheckRepositoryResponse } from "@/repositories/TradeSafetyRepository";
 import { getApiService } from "@/services/ApiService";
-
-const isQuickCheckResponse = (
-  data: TradeSafetyCheckRepositoryResponse,
-): data is Extract<
-  TradeSafetyCheckRepositoryResponse,
-  { signup_required: true }
-> => {
-  return "signup_required" in data;
-};
 
 export default function HomePage() {
   const { t, i18n } = useTranslation(TRADE_SAFETY_NS);
@@ -44,11 +34,7 @@ export default function HomePage() {
         variables: { input_text: inputText },
       });
 
-      if (isQuickCheckResponse(response.data)) {
-        router.push(`/${i18n.language}/result/${response.data.id}?quick=true`);
-      } else {
-        router.push(`/${i18n.language}/result/${response.data.id}`);
-      }
+      router.push(`/${i18n.language}/result/${response.data.id}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
       setIsLoading(false);
