@@ -1,19 +1,9 @@
 "use client";
 
+import { getSafetyLevel } from "@/utils/safetyScore";
 import { DetailedResult } from "@/components/DetailedResult";
-import { SafetyLevel, PageHeader } from "@/components/PageHeader";
+import { PageHeader } from "@/components/PageHeader";
 import { mockTradeSafetyResult } from "@/mocks/TradeSafetyCheck.mock";
-
-const SAFETY_SCORE_THRESHOLDS = {
-  safe: 70,
-  caution: 40,
-} as const;
-
-const getSafetyLevel = (safetyScore: number): SafetyLevel => {
-  if (safetyScore >= SAFETY_SCORE_THRESHOLDS.safe) return "safe";
-  if (safetyScore >= SAFETY_SCORE_THRESHOLDS.caution) return "caution";
-  return "danger";
-};
 
 export default function TradeSafetyResultPage() {
   const result = mockTradeSafetyResult;
