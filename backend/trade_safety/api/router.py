@@ -98,7 +98,7 @@ class TradeSafetyRouter(
     def _register_routes(self) -> None:
         """Register custom routes instead of standard CRUD"""
         self._register_public_create_route()
-        self._register_authenticated_get_route()
+        self._register_public_get_route()
         # Admin routes
         self._register_list_route()  # GET /trade-safety (Admin only)
         self._register_update_route()  # PATCH /trade-safety/{id} (Admin only)
@@ -208,7 +208,7 @@ class TradeSafetyRouter(
                     },
                 ) from e
 
-    def _register_authenticated_get_route(self) -> None:
+    def _register_public_get_route(self) -> None:
         """GET /trade-safety/{check_id} - Public endpoint"""
 
         @self.router.get(
