@@ -10,7 +10,7 @@ from decimal import Decimal
 from aioia_core.settings import OpenAIAPISettings
 
 from trade_safety.service import TradeSafetyService
-from trade_safety.settings import ALLOWED_LANGUAGES, TradeSafetyModelSettings
+from trade_safety.settings import TradeSafetyModelSettings
 
 
 class TestTradeSafetyAnalysis(unittest.TestCase):
@@ -739,7 +739,6 @@ class TestOutputLanguageCompliance(unittest.TestCase):
             f"실제: {ratio*100:.1f}% ({matched}/{total})\n"
             f"실패 필드: {failed}",
         )
-
 
 
 if __name__ == "__main__":
