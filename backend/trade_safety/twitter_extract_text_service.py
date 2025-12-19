@@ -123,10 +123,10 @@ class TwitterService:
 
             return tweet_text
 
-        except requests.exceptions.Timeout:
+        except requests.exceptions.Timeout as exc:
             error_msg = f"Request timeout while fetching tweet: {twitter_url}"
             logger.error(error_msg)
-            raise ValueError(error_msg)
+            raise ValueError(error_msg) from exc
 
         except requests.exceptions.HTTPError as e:
             error_msg = f"Twitter API error: {e.response.status_code} - {e.response.text}"
