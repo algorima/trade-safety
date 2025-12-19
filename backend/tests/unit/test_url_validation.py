@@ -5,7 +5,7 @@ import unittest
 from aioia_core.settings import OpenAIAPISettings
 
 from trade_safety.service import TradeSafetyService
-from trade_safety.settings import TradeSafetyModelSettings
+from trade_safety.settings import TradeSafetyModelSettings, TwitterAPISettings
 
 
 class TestURLValidation(unittest.TestCase):
@@ -15,7 +15,8 @@ class TestURLValidation(unittest.TestCase):
         """Set up test fixtures before each test method."""
         openai_api = OpenAIAPISettings(api_key="sk-test-dummy-key")
         model_settings = TradeSafetyModelSettings()
-        self.service = TradeSafetyService(openai_api, model_settings)
+        twitter_api = TwitterAPISettings(bearer_token="test-dummy-twitter-token")
+        self.service = TradeSafetyService(openai_api, model_settings, twitter_api=twitter_api)
 
     # ==============================================
     # URLs - Should Return True
