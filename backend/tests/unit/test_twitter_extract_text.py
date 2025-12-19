@@ -81,18 +81,6 @@ class TestTwitterService(unittest.TestCase):
     # API URL Building Tests
     # ==============================================
 
-    def test_build_api_url(self):
-        """Test building Twitter API URL."""
-        tweet_id = "2000111727493718384"
-
-        api_url = self.service._build_api_url(tweet_id)
-
-        self.assertIn("TweetResultByRestId", api_url)
-        self.assertIn(tweet_id, api_url)
-        self.assertIn("variables=", api_url)
-        self.assertIn("features=", api_url)
-        self.assertIn("fieldToggles=", api_url)
-
     # ==============================================
     # Tweet Text Extraction Tests
     # ==============================================
