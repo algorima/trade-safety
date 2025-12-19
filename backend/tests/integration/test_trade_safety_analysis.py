@@ -146,13 +146,13 @@ class TestTradeSafetyAnalysis(unittest.TestCase):
             "사기 신호가 있는 거래 글에서는 위험 신호 또는 주의사항이 감지되어야 합니다",
         )
 
-        # Risk score가 설정되어야 함
-        self.assertIsNotNone(analysis.risk_score, "위험 점수가 설정되어야 합니다")
+        # Safe score가 설정되어야 함
+        self.assertIsNotNone(analysis.safe_score, "안전 점수가 설정되어야 합니다")
         self.assertGreaterEqual(
-            analysis.risk_score, 0, "위험 점수는 0 이상이어야 합니다"
+            analysis.safe_score, 0, "안전 점수는 0 이상이어야 합니다"
         )
         self.assertLessEqual(
-            analysis.risk_score, 100, "위험 점수는 100 이하여야 합니다"
+            analysis.safe_score, 100, "안전 점수는 100 이하여야 합니다"
         )
 
     def test_analyze_trade_returns_safety_checklist(self) -> None:
