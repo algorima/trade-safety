@@ -146,7 +146,7 @@ class RedditService:
 
         return json_url
 
-    def _extract_selftext(self, json_data: dict) -> str | None:
+    def _extract_selftext(self, json_data: list | dict | None) -> str | None:
         """
         Extract selftext from Reddit JSON response.
 

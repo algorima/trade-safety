@@ -156,6 +156,7 @@ class TestRedditService(unittest.TestCase):
 
         selftext = self.service._extract_selftext(json_data)
 
+        assert selftext is not None
         self.assertEqual(selftext, long_text)
         self.assertIn("Christmas party", selftext)
         self.assertIn("white elephant", selftext)
