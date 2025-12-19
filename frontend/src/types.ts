@@ -44,7 +44,7 @@ export interface TradeSafetyAnalysis {
   safe_indicators: RiskSignal[];
   price_analysis: PriceAnalysis;
   safety_checklist: string[];
-  risk_score: number;
+  safe_score: number;
   recommendation: string;
   emotional_support: string;
 }
@@ -60,7 +60,7 @@ export interface TradeSafetyCheckResponse {
   user_id?: string | null;
   input_text: string;
   llm_analysis: TradeSafetyAnalysis;
-  risk_score: number;
+  safe_score: number;
   expert_advice?: string | null;
   expert_reviewed: boolean;
   expert_reviewed_at?: string | null;

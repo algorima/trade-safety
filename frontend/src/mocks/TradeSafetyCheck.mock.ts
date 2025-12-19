@@ -5,7 +5,7 @@ export const mockTradeSafetyResult: TradeSafetyCheckResponse = {
   user_id: null,
   input_text:
     "WTS/LFB Seventeen assorted photocards 100 each. 2:1 to Doremiz for JH/WW/MG. WTT/LFT SVT items. Meetup AMMB Saturday. fts fml dagat burstday heaven. PayPal F&F only, no refunds.",
-  risk_score: 85,
+  safe_score: 85,
   expert_advice: null,
   expert_reviewed: false,
   created_at: new Date().toISOString(),
@@ -18,7 +18,7 @@ export const mockTradeSafetyResult: TradeSafetyCheckResponse = {
     nuance_explanation:
       "The seller is using a mix of K-pop-specific abbreviations and possibly some typos. Key terms: 'WTS' = want to sell, 'LFB' = looking for buyers, 'WTT' = want to trade, 'LFT' = looking for trade. '2:1 to Doremiz' likely suggests a trade ratio of 2:1 in favor of a specific photocard set. 'AMMB' could be a location abbreviation (e.g., a mall or station). The final part of the text ('fts fml dagat burstday heaven') could be slang, typos, or references to other items for sale or trade, but they are unclear and lack context.",
 
-    risk_score: 85,
+    safe_score: 85,
 
     risk_signals: [
       {

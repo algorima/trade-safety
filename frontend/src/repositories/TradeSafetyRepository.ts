@@ -26,7 +26,7 @@ const tradeSafetyAnalysisSchema = z.object({
   safe_indicators: z.array(riskSignalSchema),
   price_analysis: priceAnalysisSchema,
   safety_checklist: z.array(z.string()),
-  risk_score: z.number(),
+  safe_score: z.number(),
   recommendation: z.string(),
   emotional_support: z.string(),
 });
@@ -42,7 +42,7 @@ const tradeSafetyCheckResponseSchema = z.object({
   user_id: z.string().nullish(),
   input_text: z.string(),
   llm_analysis: tradeSafetyAnalysisSchema,
-  risk_score: z.number(),
+  safe_score: z.number(),
   expert_advice: z.string().nullish(),
   expert_reviewed: z.boolean(),
   expert_reviewed_at: z.string().nullish(),
