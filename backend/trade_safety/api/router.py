@@ -2,8 +2,8 @@
 Trade Safety Router for K-pop Merchandise Trading Safety Checks.
 
 This module provides public API endpoints for trade safety analysis:
-- POST /trade-safety: Create a new safety check (public, freemium model)
-- GET /trade-safety/{check_id}: Get detailed results (requires authentication)
+- POST /trade-safety: Create a new safety check (returns full analysis)
+- GET /trade-safety/{check_id}: Get detailed results (public access with check_id)
 """
 
 import logging
@@ -66,11 +66,11 @@ class TradeSafetyRouter(
     ]
 ):
     """
-    Trade Safety router with public POST and authenticated GET.
+    Trade Safety router with public POST and GET endpoints.
 
     Unlike standard CRUD routers, this provides:
-    - Public POST endpoint (freemium model: quick summary for guests, full for auth users)
-    - Authenticated GET endpoint with ownership verification
+    - Public POST endpoint (returns full analysis for all users)
+    - Public GET endpoint (access with check_id as secure token)
     - No List, Update, or Delete operations
     """
 
@@ -104,7 +104,7 @@ class TradeSafetyRouter(
         self._register_update_route()  # PATCH /trade-safety/{id} (Admin only)
 
     def _register_public_create_route(self) -> None:
-        """POST /trade-safety - Public endpoint with freemium model"""
+        """POST /trade-safety - Public endpoint returning full analysis"""
 
         @self.router.post(
             f"/{self.resource_name}",
@@ -143,7 +143,7 @@ class TradeSafetyRouter(
             1. Analyze trade using LLM (TradeSafetyService)
             2. Convert Request + Analysis → Domain Create schema
             3. Save to database via manager.create() (BaseManager)
-            4. Return quick summary for non-auth or full analysis for auth users
+            4. Return full analysis for all users
             """
             logger.info(
                 "Creating trade safety check: user_id=%s, authenticated=%s",
