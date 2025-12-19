@@ -1,12 +1,12 @@
 """Integration tests for Trade Safety Analysis service."""
-from dotenv import load_dotenv
+
 from __future__ import annotations
 
 import asyncio
 import os
 import unittest
 from decimal import Decimal
-
+from dotenv import load_dotenv
 from aioia_core.settings import OpenAIAPISettings
 
 from trade_safety.service import TradeSafetyService
