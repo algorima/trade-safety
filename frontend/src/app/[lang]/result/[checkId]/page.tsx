@@ -1,9 +1,9 @@
 "use client";
 
-import { getSafetyLevel } from "@/utils/safetyScore";
 import { DetailedResult } from "@/components/DetailedResult";
 import { PageHeader } from "@/components/PageHeader";
 import { mockTradeSafetyResult } from "@/mocks/TradeSafetyCheck.mock";
+import { getSafetyLevel } from "@/utils/safetyScore";
 
 export default function TradeSafetyResultPage() {
   const result = mockTradeSafetyResult;
