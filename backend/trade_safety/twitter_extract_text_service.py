@@ -8,13 +8,11 @@ using the official Twitter API v2.
 from __future__ import annotations
 
 import logging
-import os
 import re
 
 import requests
-from dotenv import load_dotenv
 
-load_dotenv()
+from trade_safety.settings import TwitterAPISettings
 
 logger = logging.getLogger(__name__)
 
@@ -29,10 +27,12 @@ class TwitterService:
     Service for fetching tweet content from Twitter/X URLs.
 
     This service uses the official Twitter API v2 to fetch tweet content.
-    Requires a Twitter API Bearer Token.
+    Requires a Twitter API Bearer Token (validated at API call time, not initialization).
 
     Example:
-        >>> service = TwitterService(bearer_token="YOUR_BEARER_TOKEN")
+        >>> from trade_safety.settings import TwitterAPISettings
+        >>> twitter_api = TwitterAPISettings(bearer_token="YOUR_BEARER_TOKEN")
+        >>> service = TwitterService(twitter_api)
         >>> tweet_text = service.fetch_tweet_content(
         ...     "https://x.com/user/status/123456789"
         ... )
@@ -40,30 +40,24 @@ class TwitterService:
         "급처분 포카 양도합니다..."
 
     Environment Variables:
-        TWITTER_BEARER_TOKEN: Twitter API Bearer Token (optional if passed to __init__)
+        TWITTER_BEARER_TOKEN: Twitter API Bearer Token (auto-loaded via TwitterAPISettings)
     """
 
-    def __init__(self, bearer_token: str | None = None):
+    def __init__(self, twitter_api: TwitterAPISettings | None = None):
         """
-        Initialize TwitterService with Twitter API credentials.
+        Initialize TwitterService with Twitter API settings.
 
         Args:
-            bearer_token: Twitter API Bearer Token.
-                         If not provided, will try to read from TWITTER_BEARER_TOKEN env var.
+            twitter_api: Twitter API settings containing bearer_token.
+                         If not provided, TwitterAPISettings() will load from environment.
 
-        Raises:
-            ValueError: If bearer_token is not provided and TWITTER_BEARER_TOKEN env var is not set
+        Note:
+            Bearer token is validated at API call time (lazy validation),
+            not at initialization. This allows unit tests to create the service
+            without providing a token when using mocks.
         """
-        self.bearer_token = bearer_token or os.getenv('TWITTER_BEARER_TOKEN')
-
-        if not self.bearer_token:
-            raise ValueError(
-                "Twitter Bearer Token is required. "
-                "Provide it via bearer_token parameter or TWITTER_BEARER_TOKEN environment variable. "
-                "Get your token at: https://developer.twitter.com/en/portal/dashboard"
-            )
-
-        logger.debug("Initialized TwitterService with Bearer Token")
+        self.settings = twitter_api or TwitterAPISettings()
+        logger.debug("Initialized TwitterService")
 
     # ==========================================
     # Main Methods
@@ -80,19 +74,27 @@ class TwitterService:
             str: Tweet text content
 
         Raises:
-            ValueError: If tweet ID extraction or API call fails
+            ValueError: If bearer token is missing, tweet ID extraction fails, or API call fails
 
         Example:
-            >>> service = TwitterService(bearer_token="YOUR_TOKEN")
+            >>> from trade_safety.settings import TwitterAPISettings
+            >>> service = TwitterService(TwitterAPISettings(bearer_token="YOUR_TOKEN"))
             >>> content = service.fetch_tweet_content(
             ...     "https://x.com/mkticket7/status/2000111727493718384"
             ... )
         """
+        # Lazy validation: check bearer token at call time
+        if not self.settings.bearer_token:
+            raise ValueError(
+                "Twitter Bearer Token is required. "
+                "Provide it via TwitterAPISettings or TWITTER_BEARER_TOKEN environment variable. "
+                "Get your token at: https://developer.twitter.com/en/portal/dashboard"
+            )
+
         # URL에서 트위터 ID 추출
         tweet_id = self._extract_tweet_id(twitter_url)
         if not tweet_id:
             raise ValueError(f"Could not extract tweet ID from URL: {twitter_url}")
-
 
         try:
             logger.debug("Fetching tweet from Twitter API v2: tweet_id=%s", tweet_id)
@@ -101,7 +103,7 @@ class TwitterService:
             api_url = f"https://api.twitter.com/2/tweets/{tweet_id}"
 
             headers = {
-                'Authorization': f'Bearer {self.bearer_token}',
+                'Authorization': f'Bearer {self.settings.bearer_token}',
                 'User-Agent': 'v2TweetLookupPython'
             }
 
@@ -153,7 +155,7 @@ class TwitterService:
             Tweet ID if found, None otherwise
 
         Examples:
-            >>> service = TwitterService(bearer_token="token")
+            >>> service = TwitterService()
             >>> service._extract_tweet_id("https://x.com/user/status/123456789")
             "123456789"
             >>> service._extract_tweet_id("https://twitter.com/user/status/987654321?s=20")

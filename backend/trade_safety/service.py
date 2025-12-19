@@ -106,8 +106,7 @@ class TradeSafetyService:
             strict=True,  # Enforce enum constraints and schema validation
         )
         self.system_prompt = system_prompt
-        twitter_settings = twitter_api or TwitterAPISettings()
-        self.twitter_service = TwitterService(bearer_token=twitter_settings.bearer_token)
+        self.twitter_service = TwitterService(twitter_api=twitter_api)
         self.reddit_service = RedditService()
 
     # ==========================================
