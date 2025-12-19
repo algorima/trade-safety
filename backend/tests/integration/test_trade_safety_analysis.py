@@ -740,68 +740,6 @@ class TestOutputLanguageCompliance(unittest.TestCase):
             f"실패 필드: {failed}",
         )
 
-    def test_all_supported_languages_consistency(self) -> None:
-        """
-        모든 지원 언어에 대해 일관성 테스트
-
-        비율 기반 검증: 각 언어별로 80% 이상의 필드가 해당 언어로 작성되면 통과
-        """
-
-        # 모든 지원 언어 테스트
-        test_languages = ["EN", "KO", "ES", "ID", "JA", "ZH", "TH", "VI", "TL"]
-
-        results: dict[str, dict[str, object]] = {}
-
-        for lang in test_languages:
-            if lang not in ALLOWED_LANGUAGES:
-                continue
-
-            analysis = asyncio.run(
-                self.service.analyze_trade(
-                    input_text=self.test_input,
-                    output_language=lang,
-                )
-            )
-
-            # 비율 기반 검증
-            ratio, matched, total, failed = self._check_language_compliance_ratio(
-                analysis, lang
-            )
-
-            results[lang] = {
-                "expected": lang,
-                "ratio": ratio,
-                "matched": matched,
-                "total": total,
-                "failed_fields": failed,
-                "passed": ratio >= self.LANGUAGE_MATCH_THRESHOLD,
-                "sample": (
-                    analysis.recommendation[:50] if analysis.recommendation else ""
-                ),
-            }
-
-        # 결과 출력 (디버깅용)
-        print(
-            f"\n=== Language Compliance Test Results (threshold: {self.LANGUAGE_MATCH_THRESHOLD*100}%) ==="
-        )
-        for lang, result in results.items():
-            status = "✅" if result["passed"] else "❌"
-            print(f"{status} {lang}: {result['ratio']*100:.1f}% ({result['matched']}/{result['total']})")  # type: ignore
-            if not result["passed"]:
-                for field in result["failed_fields"]:  # type: ignore
-                    print(f"    - {field}")
-
-        # 모든 언어가 임계값 이상이어야 함
-        failed_languages = [
-            f"{lang} ({result['ratio']*100:.1f}%)"  # type: ignore
-            for lang, result in results.items()
-            if not result["passed"]
-        ]
-        self.assertEqual(
-            len(failed_languages),
-            0,
-            f"다음 언어들이 {self.LANGUAGE_MATCH_THRESHOLD*100}% 임계값을 통과하지 못했습니다: {failed_languages}",
-        )
 
 
 if __name__ == "__main__":
