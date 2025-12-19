@@ -1,15 +1,16 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { HomeHeroSection } from "@/components/HomeHeroSection";
 import { TRADE_SAFETY_NS } from "@/i18n";
 import { TradeSafetyRepository } from "@/repositories/TradeSafetyRepository";
 import { getApiService } from "@/services/ApiService";
 
 export default function HomePage() {
-  const { t, i18n } = useTranslation(TRADE_SAFETY_NS);
+  const { i18n } = useTranslation(TRADE_SAFETY_NS);
   const router = useRouter();
 
   const repository = useMemo<TradeSafetyRepository>(
@@ -42,41 +43,14 @@ export default function HomePage() {
   };
 
   return (
-    <div className="container mx-auto px-6 py-20">
-      <div className="mx-auto max-w-4xl text-center">
-        <h1 className="mb-4 text-4xl font-bold">{t("hero.title")}</h1>
-        <p className="mb-8 text-xl text-base-content/70">
-          {t("hero.subtitle")}
-        </p>
-
-        <div className="card bg-base-200 shadow-xl">
-          <div className="card-body">
-            <textarea
-              id="trade-input"
-              className="textarea textarea-bordered h-48 w-full"
-              placeholder={t("hero.placeholder")}
-              aria-label={t("hero.title")}
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-              disabled={isLoading}
-            />
-
-            {error && (
-              <div className="alert alert-error mt-4">
-                <span>{error}</span>
-              </div>
-            )}
-
-            <button
-              className="btn btn-primary btn-lg mt-4"
-              onClick={handleSubmit}
-              disabled={isLoading || !inputText.trim()}
-            >
-              {isLoading ? t("hero.analyzing") : t("hero.checkSafety")}
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <main className="flex min-h-dvh w-full flex-col items-center justify-center bg-base-100 p-6 pt-20 lg:pt-0">
+      <HomeHeroSection
+        value={inputText}
+        onChange={setInputText}
+        onSubmit={handleSubmit}
+        isLoading={isLoading}
+        error={error}
+      />
+    </main>
   );
 }

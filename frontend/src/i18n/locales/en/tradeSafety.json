@@ -1,14 +1,16 @@
 {
   "hero": {
-    "title": "Worried About a Trade?",
-    "subtitle": "Trade safety verification for global K-pop fans. AI analyzes language barriers, scam risks, and price fairness in 30 seconds.",
-    "placeholder": "Paste trade post text or URL...\n\nExample:\n급처분 ㅠㅠ 공구 실패해서 양도해요\nBTS Jimin photocard 무탈 DM\n\nOr:\nhttps://twitter.com/...",
+    "title": "Paste Your Trade Content",
+    "subtitle": "We analyze X and Reddit K-pop goods trade posts to identify scam risks",
+    "placeholder": "Copy and paste the trade content, or enter the post link",
+    "placeholderExample": "Example:\nwts lfb\nseventeen assorted pcs\n100ea!\nif getting jh ww mg 2:1 to doremiz\ncan meetup at ammb on sat\nwtt lft ph\nsvt stf fts fml dagat burstday heaven",
     "advancedOptions": "Advanced Options (Optional)",
     "amountPlaceholder": "Trade Amount (USD)",
-    "checkSafety": "Check Safety",
+    "checkSafety": "Analyze",
     "analyzing": "Analyzing...",
     "analyzingDescription": "AI is analyzing language, scam signals, and price...",
-    "tryExample": "Try an example"
+    "tryExample": "Try an example",
+    "disclaimer": "AI analysis results are for reference only and may not be 100% accurate. This service does not provide guarantees or compensation for trade damages."
   },
   "features": {
     "title": "AI Analyzes <1>3 Things Simultaneously</1>",
