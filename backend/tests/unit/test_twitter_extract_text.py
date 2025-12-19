@@ -1,8 +1,10 @@
 """Unit tests for TwitterService."""
 
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
+
 import requests
+
 from trade_safety.twitter_extract_text_service import TwitterService
 
 
@@ -11,6 +13,7 @@ class TestTwitterService(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures before each test method."""
+        # Lazy validation: token not required at initialization
         self.service = TwitterService()
 
     # ==============================================
@@ -95,23 +98,11 @@ class TestTwitterService(unittest.TestCase):
         # Given: Twitter URL
         url = "https://x.com/mkticket7/status/2000111727493718384"
 
-        # Mock API response with note_tweet structure
+        # Mock API response with Twitter API v2 structure
         mock_response = MagicMock()
         mock_response.json.return_value = {
             'data': {
-                'tweetResult': {
-                    'result': {
-                        'tweet': {
-                            'note_tweet': {
-                                'note_tweet_results': {
-                                    'result': {
-                                        'text': '2025 권진아 연말 콘서트 티켓양도\n\n12/24\n중앙블럭 1열 연석 14.5'
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                'text': '2025 권진아 연말 콘서트 티켓양도\n\n12/24\n중앙블럭 1열 연석 14.5'
             }
         }
         mock_response.raise_for_status = MagicMock()
@@ -168,35 +159,6 @@ class TestTwitterService(unittest.TestCase):
 
         self.assertIn("Failed to fetch tweet", str(context.exception))
 
-        # ==============================================
-        # Real HTTP Request Test
-        # ==============================================
-
-    def test_fetch_tweet_content_real_request(self):
-        """Test fetching actual tweet content from Twitter API with real HTTP request."""
-        # Given: Real Twitter URL
-        url = "https://x.com/mkticket7/status/2000111727493718384?s=20"
-
-        try:
-            # When: fetch_tweet_content is called with real HTTP request
-            result = self.service.fetch_tweet_content(url)
-
-            # Then: tweet text should be extracted
-            self.assertIsNotNone(result)
-            self.assertIsInstance(result, str)
-            self.assertGreater(len(result), 0)
-
-            # And: should contain expected content
-            self.assertIn('권진아', result)  # Artist name
-            self.assertIn('티켓', result)  # Ticket keyword
-
-            print(f"\n✅ Successfully fetched tweet content: {len(result)} chars")
-            print(f"✅ Tweet preview: {result}...")
-
-        except ValueError as e:
-            # If Twitter API requires authentication or rate limits
-            print(f"\n⚠️ Twitter API call failed (this may be expected): {e}")
-            self.skipTest(f"Twitter API unavailable: {e}")
 
 if __name__ == "__main__":
     unittest.main()
