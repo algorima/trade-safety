@@ -1,14 +1,16 @@
 {
   "hero": {
-    "title": "取引に不安がありますか？",
-    "subtitle": "グローバルK-popファンのための取引安全検証ツール。AIが言語の壁、詐欺リスク、価格の妥当性を30秒で分析します。",
-    "placeholder": "取引投稿のテキストまたはURLを貼り付けてください...\n\n例:\n급처분 ㅠㅠ 공구 실패해서 양도해요\nBTS ジミン フォトカード 무탈 DM\n\nまたは:\nhttps://twitter.com/...",
+    "title": "取引内容を貼り付けてください",
+    "subtitle": "X、RedditのK-popグッズ取引投稿を分析し、詐欺リスクをお知らせします",
+    "placeholder": "取引内容をコピーして貼り付けるか、投稿リンクを入力してください",
+    "placeholderExample": "例:\nwts lfb\nseventeen assorted pcs\n100ea!\nif getting jh ww mg 2:1 to doremiz\ncan meetup at ammb on sat\nwtt lft ph\nsvt stf fts fml dagat burstday heaven",
     "advancedOptions": "詳細オプション（任意）",
     "amountPlaceholder": "取引金額（USD）",
-    "checkSafety": "安全性を確認",
+    "checkSafety": "分析する",
     "analyzing": "分析中...",
     "analyzingDescription": "AIが言語、詐欺信号、価格を分析しています...",
-    "tryExample": "例を試す"
+    "tryExample": "例を試す",
+    "disclaimer": "AI分析結果は参考用であり、100%正確ではない場合があります。本サービスは取引被害に対する保証および補償を提供しません。"
   },
   "features": {
     "title": "AIが<1>3つを同時に</1>分析します",

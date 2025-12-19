@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { TranslationSection } from "../components/DetailedResult/TranslationSection";
 
 const meta: Meta<typeof TranslationSection> = {
-  title: "Trade Safety/DetailedResult/TranslationSection",
+  title: "DetailedResult/TranslationSection",
   component: TranslationSection,
   tags: ["autodocs"],
   parameters: {
@@ -12,20 +12,21 @@ const meta: Meta<typeof TranslationSection> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof TranslationSection>;
 
-export const WithBoth: Story = {
+export const Default: Story = {
   args: {
-    translation: "I'm selling a limited edition BTS photocard. DM for price!",
+    translation:
+      "Want to sell (WTS) and looking for buyers (LFB). Selling Seventeen assorted photocards for 100 each.",
     nuance:
-      "The casual tone and abbreviations (DM) are common in K-pop trading communities. However, not listing the price upfront is a minor red flag.",
+      "The seller is using K-pop-specific abbreviations. 'WTS' = want to sell, 'LFB' = looking for buyers.",
   },
 };
 
 export const TranslationOnly: Story = {
   args: {
     translation:
-      "Selling SEVENTEEN photocard set from latest album. Mint condition, never opened.",
+      "Selling photocard set for $50. Meet up available in downtown area.",
     nuance: null,
   },
 };
@@ -34,15 +35,6 @@ export const NuanceOnly: Story = {
   args: {
     translation: null,
     nuance:
-      "The seller uses very polite Korean (존댓말) which is standard in trading communities and shows professionalism.",
-  },
-};
-
-export const LongText: Story = {
-  args: {
-    translation:
-      "Hello everyone! I'm looking to sell my entire K-pop collection as I'm moving abroad next month. This includes photocards, albums, official lightsticks, and other merchandise from various groups including BTS, BLACKPINK, TWICE, and SEVENTEEN. Everything is in excellent condition and I can provide photos upon request. I'm open to negotiations and bundle deals. Please send me a direct message if you're interested!",
-    nuance:
-      "This is a very detailed and professional post. The seller explains the reason for selling (moving abroad), which adds credibility. The mention of 'bundle deals' and 'negotiations' is common in K-pop communities. The use of formal language and complete sentences suggests a serious, trustworthy seller. However, the lack of specific pricing is still something to note.",
+      "The text contains informal language typical of online marketplaces.",
   },
 };
