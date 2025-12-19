@@ -2,7 +2,7 @@
 
 import unittest
 from unittest.mock import patch, MagicMock
-
+import requests
 from trade_safety.twitter_extract_text_service import TwitterService
 
 
@@ -145,7 +145,6 @@ class TestTwitterService(unittest.TestCase):
         url = "https://x.com/user/status/123456789"
 
         # Mock timeout
-        import requests
         mock_get.side_effect = requests.exceptions.Timeout()
 
         # When/Then: Should raise ValueError
@@ -161,7 +160,6 @@ class TestTwitterService(unittest.TestCase):
         url = "https://x.com/user/status/123456789"
 
         # Mock API error
-        import requests
         mock_get.side_effect = requests.exceptions.RequestException("API error")
 
         # When/Then: Should raise ValueError
