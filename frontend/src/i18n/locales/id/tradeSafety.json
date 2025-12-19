@@ -82,6 +82,20 @@
         "message": "Tidak ada tanda bahaya besar yang terdeteksi, tetapi selalu berhati-hati!"
       }
     },
+    "safetyLevel": {
+      "safe": {
+        "title": "Transaksi Aman",
+        "description": "Postingan transaksi ini memiliki skor keamanan {{score}}. Selalu berhati-hati!"
+      },
+      "caution": {
+        "title": "Perlu Perhatian",
+        "description": "Postingan transaksi ini memiliki skor keamanan {{score}}. Beberapa sinyal peringatan terdeteksi, perlu verifikasi."
+      },
+      "danger": {
+        "title": "Risiko Terdeteksi",
+        "description": "Postingan transaksi ini memiliki skor keamanan {{score}}. Kami merekomendasikan untuk menghindari transaksi ini."
+      }
+    },
     "companionCta": {
       "title": "Ingin bicara?",
       "description": "Bagikan apa yang ada di pikiran Anda dengan rekan AI Anda",

@@ -82,6 +82,20 @@
         "message": "No major red flags detected, but always stay cautious!"
       }
     },
+    "safetyLevel": {
+      "safe": {
+        "title": "Safe to Trade",
+        "description": "This trade post has a safety score of {{score}}. Always proceed with caution!"
+      },
+      "caution": {
+        "title": "Proceed with Caution",
+        "description": "This trade post has a safety score of {{score}}. Some caution signals detected, verification needed."
+      },
+      "danger": {
+        "title": "High Risk Detected",
+        "description": "This trade post has a safety score of {{score}}. We recommend avoiding this trade."
+      }
+    },
     "companionCta": {
       "title": "Want to talk?",
       "description": "Share what's on your mind with your AI companion",

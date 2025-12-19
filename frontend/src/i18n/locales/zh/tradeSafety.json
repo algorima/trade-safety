@@ -82,6 +82,20 @@
         "message": "未检测到重大危险信号，但请始终保持警惕！"
       }
     },
+    "safetyLevel": {
+      "safe": {
+        "title": "交易安全",
+        "description": "交易帖子的安全评分为{{score}}分。请始终保持谨慎！"
+      },
+      "caution": {
+        "title": "需要注意",
+        "description": "交易帖子的安全评分为{{score}}分。检测到一些注意信号，需要核实。"
+      },
+      "danger": {
+        "title": "检测到风险",
+        "description": "交易帖子的安全评分为{{score}}分。建议避免此交易。"
+      }
+    },
     "companionCta": {
       "title": "想聊聊吗？",
       "description": "与您的AI同伴分享您心中所想",
