@@ -16,7 +16,9 @@ class TestURLValidation(unittest.TestCase):
         openai_api = OpenAIAPISettings(api_key="sk-test-dummy-key")
         model_settings = TradeSafetyModelSettings()
         # Lazy validation: twitter_api not required for URL validation tests
-        self.service = TradeSafetyService(openai_api, model_settings)
+        self.service = TradeSafetyService(
+            openai_api=openai_api, model_settings=model_settings
+        )
 
     # ==============================================
     # URLs - Should Return True

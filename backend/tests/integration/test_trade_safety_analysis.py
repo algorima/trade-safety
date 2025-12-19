@@ -37,7 +37,11 @@ class TestTradeSafetyAnalysis(unittest.TestCase):
         model_settings = TradeSafetyModelSettings()
         twitter_api = TwitterAPISettings()  # Auto-load from environment
 
-        self.service = TradeSafetyService(openai_api, model_settings, twitter_api=twitter_api)
+        self.service = TradeSafetyService(
+            openai_api=openai_api,
+            model_settings=model_settings,
+            twitter_api=twitter_api,
+        )
 
     def test_analyze_trade_with_price_info(self) -> None:
         """
