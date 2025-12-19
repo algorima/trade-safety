@@ -77,7 +77,7 @@ class RedditService:
             logger.debug("Fetching Reddit post from JSON API: url=%s", json_url)
 
             headers = {
-                'User-Agent': 'Mozilla/5.0 (compatible; RedditContentFetcher/1.0)'
+                "User-Agent": "Mozilla/5.0 (compatible; RedditContentFetcher/1.0)"
             }
 
             response = requests.get(json_url, headers=headers, timeout=10)
@@ -101,7 +101,9 @@ class RedditService:
             raise ValueError(error_msg) from exc
 
         except requests.exceptions.HTTPError as e:
-            error_msg = f"Reddit API error: {e.response.status_code} - {e.response.text}"
+            error_msg = (
+                f"Reddit API error: {e.response.status_code} - {e.response.text}"
+            )
             logger.error(error_msg)
             raise ValueError(error_msg) from e
 
@@ -132,10 +134,10 @@ class RedditService:
             "https://www.reddit.com/r/test/comments/123/title.json"
         """
         # Remove trailing slash if exists
-        clean_url = reddit_url.rstrip('/')
+        clean_url = reddit_url.rstrip("/")
 
         # Check if .json already exists
-        if clean_url.endswith('.json'):
+        if clean_url.endswith(".json"):
             return clean_url
 
         # Add .json extension
@@ -184,12 +186,12 @@ class RedditService:
                 post_listing = json_data[0]
 
                 # Navigate through the JSON structure
-                if 'data' in post_listing:
-                    children = post_listing['data'].get('children', [])
+                if "data" in post_listing:
+                    children = post_listing["data"].get("children", [])
 
                     if children and len(children) > 0:
-                        post_data = children[0].get('data', {})
-                        selftext = post_data.get('selftext', '')
+                        post_data = children[0].get("data", {})
+                        selftext = post_data.get("selftext", "")
 
                         if selftext:
                             logger.debug("Extracted selftext: %d chars", len(selftext))
@@ -225,7 +227,7 @@ class RedditService:
             >>> RedditService.is_reddit_url("https://example.com")
             False
         """
-        return 'reddit.com' in url
+        return "reddit.com" in url
 
     @staticmethod
     def extract_post_id(reddit_url: str) -> str | None:
@@ -245,7 +247,7 @@ class RedditService:
             "1pog0er"
         """
         # Pattern: /comments/{post_id}/
-        pattern = r'/comments/([a-z0-9]+)'
+        pattern = r"/comments/([a-z0-9]+)"
         match = re.search(pattern, reddit_url)
 
         if match:

@@ -103,13 +103,11 @@ class TwitterService:
             api_url = f"https://api.twitter.com/2/tweets/{tweet_id}"
 
             headers = {
-                'Authorization': f'Bearer {self.settings.bearer_token}',
-                'User-Agent': 'v2TweetLookupPython'
+                "Authorization": f"Bearer {self.settings.bearer_token}",
+                "User-Agent": "v2TweetLookupPython",
             }
 
-            params = {
-                'tweet.fields': 'text'
-            }
+            params = {"tweet.fields": "text"}
 
             response = requests.get(api_url, headers=headers, params=params, timeout=10)
             response.raise_for_status()
@@ -117,10 +115,10 @@ class TwitterService:
             data = response.json()
 
             # response에서 트윗 ID 추출
-            if 'data' not in data or 'text' not in data['data']:
+            if "data" not in data or "text" not in data["data"]:
                 raise ValueError(f"Tweet not found or inaccessible: {tweet_id}")
 
-            tweet_text = data['data']['text']
+            tweet_text = data["data"]["text"]
             logger.info("Successfully fetched tweet: %d chars", len(tweet_text))
 
             return tweet_text
@@ -131,7 +129,9 @@ class TwitterService:
             raise ValueError(error_msg) from exc
 
         except requests.exceptions.HTTPError as e:
-            error_msg = f"Twitter API error: {e.response.status_code} - {e.response.text}"
+            error_msg = (
+                f"Twitter API error: {e.response.status_code} - {e.response.text}"
+            )
             logger.error(error_msg)
             raise ValueError(error_msg) from e
 
@@ -162,7 +162,7 @@ class TwitterService:
             "987654321"
         """
         # 패턴 분석
-        pattern = r'/status/(\d+)'
+        pattern = r"/status/(\d+)"
         match = re.search(pattern, twitter_url)
 
         if match:
@@ -196,4 +196,4 @@ class TwitterService:
             >>> TwitterService.is_twitter_url("https://example.com")
             False
         """
-        return 'twitter.com' in url or 'x.com' in url
+        return "twitter.com" in url or "x.com" in url

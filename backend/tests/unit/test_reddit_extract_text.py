@@ -1,8 +1,10 @@
 """Unit tests for RedditService."""
 
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
+
 import requests
+
 from trade_safety.reddit_extract_text_service import RedditService
 
 
@@ -87,7 +89,9 @@ class TestRedditService(unittest.TestCase):
 
         json_url = self.service._convert_to_json_url(url)
 
-        self.assertEqual(json_url, "https://www.reddit.com/r/test/comments/123/title.json")
+        self.assertEqual(
+            json_url, "https://www.reddit.com/r/test/comments/123/title.json"
+        )
 
     def test_convert_to_json_url_with_trailing_slash(self):
         """Test converting Reddit URL with trailing slash to JSON URL."""
@@ -95,7 +99,9 @@ class TestRedditService(unittest.TestCase):
 
         json_url = self.service._convert_to_json_url(url)
 
-        self.assertEqual(json_url, "https://www.reddit.com/r/test/comments/123/title.json")
+        self.assertEqual(
+            json_url, "https://www.reddit.com/r/test/comments/123/title.json"
+        )
 
     def test_convert_to_json_url_already_has_json(self):
         """Test that URL already ending with .json is not modified."""
@@ -120,11 +126,11 @@ class TestRedditService(unittest.TestCase):
                             "kind": "t3",
                             "data": {
                                 "selftext": "This is the post content.",
-                                "title": "Test Post"
-                            }
+                                "title": "Test Post",
+                            },
                         }
                     ]
-                }
+                },
             }
         ]
 
@@ -144,16 +150,7 @@ class TestRedditService(unittest.TestCase):
         json_data = [
             {
                 "kind": "Listing",
-                "data": {
-                    "children": [
-                        {
-                            "kind": "t3",
-                            "data": {
-                                "selftext": long_text
-                            }
-                        }
-                    ]
-                }
+                "data": {"children": [{"kind": "t3", "data": {"selftext": long_text}}]},
             }
         ]
 
@@ -168,16 +165,7 @@ class TestRedditService(unittest.TestCase):
         json_data = [
             {
                 "kind": "Listing",
-                "data": {
-                    "children": [
-                        {
-                            "kind": "t3",
-                            "data": {
-                                "selftext": ""
-                            }
-                        }
-                    ]
-                }
+                "data": {"children": [{"kind": "t3", "data": {"selftext": ""}}]},
             }
         ]
 
@@ -187,14 +175,7 @@ class TestRedditService(unittest.TestCase):
 
     def test_extract_selftext_missing_data(self):
         """Test that None is returned when data structure is incomplete."""
-        json_data = [
-            {
-                "kind": "Listing",
-                "data": {
-                    "children": []
-                }
-            }
-        ]
+        json_data = [{"kind": "Listing", "data": {"children": []}}]
 
         selftext = self.service._extract_selftext(json_data)
 
@@ -218,7 +199,7 @@ class TestRedditService(unittest.TestCase):
     # Integration Tests with Mocked API
     # ==============================================
 
-    @patch('trade_safety.reddit_extract_text_service.requests.get')
+    @patch("trade_safety.reddit_extract_text_service.requests.get")
     def test_fetch_post_content_success(self, mock_get):
         """Test fetching post content with mocked API response."""
         # Given: Reddit URL
@@ -235,11 +216,11 @@ class TestRedditService(unittest.TestCase):
                             "kind": "t3",
                             "data": {
                                 "selftext": "This is a test post content.",
-                                "title": "Test Post"
-                            }
+                                "title": "Test Post",
+                            },
                         }
                     ]
-                }
+                },
             }
         ]
         mock_response.raise_for_status = MagicMock()
@@ -252,7 +233,7 @@ class TestRedditService(unittest.TestCase):
         self.assertEqual(result, "This is a test post content.")
         mock_get.assert_called_once()
 
-    @patch('trade_safety.reddit_extract_text_service.requests.get')
+    @patch("trade_safety.reddit_extract_text_service.requests.get")
     def test_fetch_post_content_invalid_url(self, mock_get):
         """Test that ValueError is raised for invalid Reddit URL."""
         # Given: Invalid Reddit URL (not a reddit.com domain)
@@ -265,7 +246,7 @@ class TestRedditService(unittest.TestCase):
         self.assertIn("Invalid Reddit URL", str(context.exception))
         mock_get.assert_not_called()
 
-    @patch('trade_safety.reddit_extract_text_service.requests.get')
+    @patch("trade_safety.reddit_extract_text_service.requests.get")
     def test_fetch_post_content_no_selftext(self, mock_get):
         """Test that ValueError is raised when post has no selftext."""
         # Given: Reddit URL
@@ -278,15 +259,9 @@ class TestRedditService(unittest.TestCase):
                 "kind": "Listing",
                 "data": {
                     "children": [
-                        {
-                            "kind": "t3",
-                            "data": {
-                                "selftext": "",
-                                "title": "Test Post"
-                            }
-                        }
+                        {"kind": "t3", "data": {"selftext": "", "title": "Test Post"}}
                     ]
-                }
+                },
             }
         ]
         mock_response.raise_for_status = MagicMock()
@@ -298,7 +273,7 @@ class TestRedditService(unittest.TestCase):
 
         self.assertIn("has no text content", str(context.exception))
 
-    @patch('trade_safety.reddit_extract_text_service.requests.get')
+    @patch("trade_safety.reddit_extract_text_service.requests.get")
     def test_fetch_post_content_api_timeout(self, mock_get):
         """Test that ValueError is raised on API timeout."""
         # Given: Reddit URL
@@ -313,7 +288,7 @@ class TestRedditService(unittest.TestCase):
 
         self.assertIn("Request timeout", str(context.exception))
 
-    @patch('trade_safety.reddit_extract_text_service.requests.get')
+    @patch("trade_safety.reddit_extract_text_service.requests.get")
     def test_fetch_post_content_http_error(self, mock_get):
         """Test that ValueError is raised on HTTP error."""
         # Given: Reddit URL
@@ -334,7 +309,7 @@ class TestRedditService(unittest.TestCase):
 
         self.assertIn("Reddit API error", str(context.exception))
 
-    @patch('trade_safety.reddit_extract_text_service.requests.get')
+    @patch("trade_safety.reddit_extract_text_service.requests.get")
     def test_fetch_post_content_api_error(self, mock_get):
         """Test that ValueError is raised on general API error."""
         # Given: Reddit URL
