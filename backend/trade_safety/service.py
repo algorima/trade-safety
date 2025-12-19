@@ -175,7 +175,7 @@ class TradeSafetyService:
 
         # Step 3: Build prompts
         system_prompt = self._build_system_prompt()
-        user_prompt = self._build_user_prompt(input_text, output_language)
+        user_prompt = self._build_user_prompt(content, output_language)
 
         # Step 4: Call LLM with structured output
         # with_structured_output uses OpenAI's Structured Outputs feature,
