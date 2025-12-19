@@ -18,7 +18,7 @@ from langchain_openai import ChatOpenAI
 
 from trade_safety.prompts import TRADE_SAFETY_SYSTEM_PROMPT
 from trade_safety.schemas import TradeSafetyAnalysis
-from trade_safety.settings import TradeSafetyModelSettings
+from trade_safety.settings import ALLOWED_LANGUAGES, TradeSafetyModelSettings
 
 logger = logging.getLogger(__name__)
 
@@ -101,11 +101,10 @@ class TradeSafetyService:
     # Main Analysis Method
     # ==========================================
 
-    # pylint: disable=unused-argument
     async def analyze_trade(
         self,
         input_text: str,
-        output_language: str = "en",  # TODO: Use in prompt (separate PR)
+        output_language: str = "en",
     ) -> TradeSafetyAnalysis:
         """
         Analyze a trade post for safety issues using LLM.
@@ -142,7 +141,7 @@ class TradeSafetyService:
             Risk: 35/100
         """
         # Step 1: Validate input
-        self._validate_input(input_text)
+        self._validate_input(input_text, output_language)
 
         logger.info(
             "Starting trade analysis: text_length=%d",
@@ -151,7 +150,7 @@ class TradeSafetyService:
 
         # Step 2: Build prompts
         system_prompt = self._build_system_prompt()
-        user_prompt = self._build_user_prompt(input_text)
+        user_prompt = self._build_user_prompt(input_text, output_language)
 
         # Step 3: Call LLM with structured output
         # with_structured_output uses OpenAI's Structured Outputs feature,
@@ -203,37 +202,49 @@ class TradeSafetyService:
     def _build_user_prompt(
         self,
         input_text: str,
+        output_language: str,
     ) -> str:
         """
         Build user prompt with trade post content.
 
         Args:
             input_text: Trade post text/URL
+            output_language: Language for analysis results
 
         Returns:
             The input text to be analyzed
         """
+        prompt = f"""output_language: {output_language}
+                IMPORTANT: Write ALL field values (translation, nuance_explanation, titles, descriptions, recommendations, emotional_support) in {output_language}. Do NOT mix languages.
+                Trade post to analyze: {input_text}"""
+
         logger.debug(
             "Built user prompt: text_length=%d",
-            len(input_text),
+            len(prompt),
         )
 
-        return input_text
+        return prompt
 
     # ==========================================
     # Input Validation
     # ==========================================
 
-    def _validate_input(self, input_text: str) -> None:
+    def _validate_input(self, input_text: str, output_language: str) -> None:
         """
         Validate input parameters before analysis.
 
         Args:
             input_text: Trade post text
+            output_language: Language code for analysis results
 
         Raises:
             ValueError: If input validation fails
         """
+        if output_language.upper() not in ALLOWED_LANGUAGES:
+            error_msg = f"Invalid output_language: {output_language} (allowed: {ALLOWED_LANGUAGES})"
+            logger.error("Validation failed: %s", error_msg)
+            raise ValueError(error_msg)
+
         if not input_text or not input_text.strip():
             error_msg = "input_text cannot be empty"
             logger.error("Validation failed: %s", error_msg)
