@@ -314,8 +314,7 @@ class TestOutputLanguageCompliance(unittest.TestCase):
     통합 테스트: LLM이 output_language 파라미터에 맞는 언어로 응답하는지 검증
 
     이 테스트는 각 지원 언어로 요청했을 때 LLM 응답이
-
-    해당 언어로 출력되는지 langdetect를 사용해 검증합니다.
+    해당 언어로 출력되는지 Unicode 범위 확인 방식으로 검증합니다.
 
     환경 변수:
         OPENAI_API_KEY: OpenAI API key (필수)
@@ -420,7 +419,7 @@ class TestOutputLanguageCompliance(unittest.TestCase):
         프롬프트 로직에 따라 언어 검증이 필요한 모든 텍스트 필드를 수집합니다.
 
         프롬프트에서 명시한 검증 대상:
-        - translation, nuance_explanation
+        - translation, nuance_explanation, ai_summary
         - risk_signals의 title, description, what_to_do
         - cautions의 title, description, what_to_do
         - safe_indicators의 title, description, what_to_do
@@ -433,6 +432,7 @@ class TestOutputLanguageCompliance(unittest.TestCase):
         # 기본 필드들
         fields.append(("recommendation", analysis.recommendation))
         fields.append(("emotional_support", analysis.emotional_support))
+        fields.append(("ai_summary", analysis.ai_summary))
         fields.append(("nuance_explanation", analysis.nuance_explanation))
 
         # risk_signals 내부 필드들
