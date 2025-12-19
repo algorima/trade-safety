@@ -104,7 +104,9 @@ class TradeSafetyAnalysis(BaseModel):
     safety_checklist: list[str] = Field(
         default_factory=list, description="Safety checklist items"
     )
-    safe_score: int = Field(ge=0, le=100, description="Overall safety score 0-100 (higher is safer)")
+    safe_score: int = Field(
+        ge=0, le=100, description="Overall safety score 0-100 (higher is safer)"
+    )
     recommendation: str = Field(description="Final recommendation")
     emotional_support: str = Field(description="Empathetic message to reduce anxiety")
 
@@ -126,7 +128,9 @@ class TradeSafetyCheckBase(BaseModel):
 
     # System-generated fields
     user_id: str | None = Field(None, description="User ID (None for guest)")
-    safe_score: int = Field(ge=0, le=100, description="Overall safety score (higher is safer)")
+    safe_score: int = Field(
+        ge=0, le=100, description="Overall safety score (higher is safer)"
+    )
 
     # Expert review fields
     expert_advice: str | None = Field(None, description="Expert advice text")
