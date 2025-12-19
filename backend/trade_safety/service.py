@@ -11,11 +11,11 @@ assess price fairness, and provide actionable safety recommendations.
 from __future__ import annotations
 
 import logging
-
+from urllib.parse import urlparse
 from aioia_core.settings import OpenAIAPISettings
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
-from urllib.parse import urlparse
+
 
 from trade_safety.prompts import TRADE_SAFETY_SYSTEM_PROMPT
 from trade_safety.schemas import TradeSafetyAnalysis
