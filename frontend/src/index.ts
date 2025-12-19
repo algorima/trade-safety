@@ -6,8 +6,6 @@
 
 // Components
 export { DetailedResult } from "./components/DetailedResult";
-export { QuickResultTeaser } from "./components/QuickResultTeaser";
-export { RiskSignalCard } from "./components/RiskSignalCard";
 
 // Repositories (Repository pattern for API access)
 export { TradeSafetyRepository } from "./repositories";

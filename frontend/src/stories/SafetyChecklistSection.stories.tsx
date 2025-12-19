@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { SafetyChecklistSection } from "../components/DetailedResult/SafetyChecklistSection";
 
 const meta: Meta<typeof SafetyChecklistSection> = {
-  title: "Trade Safety/DetailedResult/SafetyChecklistSection",
+  title: "DetailedResult/SafetyChecklistSection",
   component: SafetyChecklistSection,
   tags: ["autodocs"],
   parameters: {
@@ -12,43 +12,22 @@ const meta: Meta<typeof SafetyChecklistSection> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof SafetyChecklistSection>;
 
 export const Default: Story = {
   args: {
     items: [
-      "Request clear photos with today's date and seller's username",
-      "Verify seller's reputation in K-pop trading communities",
-      "Use PayPal Goods & Services for buyer protection",
-      "Never send payment via gift cards or cryptocurrency",
-      "Ask about return policy before purchasing",
+      "Confirm the exact currency being used",
+      "Ask for clear photos of the items with a handwritten date and username",
+      "Research the seller's reputation in trading communities",
+      "Arrange the meetup in a safe, public place",
+      "Bring a friend to the meetup",
     ],
   },
 };
 
-export const ShortList: Story = {
+export const FewItems: Story = {
   args: {
-    items: [
-      "Verify item authenticity",
-      "Use secure payment method",
-      "Check seller reviews",
-    ],
-  },
-};
-
-export const LongList: Story = {
-  args: {
-    items: [
-      "Request multiple high-quality photos from different angles",
-      "Ask for authentication photos with today's date and seller's username visible",
-      "Search for the seller's username in K-pop trading communities (Reddit, Discord, Twitter)",
-      "Verify the seller's transaction history and feedback",
-      "Only use payment methods with buyer protection (PayPal Goods & Services, eBay)",
-      "Never pay with gift cards, cryptocurrency, or direct bank transfers",
-      "Ask about shipping method, tracking, and insurance",
-      "Clarify the return and refund policy before payment",
-      "Request a video of the item if possible",
-      "Take your time - don't rush due to FOMO or urgency tactics",
-    ],
+    items: ["Verify seller identity", "Use secure payment method"],
   },
 };
