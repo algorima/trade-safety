@@ -292,7 +292,7 @@ class TradeSafetyService:
         # use to urlparse
         parsed = urlparse(text)
 
-        if parsed.scheme in ('http', 'https') and parsed.netloc:
+        if parsed.scheme in {'http', 'https'} and parsed.netloc:
             logger.debug("URL detected: %s", text[:100])
             return True
 
