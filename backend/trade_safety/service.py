@@ -68,6 +68,7 @@ class TradeSafetyService:
         openai_api: OpenAIAPISettings,
         model_settings: TradeSafetyModelSettings,
         system_prompt: str = TRADE_SAFETY_SYSTEM_PROMPT,
+        twitter_bearer_token: str | None = None,
     ):
         """
         Initialize TradeSafetyService with LLM configuration.
@@ -76,6 +77,8 @@ class TradeSafetyService:
             openai_api: OpenAI API settings (api_key)
             model_settings: Model settings (model name)
             system_prompt: System prompt for trade safety analysis (default: TRADE_SAFETY_SYSTEM_PROMPT)
+            twitter_bearer_token: Twitter API Bearer Token for URL analysis (optional).
+                                  If not provided, will try TWITTER_BEARER_TOKEN env var.
 
         Note:
             Temperature is hardcoded to 0.7 for balanced analytical reasoning.
@@ -100,7 +103,7 @@ class TradeSafetyService:
             strict=True,  # Enforce enum constraints and schema validation
         )
         self.system_prompt = system_prompt
-        self.twitter_service = TwitterService()
+        self.twitter_service = TwitterService(bearer_token=twitter_bearer_token)
         self.reddit_service = RedditService()
 
     # ==========================================
