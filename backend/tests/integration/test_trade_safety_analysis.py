@@ -6,15 +6,11 @@ import asyncio
 import os
 import unittest
 from decimal import Decimal
-from dotenv import load_dotenv
+
 from aioia_core.settings import OpenAIAPISettings
 
 from trade_safety.service import TradeSafetyService
-from trade_safety.settings import TradeSafetyModelSettings
-
-
-
-load_dotenv()
+from trade_safety.settings import TradeSafetyModelSettings, TwitterAPISettings
 
 
 class TestTradeSafetyAnalysis(unittest.TestCase):
@@ -26,6 +22,7 @@ class TestTradeSafetyAnalysis(unittest.TestCase):
 
     환경 변수:
         OPENAI_API_KEY: OpenAI API key (필수)
+        TWITTER_BEARER_TOKEN: Twitter API Bearer Token (선택, URL 분석용)
     """
 
     def setUp(self) -> None:
@@ -36,13 +33,11 @@ class TestTradeSafetyAnalysis(unittest.TestCase):
                 "Set it in backend/.envrc or export it before running tests."
             )
 
-        twitter_token = os.getenv("TWITTER_BEARER_TOKEN")
-        if not twitter_token:
-            self.skipTest("TWITTER_BEARER_TOKEN not configured")
         openai_api = OpenAIAPISettings(api_key=api_key)
         model_settings = TradeSafetyModelSettings()
+        twitter_api = TwitterAPISettings()  # Auto-load from environment
 
-        self.service = TradeSafetyService(openai_api, model_settings)
+        self.service = TradeSafetyService(openai_api, model_settings, twitter_api=twitter_api)
 
     def test_analyze_trade_with_price_info(self) -> None:
         """
