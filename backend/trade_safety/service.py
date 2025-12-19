@@ -55,8 +55,8 @@ class TradeSafetyService:
         >>> analysis = await service.analyze_trade(
         ...     input_text="급처분 공구 실패해서 양도해요"
         ... )
-        >>> print(analysis.risk_score)
-        35
+        >>> print(analysis.safe_score)
+        75
     """
 
     def __init__(
@@ -126,7 +126,7 @@ class TradeSafetyService:
                 - Risk signals, cautions, and safe indicators
                 - Price analysis (extracted from input text)
                 - Safety checklist
-                - Risk score (0-100)
+                - Safety score (0-100, higher is safer)
                 - Recommendation and emotional support
 
         Raises:
@@ -137,8 +137,8 @@ class TradeSafetyService:
             >>> analysis = await service.analyze_trade(
             ...     "급처분 ㅠㅠ 공구 실패해서 양도해요"
             ... )
-            >>> print(f"Risk: {analysis.risk_score}/100")
-            Risk: 35/100
+            >>> print(f"Safety: {analysis.safe_score}/100")
+            Safety: 75/100
         """
         # Step 1: Validate input
         self._validate_input(input_text, output_language)
@@ -170,8 +170,8 @@ class TradeSafetyService:
             )
 
         logger.info(
-            "Trade analysis completed successfully: risk_score=%d, signals=%d, cautions=%d, safe=%d",
-            analysis.risk_score,
+            "Trade analysis completed successfully: safe_score=%d, signals=%d, cautions=%d, safe=%d",
+            analysis.safe_score,
             len(analysis.risk_signals),
             len(analysis.cautions),
             len(analysis.safe_indicators),

@@ -22,7 +22,7 @@ def _convert_db_to_model(db_check: DBTradeSafetyCheck) -> TradeSafetyCheck:
         user_id=db_check.user_id,
         input_text=db_check.input_text,
         llm_analysis=TradeSafetyAnalysis(**db_check.llm_analysis),
-        risk_score=db_check.risk_score,
+        safe_score=db_check.safe_score,
         expert_advice=db_check.expert_advice,
         expert_reviewed=db_check.expert_reviewed,
         expert_reviewed_at=db_check.expert_reviewed_at,

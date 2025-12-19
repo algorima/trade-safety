@@ -189,7 +189,7 @@ class TradeSafetyRouter(
                     # System-generated fields
                     user_id=user_id,
                     llm_analysis=analysis.model_dump(),
-                    risk_score=analysis.risk_score,
+                    safe_score=analysis.safe_score,
                     expert_advice=None,
                     expert_reviewed=False,
                     expert_reviewed_at=None,
@@ -200,9 +200,9 @@ class TradeSafetyRouter(
                 check = manager.create(create_data)
 
                 logger.info(
-                    "Trade safety check created: id=%s, risk_score=%d, authenticated=%s",
+                    "Trade safety check created: id=%s, safe_score=%d, authenticated=%s",
                     check.id,
-                    check.risk_score,
+                    check.safe_score,
                     user_id is not None,
                 )
 
