@@ -15,7 +15,7 @@ export function AISummarySection({ summary }: AISummarySectionProps) {
 
   return (
     <AnalysisCard title={t("result.aiSummary")}>
-      <p className="rounded-lg bg-base-200 p-6 text-sm leading-relaxed text-gray-900">
+      <p className="rounded-lg bg-base-200 p-6 text-sm leading-relaxed text-base-content">
         {summary}
       </p>
     </AnalysisCard>
