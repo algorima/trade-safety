@@ -28,6 +28,12 @@ export default function TradeSafetyResultPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (typeof checkId !== "string" || !checkId) {
+      setError("Analysis Not found");
+      setIsLoading(false);
+      return;
+    }
+
     const fetchResult = async () => {
       try {
         const response = await repository.getOne({ id: checkId });
