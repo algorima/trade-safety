@@ -1,0 +1,108 @@
+{
+  "hero": {
+    "title": "I-paste ang Nilalaman ng Trade",
+    "subtitle": "Sinusuri namin ang mga K-pop goods trade post sa X at Reddit para matukoy ang mga panganib ng scam",
+    "placeholder": "Kopyahin at i-paste ang nilalaman ng trade, o ilagay ang link ng post",
+    "placeholderExample": "Halimbawa:\nwts lfb\nseventeen assorted pcs\n100ea!\nif getting jh ww mg 2:1 to doremiz\ncan meetup at ammb on sat\nwtt lft ph\nsvt stf fts fml dagat burstday heaven",
+    "advancedOptions": "Mga Advanced na Opsyon (Opsyonal)",
+    "amountPlaceholder": "Halaga ng Trade (USD)",
+    "checkSafety": "Suriin",
+    "analyzing": "Sinusuri...",
+    "analyzingDescription": "Sinusuri ng AI ang wika, mga senyales ng scam, at presyo...",
+    "tryExample": "Subukan ang halimbawa",
+    "disclaimer": "Ang mga resulta ng AI analysis ay para sa reference lamang at maaaring hindi 100% tama. Ang serbisyong ito ay hindi nagbibigay ng garantiya o kabayaran para sa mga pinsala sa trade."
+  },
+  "features": {
+    "title": "Sinusuri ng AI ang <1>3 Bagay nang Sabay-sabay</1>",
+    "translation": {
+      "title": "Pagsasalin + Nuance",
+      "description": "Nagsasalin ng Korean slang at tinutukoy ang mga kahina-hinalang ekspresyon."
+    },
+    "scamDetection": {
+      "title": "Pagtukoy ng Scam Signal",
+      "description": "Nakikita ang mga risk pattern tulad ng advance payment request, edad ng account, at kawalan ng verification."
+    },
+    "priceAnalysis": {
+      "title": "Pagiging Patas ng Presyo",
+      "description": "Nagbibigay ng impormasyon sa market price at nagbabala tungkol sa sobrang mahal na presyo."
+    }
+  },
+  "howItWorks": {
+    "title": "Paano Ito Gumagana",
+    "step1": {
+      "title": "I-paste",
+      "description": "Kopyahin at i-paste ang text o URL ng trade post"
+    },
+    "step2": {
+      "title": "AI Analysis",
+      "description": "Sinusuri ng AI ang wika, scam signals, at presyo sa loob ng 30 segundo"
+    },
+    "step3": {
+      "title": "Makuha ang Resulta",
+      "description": "Tingnan ang detalyadong pagsusuri at mga rekomendasyon sa kaligtasan"
+    }
+  },
+  "result": {
+    "title": "Trade Safety Analysis",
+    "subtitle": "Batay sa AI analysis ng impormasyong ibinigay mo",
+    "notFound": "Hindi nahanap ang resulta ng analysis",
+    "quickTitle": "Tapos na ang Analysis!",
+    "riskSignals": "Mga Risk Signal",
+    "cautions": "Mga Pag-iingat",
+    "safeIndicators": "Mga Safe Indicator",
+    "detailsPreview": "Detalyadong Analysis",
+    "signupRequired": "Mag-sign up para makita ang buong detalye",
+    "signupMessage": "Gumawa ng libreng account para makakuha ng detalyadong AI analysis at payo ng eksperto",
+    "signupDescription": "Makuha ang kumpletong analysis at AI advice gamit ang libreng account",
+    "signupButton": "Libreng Pag-sign Up",
+    "signupToView": "Mag-sign up para makita ang buong analysis",
+    "whatToDo": "Ano ang dapat gawin",
+    "translation": "Pagsasalin at Nuance",
+    "translationTitle": "Pagsasalin",
+    "nuanceTitle": "Paliwanag ng Nuance",
+    "priceAnalysis": "Price Analysis",
+    "marketPrice": "Market Price Range",
+    "offeredPrice": "Inaalok na Presyo",
+    "priceAssessment": "Pagsusuri ng Presyo",
+    "priceWarnings": "Mga Babala sa Presyo",
+    "safetyChecklist": "Safety Checklist",
+    "checklistDescription": "Suriin ang mga item na ito bago magpatuloy sa trade",
+    "aiSummary": "AI Summary",
+    "recommendation": "Rekomendasyon",
+    "expertAdvice": "Payo ng Eksperto",
+    "expertName": "K-pop Trade Expert",
+    "riskLevel": {
+      "high": {
+        "title": "Mataas na Panganib",
+        "message": "Inirerekomenda naming HUWAG ituloy ang trade na ito. Maraming red flag ang natukoy."
+      },
+      "medium": {
+        "title": "Mag-ingat sa Pagpapatuloy",
+        "message": "May ilang nakababahalang senyales na natukoy. Mangyaring i-verify nang mabuti bago mag-trade."
+      },
+      "low": {
+        "title": "Mukhang Ligtas",
+        "message": "Walang malalaking red flag na natukoy, pero laging mag-ingat!"
+      }
+    },
+    "safetyLevel": {
+      "safe": {
+        "title": "Ligtas ang Trade",
+        "description": "Ang trade post na ito ay may safety score na {{score}}. Laging mag-ingat!"
+      },
+      "caution": {
+        "title": "Mag-ingat sa Pagpapatuloy",
+        "description": "Ang trade post na ito ay may safety score na {{score}}. May ilang caution signal na natukoy, kailangang i-verify."
+      },
+      "danger": {
+        "title": "Nakita ang Mataas na Panganib",
+        "description": "Ang trade post na ito ay may safety score na {{score}}. Inirerekomenda naming iwasan ang trade na ito."
+      }
+    },
+    "companionCta": {
+      "title": "Gusto mo bang mag-usap?",
+      "description": "Ibahagi ang iniisip mo sa iyong AI companion",
+      "button": "Magsimula ng Chat"
+    }
+  }
+}
