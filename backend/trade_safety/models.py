@@ -14,7 +14,7 @@ class DBTradeSafetyCheck(BaseModel):
         user_id (str | None): Foreign key to user_profiles, None for guest users
         input_text (str): The trade post text or URL provided by user
         llm_analysis (dict): LLM analysis result in JSON format
-        risk_score (int): Risk score from 0-100
+        safe_score (int): Safety score from 0-100 (higher is safer)
         expert_advice (str | None): Additional advice added by expert
         expert_reviewed (bool): Whether expert has reviewed this check
         expert_reviewed_at (datetime | None): When expert reviewed
@@ -33,7 +33,7 @@ class DBTradeSafetyCheck(BaseModel):
     )
     input_text: Mapped[str] = mapped_column(Text, nullable=False)
     llm_analysis: Mapped[dict] = mapped_column(JSON, nullable=False)
-    risk_score: Mapped[int] = mapped_column(Integer, nullable=False)
+    safe_score: Mapped[int] = mapped_column(Integer, nullable=False)
 
     # Expert review fields
     expert_advice: Mapped[str | None] = mapped_column(Text, nullable=True)

@@ -146,13 +146,13 @@ class TestTradeSafetyAnalysis(unittest.TestCase):
             "사기 신호가 있는 거래 글에서는 위험 신호 또는 주의사항이 감지되어야 합니다",
         )
 
-        # Risk score가 설정되어야 함
-        self.assertIsNotNone(analysis.risk_score, "위험 점수가 설정되어야 합니다")
+        # Safe score가 설정되어야 함
+        self.assertIsNotNone(analysis.safe_score, "안전 점수가 설정되어야 합니다")
         self.assertGreaterEqual(
-            analysis.risk_score, 0, "위험 점수는 0 이상이어야 합니다"
+            analysis.safe_score, 0, "안전 점수는 0 이상이어야 합니다"
         )
         self.assertLessEqual(
-            analysis.risk_score, 100, "위험 점수는 100 이하여야 합니다"
+            analysis.safe_score, 100, "안전 점수는 100 이하여야 합니다"
         )
 
     def test_analyze_trade_returns_safety_checklist(self) -> None:
@@ -306,6 +306,438 @@ class TestTradeSafetyAnalysis(unittest.TestCase):
         self.assertIsNotNone(
             analysis.price_analysis.offered_price,
             "가격 정보가 제공되었으므로 offered_price가 있어야 합니다",
+        )
+
+
+class TestOutputLanguageCompliance(unittest.TestCase):
+    """
+    통합 테스트: LLM이 output_language 파라미터에 맞는 언어로 응답하는지 검증
+
+    이 테스트는 각 지원 언어로 요청했을 때 LLM 응답이
+    해당 언어로 출력되는지 Unicode 범위 확인 방식으로 검증합니다.
+
+    환경 변수:
+        OPENAI_API_KEY: OpenAI API key (필수)
+    """
+
+    def setUp(self) -> None:
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+            raise ValueError(
+                "OPENAI_API_KEY environment variable is required for integration tests."
+            )
+
+        openai_api = OpenAIAPISettings(api_key=api_key)
+        model_settings = TradeSafetyModelSettings()
+
+        self.service = TradeSafetyService(openai_api, model_settings)
+
+        # 테스트용 거래 글
+        self.test_input = """
+        [WTS][Canada] Signed Albums (I-dle, Everglow, Cherry Bullet) + OMG Banhana,
+        Located in Canada, prices in CAD. Shipping extra. Will ship worldwide,
+         only using trackable options. 
+        GFriend album in picture is already sold. All inclusions includes PCs.
+        Izone Heart*Iz Signed Wonyoung (Mwave - has 3 PCs, don't remember if hey came with the album, 
+        see photo) - $90"
+        """
+
+    def _detect_language(self, text: str) -> str | None:
+        """
+        텍스트의 언어를 Unicode 범위로 감지합니다.
+        langdetect 대신 Unicode 체크를 사용하여 더 robust하게 동작합니다.
+        """
+        if not text or len(text.strip()) < 5:
+            return None
+
+        sample = text.strip()[:200]
+
+        # 각 언어의 문자 수 카운트 (float: 일본어 한자 가중치 때문)
+        counts: dict[str, float] = {
+            "ko": 0.0,  # 한글: AC00-D7AF (가-힣), 1100-11FF (자모)
+            "ja": 0.0,  # 일본어: 3040-309F (히라가나), 30A0-30FF (가타카나)
+            "zh": 0.0,  # 중국어: 4E00-9FFF (CJK 한자)
+            "th": 0.0,  # 태국어: 0E00-0E7F
+            "vi": 0.0,  # 베트남어: 라틴 + 성조 부호 (1EA0-1EF9)
+            "en": 0.0,  # 영어/라틴: 0041-007A
+        }
+
+        for char in sample:
+            code = ord(char)
+            if 0xAC00 <= code <= 0xD7AF or 0x1100 <= code <= 0x11FF:
+                counts["ko"] += 1
+            elif 0x3040 <= code <= 0x309F or 0x30A0 <= code <= 0x30FF:
+                counts["ja"] += 1
+            elif 0x4E00 <= code <= 0x9FFF:
+                counts["zh"] += 1
+                counts["ja"] += 0.5  # 일본어도 한자 사용
+            elif 0x0E00 <= code <= 0x0E7F:
+                counts["th"] += 1
+            elif 0x1EA0 <= code <= 0x1EF9 or 0x0100 <= code <= 0x017F:
+                counts["vi"] += 1
+            elif 0x0041 <= code <= 0x007A:
+                counts["en"] += 1
+
+        # 가장 많은 언어 반환
+        if max(counts.values()) == 0:
+            # 라틴 문자 기반 언어 (ES, ID, TL 등)는 영어로 분류됨
+            return "en"
+
+        detected = max(counts, key=lambda k: counts[k])
+        return detected
+
+    def _is_language_match(self, detected: str | None, expected: str) -> bool:
+        """
+        감지된 언어가 예상 언어와 일치하는지 확인합니다.
+
+        Unicode 기반 감지 결과와 시스템 언어 코드 매핑:
+        - 라틴 문자 기반 언어 (EN, ES, ID, TL, VI)는 모두 'en'으로 감지될 수 있음
+        """
+        if detected is None:
+            return False
+
+        mapping = {
+            "EN": ["en"],
+            "KO": ["ko"],
+            "JA": ["ja", "zh"],  # 일본어는 한자도 사용
+            "ZH": ["zh"],
+            "TH": ["th"],
+            "VI": ["vi", "en"],  # 베트남어는 라틴 기반이라 en으로 감지될 수 있음
+            "ES": ["en"],  # 라틴 문자 기반
+            "ID": ["en"],  # 라틴 문자 기반
+            "TL": ["en"],  # 라틴 문자 기반
+        }
+
+        expected_codes = mapping.get(expected.upper(), [expected.lower()])
+        return detected.lower() in expected_codes
+
+    # 언어 일치 비율 임계값 (80% 이상이면 통과)
+    LANGUAGE_MATCH_THRESHOLD = 0.80
+
+    def _get_all_text_fields_to_check(self, analysis) -> list[tuple[str, str | None]]:
+        """
+        프롬프트 로직에 따라 언어 검증이 필요한 모든 텍스트 필드를 수집합니다.
+
+        프롬프트에서 명시한 검증 대상:
+        - translation, nuance_explanation, ai_summary
+        - risk_signals의 title, description, what_to_do
+        - cautions의 title, description, what_to_do
+        - safe_indicators의 title, description, what_to_do
+        - price_analysis.price_assessment, price_analysis.warnings
+        - safety_checklist
+        - recommendation, emotional_support
+        """
+        fields: list[tuple[str, str | None]] = []
+
+        # 기본 필드들
+        fields.append(("recommendation", analysis.recommendation))
+        fields.append(("emotional_support", analysis.emotional_support))
+        fields.append(("ai_summary", analysis.ai_summary))
+        fields.append(("nuance_explanation", analysis.nuance_explanation))
+
+        # risk_signals 내부 필드들
+        for i, signal in enumerate(analysis.risk_signals):
+            fields.append((f"risk_signals[{i}].title", signal.title))
+            fields.append((f"risk_signals[{i}].description", signal.description))
+            fields.append((f"risk_signals[{i}].what_to_do", signal.what_to_do))
+
+        # cautions 내부 필드들
+        for i, caution in enumerate(analysis.cautions):
+            fields.append((f"cautions[{i}].title", caution.title))
+            fields.append((f"cautions[{i}].description", caution.description))
+            fields.append((f"cautions[{i}].what_to_do", caution.what_to_do))
+
+        # safe_indicators 내부 필드들
+        for i, indicator in enumerate(analysis.safe_indicators):
+            fields.append((f"safe_indicators[{i}].title", indicator.title))
+            fields.append((f"safe_indicators[{i}].description", indicator.description))
+            fields.append((f"safe_indicators[{i}].what_to_do", indicator.what_to_do))
+
+        # price_analysis 필드들
+        if analysis.price_analysis:
+            fields.append(
+                (
+                    "price_analysis.price_assessment",
+                    analysis.price_analysis.price_assessment,
+                )
+            )
+            if analysis.price_analysis.warnings:
+                for i, warning in enumerate(analysis.price_analysis.warnings):
+                    fields.append((f"price_analysis.warnings[{i}]", warning))
+
+        # safety_checklist
+        for i, item in enumerate(analysis.safety_checklist):
+            fields.append((f"safety_checklist[{i}]", item))
+
+        return fields
+
+    def _check_language_compliance_ratio(
+        self, analysis, expected_lang: str
+    ) -> tuple[float, int, int, list[str]]:
+        """
+        언어 일치 비율을 계산합니다.
+
+        Returns:
+            (match_ratio, matched_count, total_count, failed_fields)
+        """
+        fields_to_check = self._get_all_text_fields_to_check(analysis)
+        matched_count = 0
+        total_count = 0
+        failed_fields = []
+
+        for field_name, field_value in fields_to_check:
+            if field_value and len(str(field_value).strip()) > 20:
+                total_count += 1
+                detected = self._detect_language(str(field_value))
+                if self._is_language_match(detected, expected_lang):
+                    matched_count += 1
+                else:
+                    failed_fields.append(f"{field_name}: detected={detected}")
+
+        match_ratio = matched_count / total_count if total_count > 0 else 1.0
+        return match_ratio, matched_count, total_count, failed_fields
+
+    def test_output_language_english(self) -> None:
+        """
+        output_language='EN'으로 요청 시 영어로 응답해야 함
+
+        비율 기반 검증: 80% 이상의 필드가 영어로 작성되면 통과
+        """
+        # When
+        analysis = asyncio.run(
+            self.service.analyze_trade(
+                input_text=self.test_input,
+                output_language="EN",
+            )
+        )
+
+        # Then: 80% 이상의 필드가 영어로 작성되어야 함
+        ratio, matched, total, failed = self._check_language_compliance_ratio(
+            analysis, "EN"
+        )
+
+        self.assertGreaterEqual(
+            ratio,
+            self.LANGUAGE_MATCH_THRESHOLD,
+            f"영어 응답 비율이 {self.LANGUAGE_MATCH_THRESHOLD*100}% 미만입니다. "
+            f"실제: {ratio*100:.1f}% ({matched}/{total})\n"
+            f"실패 필드: {failed}",
+        )
+
+    def test_output_language_korean(self) -> None:
+        """
+        output_language='KO'로 요청 시 한국어로 응답해야 함
+
+        비율 기반 검증: 80% 이상의 필드가 한국어로 작성되면 통과
+        """
+        # When
+        analysis = asyncio.run(
+            self.service.analyze_trade(
+                input_text=self.test_input,
+                output_language="KO",
+            )
+        )
+
+        # Then: 80% 이상의 필드가 한국어로 작성되어야 함
+        ratio, matched, total, failed = self._check_language_compliance_ratio(
+            analysis, "KO"
+        )
+
+        self.assertGreaterEqual(
+            ratio,
+            self.LANGUAGE_MATCH_THRESHOLD,
+            f"한국어 응답 비율이 {self.LANGUAGE_MATCH_THRESHOLD*100}% 미만입니다. "
+            f"실제: {ratio*100:.1f}% ({matched}/{total})\n"
+            f"실패 필드: {failed}",
+        )
+
+    def test_output_language_japanese(self) -> None:
+        """
+        output_language='JA'로 요청 시 일본어로 응답해야 함
+
+        비율 기반 검증: 80% 이상의 필드가 일본어로 작성되면 통과
+        """
+        # When
+        analysis = asyncio.run(
+            self.service.analyze_trade(
+                input_text=self.test_input,
+                output_language="JA",
+            )
+        )
+
+        # Then: 80% 이상의 필드가 일본어로 작성되어야 함
+        ratio, matched, total, failed = self._check_language_compliance_ratio(
+            analysis, "JA"
+        )
+
+        self.assertGreaterEqual(
+            ratio,
+            self.LANGUAGE_MATCH_THRESHOLD,
+            f"일본어 응답 비율이 {self.LANGUAGE_MATCH_THRESHOLD*100}% 미만입니다. "
+            f"실제: {ratio*100:.1f}% ({matched}/{total})\n"
+            f"실패 필드: {failed}",
+        )
+
+    def test_output_language_chinese(self) -> None:
+        """
+        output_language='ZH'로 요청 시 중국어로 응답해야 함
+
+        비율 기반 검증: 80% 이상의 필드가 중국어로 작성되면 통과
+        """
+        # When
+        analysis = asyncio.run(
+            self.service.analyze_trade(
+                input_text=self.test_input,
+                output_language="ZH",
+            )
+        )
+
+        # Then: 80% 이상의 필드가 중국어로 작성되어야 함
+        ratio, matched, total, failed = self._check_language_compliance_ratio(
+            analysis, "ZH"
+        )
+
+        self.assertGreaterEqual(
+            ratio,
+            self.LANGUAGE_MATCH_THRESHOLD,
+            f"중국어 응답 비율이 {self.LANGUAGE_MATCH_THRESHOLD*100}% 미만입니다. "
+            f"실제: {ratio*100:.1f}% ({matched}/{total})\n"
+            f"실패 필드: {failed}",
+        )
+
+    def test_output_language_spanish(self) -> None:
+        """
+        output_language='ES'로 요청 시 스페인어로 응답해야 함
+
+        비율 기반 검증: 80% 이상의 필드가 스페인어로 작성되면 통과
+        """
+        # When
+        analysis = asyncio.run(
+            self.service.analyze_trade(
+                input_text=self.test_input,
+                output_language="ES",
+            )
+        )
+
+        # Then: 80% 이상의 필드가 스페인어로 작성되어야 함
+        ratio, matched, total, failed = self._check_language_compliance_ratio(
+            analysis, "ES"
+        )
+
+        self.assertGreaterEqual(
+            ratio,
+            self.LANGUAGE_MATCH_THRESHOLD,
+            f"스페인어 응답 비율이 {self.LANGUAGE_MATCH_THRESHOLD*100}% 미만입니다. "
+            f"실제: {ratio*100:.1f}% ({matched}/{total})\n"
+            f"실패 필드: {failed}",
+        )
+
+    def test_output_language_thai(self) -> None:
+        """
+        output_language='TH'로 요청 시 태국어로 응답해야 함
+
+        비율 기반 검증: 80% 이상의 필드가 태국어로 작성되면 통과
+        """
+        # When
+        analysis = asyncio.run(
+            self.service.analyze_trade(
+                input_text=self.test_input,
+                output_language="TH",
+            )
+        )
+
+        # Then: 80% 이상의 필드가 태국어로 작성되어야 함
+        ratio, matched, total, failed = self._check_language_compliance_ratio(
+            analysis, "TH"
+        )
+
+        self.assertGreaterEqual(
+            ratio,
+            self.LANGUAGE_MATCH_THRESHOLD,
+            f"태국어 응답 비율이 {self.LANGUAGE_MATCH_THRESHOLD*100}% 미만입니다. "
+            f"실제: {ratio*100:.1f}% ({matched}/{total})\n"
+            f"실패 필드: {failed}",
+        )
+
+    def test_output_language_vietnamese(self) -> None:
+        """
+        output_language='VI'로 요청 시 베트남어로 응답해야 함
+
+        비율 기반 검증: 80% 이상의 필드가 베트남어로 작성되면 통과
+        """
+        # When
+        analysis = asyncio.run(
+            self.service.analyze_trade(
+                input_text=self.test_input,
+                output_language="VI",
+            )
+        )
+
+        # Then: 80% 이상의 필드가 베트남어로 작성되어야 함
+        ratio, matched, total, failed = self._check_language_compliance_ratio(
+            analysis, "VI"
+        )
+
+        self.assertGreaterEqual(
+            ratio,
+            self.LANGUAGE_MATCH_THRESHOLD,
+            f"베트남어 응답 비율이 {self.LANGUAGE_MATCH_THRESHOLD*100}% 미만입니다. "
+            f"실제: {ratio*100:.1f}% ({matched}/{total})\n"
+            f"실패 필드: {failed}",
+        )
+
+    def test_output_language_indonesian(self) -> None:
+        """
+        output_language='ID'로 요청 시 인도네시아어로 응답해야 함
+
+        비율 기반 검증: 80% 이상의 필드가 인도네시아어로 작성되면 통과
+        """
+        # When
+        analysis = asyncio.run(
+            self.service.analyze_trade(
+                input_text=self.test_input,
+                output_language="ID",
+            )
+        )
+
+        # Then: 80% 이상의 필드가 인도네시아어로 작성되어야 함
+        ratio, matched, total, failed = self._check_language_compliance_ratio(
+            analysis, "ID"
+        )
+
+        self.assertGreaterEqual(
+            ratio,
+            self.LANGUAGE_MATCH_THRESHOLD,
+            f"인도네시아어 응답 비율이 {self.LANGUAGE_MATCH_THRESHOLD*100}% 미만입니다. "
+            f"실제: {ratio*100:.1f}% ({matched}/{total})\n"
+            f"실패 필드: {failed}",
+        )
+
+    def test_output_language_tagalog(self) -> None:
+        """
+        output_language='TL'로 요청 시 타갈로그어로 응답해야 함
+
+        비율 기반 검증: 80% 이상의 필드가 타갈로그어로 작성되면 통과
+        """
+        # When
+        analysis = asyncio.run(
+            self.service.analyze_trade(
+                input_text=self.test_input,
+                output_language="TL",
+            )
+        )
+
+        # Then: 80% 이상의 필드가 타갈로그어로 작성되어야 함
+        ratio, matched, total, failed = self._check_language_compliance_ratio(
+            analysis, "TL"
+        )
+
+        self.assertGreaterEqual(
+            ratio,
+            self.LANGUAGE_MATCH_THRESHOLD,
+            f"타갈로그어 응답 비율이 {self.LANGUAGE_MATCH_THRESHOLD*100}% 미만입니다. "
+            f"실제: {ratio*100:.1f}% ({matched}/{total})\n"
+            f"실패 필드: {failed}",
         )
 
 

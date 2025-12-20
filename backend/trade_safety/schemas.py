@@ -84,6 +84,7 @@ class PriceAnalysis(BaseModel):
 class TradeSafetyAnalysis(BaseModel):
     """Complete LLM analysis of a trade"""
 
+    ai_summary: str = Field(description="AI-generated summary of the trade analysis")
     translation: str | None = Field(
         None, description="Translation of trade post if not in English"
     )
@@ -103,7 +104,9 @@ class TradeSafetyAnalysis(BaseModel):
     safety_checklist: list[str] = Field(
         default_factory=list, description="Safety checklist items"
     )
-    risk_score: int = Field(ge=0, le=100, description="Overall risk score 0-100")
+    safe_score: int = Field(
+        ge=0, le=100, description="Overall safety score 0-100 (higher is safer)"
+    )
     recommendation: str = Field(description="Final recommendation")
     emotional_support: str = Field(description="Empathetic message to reduce anxiety")
 
@@ -125,7 +128,9 @@ class TradeSafetyCheckBase(BaseModel):
 
     # System-generated fields
     user_id: str | None = Field(None, description="User ID (None for guest)")
-    risk_score: int = Field(ge=0, le=100, description="Overall risk score")
+    safe_score: int = Field(
+        ge=0, le=100, description="Overall safety score (higher is safer)"
+    )
 
     # Expert review fields
     expert_advice: str | None = Field(None, description="Expert advice text")
