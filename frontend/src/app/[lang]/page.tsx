@@ -32,7 +32,7 @@ export default function HomePage() {
 
     try {
       const response = await repository.create({
-        variables: { input_text: inputText },
+        variables: { input_text: inputText, output_language: i18n.language },
       });
 
       router.push(`/${i18n.language}/result/${response.data.id}`);
