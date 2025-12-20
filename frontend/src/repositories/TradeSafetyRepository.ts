@@ -31,12 +31,6 @@ const tradeSafetyAnalysisSchema = z.object({
   emotional_support: z.string(),
 });
 
-const quickSummarySchema = z.object({
-  risk_signals_count: z.number(),
-  cautions_count: z.number(),
-  safe_indicators_count: z.number(),
-});
-
 const tradeSafetyCheckResponseSchema = z.object({
   id: z.string(),
   user_id: z.string().nullish(),
@@ -51,41 +45,15 @@ const tradeSafetyCheckResponseSchema = z.object({
   updated_at: z.string(),
 });
 
-// Full response for authenticated users
-export type TradeSafetyCheckFullResponse = z.infer<
+// Response type for all users
+export type TradeSafetyCheckRepositoryResponse = z.infer<
   typeof tradeSafetyCheckResponseSchema
 >;
-
-// Quick response for non-authenticated users
-export interface QuickCheckRepositoryResponse {
-  id: string;
-  quick_summary: {
-    risk_signals_count: number;
-    cautions_count: number;
-    safe_indicators_count: number;
-  };
-  signup_required: true;
-}
-
-// Union type for repository responses
-export type TradeSafetyCheckRepositoryResponse =
-  | TradeSafetyCheckFullResponse
-  | QuickCheckRepositoryResponse;
-
-// Union schema for repository responses
-const tradeSafetyCheckRepositoryResponseSchema = z.union([
-  tradeSafetyCheckResponseSchema,
-  z.object({
-    id: z.string(),
-    quick_summary: quickSummarySchema,
-    signup_required: z.literal(true),
-  }),
-]);
 
 export class TradeSafetyRepository extends BaseCrudRepository<TradeSafetyCheckRepositoryResponse> {
   readonly resource = "trade-safety";
 
   protected getDataSchema() {
-    return tradeSafetyCheckRepositoryResponseSchema;
+    return tradeSafetyCheckResponseSchema;
   }
 }

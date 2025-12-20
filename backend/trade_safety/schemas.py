@@ -173,23 +173,3 @@ class TradeSafetyCheckUpdate(BaseModel):
     )
 
     model_config = ConfigDict(from_attributes=True)
-
-
-class QuickCheckSummary(BaseModel):
-    """Summary for non-authenticated users"""
-
-    risk_signals_count: int
-    cautions_count: int
-    safe_indicators_count: int
-
-    model_config = ConfigDict(from_attributes=True)
-
-
-class QuickCheckResponse(BaseModel):
-    """Response for non-authenticated users"""
-
-    id: str
-    quick_summary: QuickCheckSummary
-    signup_required: bool = True
-
-    model_config = ConfigDict(from_attributes=True)

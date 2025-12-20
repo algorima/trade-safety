@@ -2,8 +2,8 @@
 Trade Safety Router for K-pop Merchandise Trading Safety Checks.
 
 This module provides public API endpoints for trade safety analysis:
-- POST /trade-safety: Create a new safety check (public, freemium model)
-- GET /trade-safety/{check_id}: Get detailed results (requires authentication)
+- POST /trade-safety: Create a new safety check (returns full analysis)
+- GET /trade-safety/{check_id}: Get detailed results (public access with check_id)
 """
 
 import logging
@@ -21,8 +21,6 @@ from trade_safety.repositories.trade_safety_repository import (
     DatabaseTradeSafetyCheckManager,
 )
 from trade_safety.schemas import (
-    QuickCheckResponse,
-    QuickCheckSummary,
     TradeSafetyCheck,
     TradeSafetyCheckCreate,
     TradeSafetyCheckUpdate,
@@ -54,12 +52,6 @@ class SingleItemResponseModel(BaseModel):
     data: TradeSafetyCheck
 
 
-class QuickCheckResponseModel(BaseModel):
-    """Standard CRUD response wrapping QuickCheckResponse in data field"""
-
-    data: QuickCheckResponse
-
-
 # ==============================================================================
 # Router Implementation
 # ==============================================================================
@@ -74,11 +66,11 @@ class TradeSafetyRouter(
     ]
 ):
     """
-    Trade Safety router with public POST and authenticated GET.
+    Trade Safety router with public POST and GET endpoints.
 
     Unlike standard CRUD routers, this provides:
-    - Public POST endpoint (freemium model: quick summary for guests, full for auth users)
-    - Authenticated GET endpoint with ownership verification
+    - Public POST endpoint (returns full analysis for all users)
+    - Public GET endpoint (access with check_id as secure token)
     - No List, Update, or Delete operations
     """
 
@@ -106,26 +98,22 @@ class TradeSafetyRouter(
     def _register_routes(self) -> None:
         """Register custom routes instead of standard CRUD"""
         self._register_public_create_route()
-        self._register_authenticated_get_route()
+        self._register_public_get_route()
         # Admin routes
         self._register_list_route()  # GET /trade-safety (Admin only)
         self._register_update_route()  # PATCH /trade-safety/{id} (Admin only)
 
     def _register_public_create_route(self) -> None:
-        """POST /trade-safety - Public endpoint with freemium model"""
+        """POST /trade-safety - Public endpoint returning full analysis"""
 
         @self.router.post(
             f"/{self.resource_name}",
-            response_model=QuickCheckResponseModel | SingleItemResponseModel,
+            response_model=SingleItemResponseModel,
             summary="Create Trade Safety Check",
             description="""
             Analyze a K-pop merchandise trade for safety issues.
 
-            **Freemium Model**:
-            - Non-authenticated users: Get quick summary (risk signal count only)
-            - Authenticated users: Get full analysis with detailed recommendations
-
-            The service helps international fans overcome:
+            Returns full analysis with detailed recommendations including:
             - Language barriers (Korean slang translation)
             - Trust issues (scam signal detection)
             - Information gaps (price analysis)
@@ -155,7 +143,7 @@ class TradeSafetyRouter(
             1. Analyze trade using LLM (TradeSafetyService)
             2. Convert Request + Analysis → Domain Create schema
             3. Save to database via manager.create() (BaseManager)
-            4. Return quick summary for non-auth or full analysis for auth users
+            4. Return full analysis for all users
             """
             logger.info(
                 "Creating trade safety check: user_id=%s, authenticated=%s",
@@ -206,22 +194,7 @@ class TradeSafetyRouter(
                     user_id is not None,
                 )
 
-                # Step 4: Return appropriate response based on auth status
-                if not user_id:
-                    # Non-authenticated: Quick summary wrapped in data field
-                    return QuickCheckResponseModel(
-                        data=QuickCheckResponse(
-                            id=check.id,
-                            quick_summary=QuickCheckSummary(
-                                risk_signals_count=len(analysis.risk_signals),
-                                cautions_count=len(analysis.cautions),
-                                safe_indicators_count=len(analysis.safe_indicators),
-                            ),
-                            signup_required=True,
-                        )
-                    )
-
-                # Authenticated: Full analysis wrapped in data field
+                # Step 4: Return full analysis wrapped in data field
                 return SingleItemResponseModel(data=check)
 
             except ValueError as e:
@@ -235,19 +208,17 @@ class TradeSafetyRouter(
                     },
                 ) from e
 
-    def _register_authenticated_get_route(self) -> None:
-        """GET /trade-safety/{check_id} - Public endpoint with freemium model"""
+    def _register_public_get_route(self) -> None:
+        """GET /trade-safety/{check_id} - Public endpoint"""
 
         @self.router.get(
             f"/{self.resource_name}/{{check_id}}",
-            response_model=QuickCheckResponseModel | SingleItemResponseModel,
+            response_model=SingleItemResponseModel,
             summary="Get Trade Safety Check Details",
             description="""
             Retrieve results of a previously created safety check.
 
-            **Freemium Model**:
-            - Non-authenticated users: Get quick summary (risk signal count only)
-            - Authenticated users: Get full analysis with detailed recommendations
+            Returns full analysis with detailed recommendations.
 
             **Access**: Anyone with the check_id URL can view the analysis.
             The check_id acts as a secure access token (UUID).
@@ -293,24 +264,7 @@ class TradeSafetyRouter(
                 user_id is not None,
             )
 
-            # Return appropriate response based on auth status
-            if not user_id:
-                # Non-authenticated: Quick summary
-                return QuickCheckResponseModel(
-                    data=QuickCheckResponse(
-                        id=check.id,
-                        quick_summary=QuickCheckSummary(
-                            risk_signals_count=len(check.llm_analysis.risk_signals),
-                            cautions_count=len(check.llm_analysis.cautions),
-                            safe_indicators_count=len(
-                                check.llm_analysis.safe_indicators
-                            ),
-                        ),
-                        signup_required=True,
-                    )
-                )
-
-            # Authenticated: Full analysis
+            # Return full analysis
             return SingleItemResponseModel(data=check)
 
 

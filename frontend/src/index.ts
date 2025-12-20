@@ -9,11 +9,7 @@ export { DetailedResult } from "./components/DetailedResult";
 
 // Repositories (Repository pattern for API access)
 export { TradeSafetyRepository } from "./repositories";
-export type {
-  TradeSafetyCheckRepositoryResponse,
-  TradeSafetyCheckFullResponse,
-  QuickCheckRepositoryResponse,
-} from "./repositories/TradeSafetyRepository";
+export type { TradeSafetyCheckRepositoryResponse } from "./repositories/TradeSafetyRepository";
 
 // Types & Constants
 export * from "./types";
