@@ -1,0 +1,108 @@
+{
+  "hero": {
+    "title": "Dán Nội Dung Giao Dịch",
+    "subtitle": "Chúng tôi phân tích các bài đăng giao dịch hàng hóa K-pop trên X và Reddit để xác định rủi ro lừa đảo",
+    "placeholder": "Sao chép và dán nội dung giao dịch, hoặc nhập liên kết bài đăng",
+    "placeholderExample": "Ví dụ:\nwts lfb\nseventeen assorted pcs\n100ea!\nif getting jh ww mg 2:1 to doremiz\ncan meetup at ammb on sat\nwtt lft ph\nsvt stf fts fml dagat burstday heaven",
+    "advancedOptions": "Tùy Chọn Nâng Cao (Không bắt buộc)",
+    "amountPlaceholder": "Số Tiền Giao Dịch (USD)",
+    "checkSafety": "Phân Tích",
+    "analyzing": "Đang phân tích...",
+    "analyzingDescription": "AI đang phân tích ngôn ngữ, tín hiệu lừa đảo và giá...",
+    "tryExample": "Thử ví dụ",
+    "disclaimer": "Kết quả phân tích AI chỉ mang tính chất tham khảo và có thể không chính xác 100%. Dịch vụ này không cung cấp bảo đảm hoặc bồi thường cho thiệt hại giao dịch."
+  },
+  "features": {
+    "title": "AI Phân Tích <1>3 Điều Cùng Lúc</1>",
+    "translation": {
+      "title": "Dịch Thuật + Sắc Thái",
+      "description": "Dịch tiếng lóng Hàn Quốc và xác định các biểu hiện đáng ngờ."
+    },
+    "scamDetection": {
+      "title": "Phát Hiện Tín Hiệu Lừa Đảo",
+      "description": "Phát hiện các mẫu rủi ro như yêu cầu thanh toán trước, tuổi tài khoản và thiếu xác minh."
+    },
+    "priceAnalysis": {
+      "title": "Độ Công Bằng Giá",
+      "description": "Cung cấp thông tin giá thị trường và cảnh báo về giá quá cao."
+    }
+  },
+  "howItWorks": {
+    "title": "Cách Hoạt Động",
+    "step1": {
+      "title": "Dán",
+      "description": "Sao chép và dán văn bản hoặc URL bài đăng giao dịch"
+    },
+    "step2": {
+      "title": "Phân Tích AI",
+      "description": "AI phân tích ngôn ngữ, tín hiệu lừa đảo và giá trong 30 giây"
+    },
+    "step3": {
+      "title": "Nhận Kết Quả",
+      "description": "Xem phân tích chi tiết và các khuyến nghị an toàn"
+    }
+  },
+  "result": {
+    "title": "Phân Tích An Toàn Giao Dịch",
+    "subtitle": "Dựa trên phân tích AI của thông tin bạn cung cấp",
+    "notFound": "Không tìm thấy kết quả phân tích",
+    "quickTitle": "Phân Tích Hoàn Tất!",
+    "riskSignals": "Tín Hiệu Rủi Ro",
+    "cautions": "Cảnh Báo",
+    "safeIndicators": "Chỉ Báo An Toàn",
+    "detailsPreview": "Phân Tích Chi Tiết",
+    "signupRequired": "Đăng ký để xem đầy đủ chi tiết",
+    "signupMessage": "Tạo tài khoản miễn phí để nhận phân tích AI chi tiết và lời khuyên chuyên gia",
+    "signupDescription": "Nhận phân tích đầy đủ và lời khuyên AI với tài khoản miễn phí",
+    "signupButton": "Đăng Ký Miễn Phí",
+    "signupToView": "Đăng ký để xem phân tích đầy đủ",
+    "whatToDo": "Nên làm gì",
+    "translation": "Dịch Thuật & Sắc Thái",
+    "translationTitle": "Dịch Thuật",
+    "nuanceTitle": "Giải Thích Sắc Thái",
+    "priceAnalysis": "Phân Tích Giá",
+    "marketPrice": "Phạm Vi Giá Thị Trường",
+    "offeredPrice": "Giá Đề Xuất",
+    "priceAssessment": "Đánh Giá Giá",
+    "priceWarnings": "Cảnh Báo Giá",
+    "safetyChecklist": "Danh Sách Kiểm Tra An Toàn",
+    "checklistDescription": "Kiểm tra các mục này trước khi tiến hành giao dịch",
+    "aiSummary": "Tóm Tắt AI",
+    "recommendation": "Khuyến Nghị",
+    "expertAdvice": "Lời Khuyên Chuyên Gia",
+    "expertName": "Chuyên Gia Giao Dịch K-pop",
+    "riskLevel": {
+      "high": {
+        "title": "Rủi Ro Cao",
+        "message": "Chúng tôi khuyên KHÔNG nên tiến hành giao dịch này. Đã phát hiện nhiều dấu hiệu cảnh báo."
+      },
+      "medium": {
+        "title": "Tiến Hành Thận Trọng",
+        "message": "Đã phát hiện một số dấu hiệu đáng lo ngại. Vui lòng xác minh kỹ trước khi giao dịch."
+      },
+      "low": {
+        "title": "Có Vẻ An Toàn",
+        "message": "Không phát hiện dấu hiệu cảnh báo lớn, nhưng luôn cẩn thận!"
+      }
+    },
+    "safetyLevel": {
+      "safe": {
+        "title": "An Toàn Để Giao Dịch",
+        "description": "Bài đăng giao dịch này có điểm an toàn {{score}}. Luôn tiến hành thận trọng!"
+      },
+      "caution": {
+        "title": "Tiến Hành Thận Trọng",
+        "description": "Bài đăng giao dịch này có điểm an toàn {{score}}. Đã phát hiện một số tín hiệu cảnh báo, cần xác minh."
+      },
+      "danger": {
+        "title": "Phát Hiện Rủi Ro Cao",
+        "description": "Bài đăng giao dịch này có điểm an toàn {{score}}. Chúng tôi khuyên nên tránh giao dịch này."
+      }
+    },
+    "companionCta": {
+      "title": "Muốn trò chuyện?",
+      "description": "Chia sẻ những gì bạn đang nghĩ với bạn đồng hành AI của bạn",
+      "button": "Bắt Đầu Chat"
+    }
+  }
+}
