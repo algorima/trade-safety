@@ -3,8 +3,7 @@
 import { useTranslation } from "react-i18next";
 
 import { TRADE_SAFETY_NS } from "@/i18n";
-
-export type SafetyLevel = "safe" | "caution" | "danger";
+import { SafetyLevel } from "@/types";
 
 interface PageHeaderProps {
   level: SafetyLevel;
