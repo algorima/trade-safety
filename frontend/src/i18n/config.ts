@@ -1,5 +1,15 @@
 export const fallbackLng = "en";
-export const languages = [fallbackLng, "ko", "ja", "zh", "es", "id", "th", "vi", "tl"];
+export const languages = [
+  fallbackLng,
+  "ko",
+  "ja",
+  "zh",
+  "es",
+  "id",
+  "th",
+  "vi",
+  "tl",
+];
 
 export const languageNames: Record<string, string> = {
   en: "English",
