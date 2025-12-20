@@ -10,6 +10,9 @@ import es from "./locales/es/tradeSafety.json";
 import id from "./locales/id/tradeSafety.json";
 import ja from "./locales/ja/tradeSafety.json";
 import ko from "./locales/ko/tradeSafety.json";
+import th from "./locales/th/tradeSafety.json";
+import tl from "./locales/tl/tradeSafety.json";
+import vi from "./locales/vi/tradeSafety.json";
 import zh from "./locales/zh/tradeSafety.json";
 
 /** Trade Safety namespace */
@@ -33,5 +36,8 @@ export const tradeSafetyTranslations = {
   id,
   ja,
   ko,
+  th,
+  tl,
+  vi,
   zh,
 };
