@@ -4,7 +4,7 @@ import { FaReddit, FaXTwitter } from "react-icons/fa6";
 
 import { TRADE_SAFETY_NS } from "@/i18n";
 
-interface HomeHeroSectionProps {
+export interface HomeHeroSectionProps {
   value: string;
   onChange: (value: string) => void;
   onSubmit: () => void;
