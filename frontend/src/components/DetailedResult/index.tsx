@@ -2,6 +2,7 @@
 
 import { TradeSafetyAnalysis } from "@/types";
 
+import { AISummarySection } from "./AISummarySection";
 import { PriceAnalysisSection } from "./PriceAnalysisSection";
 import { RecommendationSection } from "./RecommendationSection";
 import { SafetyChecklistSection } from "./SafetyChecklistSection";
@@ -15,7 +16,11 @@ interface DetailedResultProps {
 export function DetailedResult({ analysis }: DetailedResultProps) {
   return (
     <div>
-      <div className="mb-4 flex flex-col gap-4">
+      {analysis.ai_summary && (
+        <AISummarySection summary={analysis.ai_summary} />
+      )}
+
+      <div className="my-4 flex flex-col gap-4">
         {/* 번역 및 뉘앙스 */}
         {(analysis.translation || analysis.nuance_explanation) && (
           <TranslationSection

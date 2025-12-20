@@ -67,6 +67,7 @@
     "priceWarnings": "価格警告",
     "safetyChecklist": "安全チェックリスト",
     "checklistDescription": "取引を進める前にこれらの項目を確認してください",
+    "aiSummary": "AI要約",
     "recommendation": "総合推奨事項",
     "expertAdvice": "専門家のアドバイス",
     "expertName": "K-pop取引専門家",
@@ -82,6 +83,20 @@
       "low": {
         "title": "安全そうです",
         "message": "大きな危険信号は検出されませんでしたが、常に注意してください！"
+      }
+    },
+    "safetyLevel": {
+      "safe": {
+        "title": "安全な取引です",
+        "description": "取引投稿の安全スコアは{{score}}点と判断されます。常に慎重に注意してください！"
+      },
+      "caution": {
+        "title": "注意が必要です",
+        "description": "取引投稿の安全スコアは{{score}}点と判断されます。一部の注意信号があり、確認が必要です。"
+      },
+      "danger": {
+        "title": "危険が検出されました",
+        "description": "取引投稿の安全スコアは{{score}}点と判断されます。取引を避けることをお勧めします。"
       }
     },
     "companionCta": {

@@ -6,14 +6,11 @@ export type RiskCategory =
   | "price"
   | "content";
 
-/**
- * Risk score thresholds for Trade Safety checks
- * Used consistently across Public and Admin interfaces
- */
-export const RISK_SCORE_THRESHOLDS = {
-  high: 70, // >= 70: High risk (red)
-  medium: 40, // >= 40: Medium risk (yellow)
-  // < 40: Low risk (green)
+export type SafetyLevel = "safe" | "caution" | "danger";
+
+export const SAFETY_SCORE_THRESHOLDS = {
+  safe: 70,
+  caution: 40,
 } as const;
 
 export interface TradeSafetyCheckRequest {
@@ -37,6 +34,7 @@ export interface PriceAnalysis {
 }
 
 export interface TradeSafetyAnalysis {
+  ai_summary: string;
   translation?: string | null;
   nuance_explanation?: string | null;
   risk_signals: RiskSignal[];
@@ -44,7 +42,7 @@ export interface TradeSafetyAnalysis {
   safe_indicators: RiskSignal[];
   price_analysis: PriceAnalysis;
   safety_checklist: string[];
-  risk_score: number;
+  safe_score: number;
   recommendation: string;
   emotional_support: string;
 }
@@ -60,7 +58,7 @@ export interface TradeSafetyCheckResponse {
   user_id?: string | null;
   input_text: string;
   llm_analysis: TradeSafetyAnalysis;
-  risk_score: number;
+  safe_score: number;
   expert_advice?: string | null;
   expert_reviewed: boolean;
   expert_reviewed_at?: string | null;

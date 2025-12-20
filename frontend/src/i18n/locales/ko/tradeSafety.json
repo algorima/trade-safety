@@ -67,6 +67,7 @@
     "priceWarnings": "가격 관련 경고",
     "safetyChecklist": "안전 체크리스트",
     "checklistDescription": "거래를 진행하기 전에 다음 항목을 확인하세요",
+    "aiSummary": "AI 요약",
     "recommendation": "종합 추천",
     "expertAdvice": "전문가 조언",
     "expertName": "K-pop 거래 전문가",
@@ -82,6 +83,20 @@
       "low": {
         "title": "안전해 보입니다",
         "message": "큰 위험 신호는 발견되지 않았지만, 항상 주의하세요!"
+      }
+    },
+    "safetyLevel": {
+      "safe": {
+        "title": "안전한 거래입니다",
+        "description": "거래 게시글은 안전 점수가 {{score}}점으로 판단됩니다. 항상 신중하게 주의하세요!"
+      },
+      "caution": {
+        "title": "주의가 필요합니다",
+        "description": "거래 게시글은 안전 점수가 {{score}}점으로 판단됩니다. 일부 주의 신호가 있어 확인이 필요합니다."
+      },
+      "danger": {
+        "title": "위험이 감지되었습니다",
+        "description": "거래 게시글은 안전 점수가 {{score}}점으로 판단됩니다. 거래를 피하는 것을 권장합니다."
       }
     },
     "companionCta": {

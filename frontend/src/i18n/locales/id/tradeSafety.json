@@ -67,6 +67,7 @@
     "priceWarnings": "Peringatan Harga",
     "safetyChecklist": "Daftar Periksa Keamanan",
     "checklistDescription": "Periksa item-item ini sebelum melanjutkan transaksi",
+    "aiSummary": "Ringkasan AI",
     "recommendation": "Rekomendasi",
     "expertAdvice": "Saran Ahli",
     "expertName": "Ahli Transaksi K-pop",
@@ -82,6 +83,20 @@
       "low": {
         "title": "Terlihat Aman",
         "message": "Tidak ada tanda bahaya besar yang terdeteksi, tetapi selalu berhati-hati!"
+      }
+    },
+    "safetyLevel": {
+      "safe": {
+        "title": "Transaksi Aman",
+        "description": "Postingan transaksi ini memiliki skor keamanan {{score}}. Selalu berhati-hati!"
+      },
+      "caution": {
+        "title": "Perlu Perhatian",
+        "description": "Postingan transaksi ini memiliki skor keamanan {{score}}. Beberapa sinyal peringatan terdeteksi, perlu verifikasi."
+      },
+      "danger": {
+        "title": "Risiko Terdeteksi",
+        "description": "Postingan transaksi ini memiliki skor keamanan {{score}}. Kami merekomendasikan untuk menghindari transaksi ini."
       }
     },
     "companionCta": {

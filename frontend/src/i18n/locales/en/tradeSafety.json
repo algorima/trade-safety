@@ -67,6 +67,7 @@
     "priceWarnings": "Price Warnings",
     "safetyChecklist": "Safety Checklist",
     "checklistDescription": "Check these items before proceeding with the trade",
+    "aiSummary": "AI Summary",
     "recommendation": "Recommendation",
     "expertAdvice": "Expert Advice",
     "expertName": "K-pop Trade Expert",
@@ -82,6 +83,20 @@
       "low": {
         "title": "Looks Safe",
         "message": "No major red flags detected, but always stay cautious!"
+      }
+    },
+    "safetyLevel": {
+      "safe": {
+        "title": "Safe to Trade",
+        "description": "This trade post has a safety score of {{score}}. Always proceed with caution!"
+      },
+      "caution": {
+        "title": "Proceed with Caution",
+        "description": "This trade post has a safety score of {{score}}. Some caution signals detected, verification needed."
+      },
+      "danger": {
+        "title": "High Risk Detected",
+        "description": "This trade post has a safety score of {{score}}. We recommend avoiding this trade."
       }
     },
     "companionCta": {

@@ -67,6 +67,7 @@
     "priceWarnings": "Advertencias de Precio",
     "safetyChecklist": "Lista de Verificación de Seguridad",
     "checklistDescription": "Revise estos elementos antes de proceder con la transacción",
+    "aiSummary": "Resumen de IA",
     "recommendation": "Recomendación",
     "expertAdvice": "Consejo de Experto",
     "expertName": "Experto en Comercio de K-pop",
@@ -82,6 +83,20 @@
       "low": {
         "title": "Parece Seguro",
         "message": "No se detectaron señales de alarma importantes, pero ¡siempre sea cauteloso!"
+      }
+    },
+    "safetyLevel": {
+      "safe": {
+        "title": "Transacción Segura",
+        "description": "Esta publicación tiene una puntuación de seguridad de {{score}}. ¡Siempre proceda con precaución!"
+      },
+      "caution": {
+        "title": "Se Requiere Precaución",
+        "description": "Esta publicación tiene una puntuación de seguridad de {{score}}. Se detectaron algunas señales de precaución, se necesita verificación."
+      },
+      "danger": {
+        "title": "Riesgo Detectado",
+        "description": "Esta publicación tiene una puntuación de seguridad de {{score}}. Recomendamos evitar esta transacción."
       }
     },
     "companionCta": {

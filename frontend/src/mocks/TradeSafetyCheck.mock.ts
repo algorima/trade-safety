@@ -5,20 +5,22 @@ export const mockTradeSafetyResult: TradeSafetyCheckResponse = {
   user_id: null,
   input_text:
     "WTS/LFB Seventeen assorted photocards 100 each. 2:1 to Doremiz for JH/WW/MG. WTT/LFT SVT items. Meetup AMMB Saturday. fts fml dagat burstday heaven. PayPal F&F only, no refunds.",
-  risk_score: 85,
+  safe_score: 85,
   expert_advice: null,
   expert_reviewed: false,
   created_at: new Date().toISOString(),
   updated_at: new Date().toISOString(),
 
   llm_analysis: {
+    ai_summary:
+      "The listing is for selling and trading Seventeen photocards, with specific trade ratios mentioned. The seller is looking to meet at a location abbreviated as AMMB on Saturday. The text includes several abbreviations common in K-pop trading communities, but also contains some unclear terms that may need clarification.",
     translation:
       "Want to sell (WTS) and looking for buyers (LFB). Selling Seventeen assorted photocards for 100 each (currency not specified). If you're getting Jeonghan (JH), Wonwoo (WW), or Mingyu (MG), the trade ratio is 2:1 for Doremiz (likely referring to a specific photocard set). Can meet up at AMMB (likely a location abbreviation) on Saturday. Want to trade (WTT) and looking for trade (LFT) for Seventeen stuff (likely merchandise). The rest of the text ('fts fml dagat burstday heaven') appears to be a mix of slang, typos, or references that are unclear.",
 
     nuance_explanation:
       "The seller is using a mix of K-pop-specific abbreviations and possibly some typos. Key terms: 'WTS' = want to sell, 'LFB' = looking for buyers, 'WTT' = want to trade, 'LFT' = looking for trade. '2:1 to Doremiz' likely suggests a trade ratio of 2:1 in favor of a specific photocard set. 'AMMB' could be a location abbreviation (e.g., a mall or station). The final part of the text ('fts fml dagat burstday heaven') could be slang, typos, or references to other items for sale or trade, but they are unclear and lack context.",
 
-    risk_score: 85,
+    safe_score: 85,
 
     risk_signals: [
       {

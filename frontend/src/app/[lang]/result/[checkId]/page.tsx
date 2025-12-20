@@ -1,16 +1,24 @@
 "use client";
 
 import { DetailedResult } from "@/components/DetailedResult";
+import { PageHeader } from "@/components/PageHeader";
 import { mockTradeSafetyResult } from "@/mocks/TradeSafetyCheck.mock";
+import { getSafetyLevel } from "@/utils/safetyScore";
 
 export default function TradeSafetyResultPage() {
   const result = mockTradeSafetyResult;
+  const safetyLevel = getSafetyLevel(result.llm_analysis.safe_score);
 
-  // Detailed result
   return (
     <div className="container mx-auto px-6 py-20">
       <div className="mx-auto mb-12 max-w-3xl">
-        <DetailedResult analysis={result.llm_analysis} />
+        <PageHeader
+          level={safetyLevel}
+          score={result.llm_analysis.safe_score}
+        />
+        <div className="mt-6">
+          <DetailedResult analysis={result.llm_analysis} />
+        </div>
       </div>
     </div>
   );
