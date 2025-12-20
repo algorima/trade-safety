@@ -1,4 +1,5 @@
 <!-- 제목: feat(frontend): 결과 페이지 헤더 구현 (한국어, 72자 이내) -->
+<!-- type/scope 가이드: CONTRIBUTING.md "PR 제목" 섹션 참고 -->
 <!-- 예시 PR: #52, #57 -->
 
 ## 요약

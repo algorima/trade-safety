@@ -24,6 +24,33 @@ npm run build
 3. Conventional Commits 형식 (제목은 한국어)
 4. PR 생성 (CLA 서명 필요)
 
+## PR 제목
+
+Conventional Commits 형식: `<type>(<scope>): <한국어 제목>`
+
+### Type
+- **feat**: 새로운 기능 추가
+- **fix**: 버그 수정
+- **docs**: 문서만 변경
+- **refactor**: 코드 리팩토링 (기능 변경 없음)
+- **test**: 테스트 추가/수정
+- **perf**: 성능 개선
+- **style**: 코드 포맷, 스타일 변경 (로직 변경 없음)
+- **ci**: CI/CD 설정 변경
+- **chore**: 빌드 프로세스, 도구 설정 등
+
+### Scope
+변경 영역을 나타냅니다:
+- 플랫폼: `frontend`, `backend`
+- 비즈니스: `analysis`, `detection`, `translation`
+- 데이터: `db`, `models`, `api`
+- UI: `ui`, `theme`, `i18n`
+- 연동: `openai`, `sentry`
+- 배포: `docker`, `deploy`, `config`, `workflow`
+- 기타: `deps`, `service`
+
+예시: `feat(frontend): 결과 페이지 헤더 구현`
+
 ## 브랜치 네이밍
 
 형식: `주작업/작업-내용`
