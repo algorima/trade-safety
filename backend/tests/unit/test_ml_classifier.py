@@ -10,7 +10,7 @@ import torch
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 from trade_safety.ml.classifier import TfidfMLPClassifier
-from trade_safety.ml.ensemble import decide_safe_score
+from trade_safety.service import decide_safe_score
 
 
 class TestDecideSafeScore(unittest.TestCase):
