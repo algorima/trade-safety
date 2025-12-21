@@ -17,6 +17,7 @@ from aioia_core.settings import OpenAIAPISettings
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
 
+from trade_safety.ml.classifier import TfidfMLPClassifier, decide_safe_score
 from trade_safety.prompts import TRADE_SAFETY_SYSTEM_PROMPT
 from trade_safety.reddit_extract_text_service import RedditService
 from trade_safety.schemas import TradeSafetyAnalysis
@@ -77,11 +78,11 @@ class TradeSafetyService:
         system_prompt: str = TRADE_SAFETY_SYSTEM_PROMPT,
     ):
         """
-        Initialize TradeSafetyService with LLM configuration.
+        Initialize TradeSafetyService with LLM and optional ML configuration.
 
         Args:
             openai_api: OpenAI API settings (api_key)
-            model_settings: Model settings (model name)
+            model_settings: Model settings (model name, ML config)
             twitter_api: Twitter API settings (bearer_token). If not provided, will try
                          TWITTER_BEARER_TOKEN env var via TwitterAPISettings().
             system_prompt: System prompt for trade safety analysis (default: TRADE_SAFETY_SYSTEM_PROMPT)
@@ -90,10 +91,15 @@ class TradeSafetyService:
             Temperature is hardcoded to 0.7 for balanced analytical reasoning.
             The default system_prompt is provided by the library, but can be overridden
             with custom prompts (e.g., domain-specific or improved versions).
+
+            If ML is enabled (model_settings.ml_enabled), the ML classifier will be
+            loaded on first prediction (lazy loading). Missing model files will raise
+            FileNotFoundError immediately (Fail-fast principle).
         """
         logger.debug(
-            "Initializing TradeSafetyService with model=%s",
+            "Initializing TradeSafetyService with model=%s, ml_enabled=%s",
             model_settings.model,
+            model_settings.ml_enabled,
         )
 
         # Use with_structured_output for schema-enforced responses
@@ -112,6 +118,18 @@ class TradeSafetyService:
         self.system_prompt = system_prompt
         self.twitter_service = TwitterService(twitter_api=twitter_api)
         self.reddit_service = RedditService()
+
+        # ML classifier (lazy loading)
+        self.model_settings = model_settings
+        self.ml_classifier: TfidfMLPClassifier | None = None
+        if model_settings.ml_enabled and model_settings.ml_model_dir:
+            self.ml_classifier = TfidfMLPClassifier(
+                model_dir=model_settings.ml_model_dir
+            )
+            logger.debug(
+                "ML classifier initialized (lazy loading): %s",
+                model_settings.ml_model_dir,
+            )
 
     # ==========================================
     # Main Analysis Method
@@ -203,7 +221,10 @@ class TradeSafetyService:
             len(analysis.safe_indicators),
         )
 
-        return analysis
+        # Step 5: Apply ML ensemble if enabled
+        final_analysis = self._apply_ensemble(analysis, content)
+
+        return final_analysis
 
     # ==========================================
     # Prompt Building Methods
@@ -335,4 +356,54 @@ class TradeSafetyService:
         raise ValueError(
             "Unsupported URL. Currently only Twitter/X and Reddit URLs are supported."
             "Please paste the text content directly instead of the URL."
+        )
+
+    def _apply_ensemble(
+        self, llm_analysis: TradeSafetyAnalysis, content: str
+    ) -> TradeSafetyAnalysis:
+        """
+        Apply ML ensemble if enabled, otherwise return LLM analysis as-is.
+
+        Args:
+            llm_analysis: Analysis from LLM
+            content: Original trade post content
+
+        Returns:
+            TradeSafetyAnalysis: Analysis with ensemble-adjusted safe_score
+        """
+        if not self.ml_classifier:
+            logger.debug("ML disabled, using LLM-only analysis")
+            return llm_analysis
+
+        logger.debug("ML enabled, applying ensemble logic")
+
+        # Get ML prediction
+        ml_scam_prob = self.ml_classifier.predict_proba(content)
+        logger.info(
+            "ML prediction: scam_prob=%.2f, LLM safe_score=%d",
+            ml_scam_prob,
+            llm_analysis.safe_score,
+        )
+
+        # Apply conditional ensemble
+        final_safe_score = decide_safe_score(
+            ml_scam_prob,
+            llm_analysis.safe_score,
+            self.model_settings.ml_threshold_high,
+            self.model_settings.ml_threshold_low,
+        )
+
+        logger.info(
+            "Ensemble applied: LLM=%d, ML_safe=%d, final=%d",
+            llm_analysis.safe_score,
+            100 - int(ml_scam_prob * 100),
+            final_safe_score,
+        )
+
+        # Return new analysis with updated safe_score
+        return TradeSafetyAnalysis(
+            **{
+                **llm_analysis.model_dump(),
+                "safe_score": final_safe_score,
+            }
         )
