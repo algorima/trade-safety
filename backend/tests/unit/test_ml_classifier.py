@@ -89,33 +89,44 @@ class TestTfidfMLPClassifier(unittest.TestCase):
     @patch("trade_safety.ml.classifier.joblib.load")
     @patch("trade_safety.ml.classifier.torch.load")
     @patch("trade_safety.ml.classifier.Path.exists")
-    def test_predict_proba_returns_float(self, mock_exists, mock_torch_load, mock_joblib_load):
+    @patch("trade_safety.ml.classifier.torch.from_numpy")
+    def test_predict_proba_returns_float(
+        self, mock_from_numpy, mock_exists, mock_torch_load, mock_joblib_load
+    ):
         """Test that predict_proba returns scam probability as float."""
         # Mock 설정
         mock_exists.return_value = True
 
+        # Mock vectorizer
         mock_vectorizer = MagicMock()
-        mock_vectorizer.transform.return_value = MagicMock()
+        mock_tfidf_result = MagicMock()
+        mock_tfidf_result.toarray.return_value = MagicMock()  # numpy array
+        mock_vectorizer.transform.return_value = mock_tfidf_result
         mock_joblib_load.return_value = mock_vectorizer
 
-        mock_torch_load.return_value = {
-            "in_dim": 100,
-            "state_dict": {}
-        }
+        mock_torch_load.return_value = {"in_dim": 100, "state_dict": {}}
+
+        # Mock torch tensor operations
+        mock_tensor = MagicMock()
+        mock_tensor.float.return_value = mock_tensor
+        mock_tensor.to.return_value = mock_tensor
+        mock_from_numpy.return_value = mock_tensor
 
         # Mock MLP model
         with patch("trade_safety.ml.classifier.MLP") as mock_mlp_class:
             mock_model = MagicMock()
-            mock_model.return_value = MagicMock()  # Forward pass
+            mock_logit = MagicMock()
+            mock_model.return_value = mock_logit
             mock_mlp_class.return_value = mock_model
 
-            # 분류기 생성
-            classifier = TfidfMLPClassifier(model_dir=Path("/fake/model"))
-
-            # predict_proba는 float를 반환해야 함
+            # Mock sigmoid
             with patch("trade_safety.ml.classifier.torch.sigmoid") as mock_sigmoid:
-                mock_sigmoid.return_value.item.return_value = 0.85
+                mock_prob = MagicMock()
+                mock_prob.item.return_value = 0.85
+                mock_sigmoid.return_value = mock_prob
 
+                # 분류기 생성
+                classifier = TfidfMLPClassifier(model_dir=Path("/fake/model"))
                 result = classifier.predict_proba("test scam text")
 
                 self.assertIsInstance(result, float)
@@ -125,8 +136,8 @@ class TestTfidfMLPClassifier(unittest.TestCase):
     def test_load_raises_error_when_vectorizer_missing(self, mock_exists):
         """Test that load() raises FileNotFoundError when vectorizer is missing."""
         # vectorizer.joblib만 없는 경우
-        def exists_side_effect(self):
-            return "model.pt" in str(self)
+        def exists_side_effect(path):
+            return "model.pt" in str(path)
 
         mock_exists.side_effect = exists_side_effect
 
@@ -141,8 +152,8 @@ class TestTfidfMLPClassifier(unittest.TestCase):
     def test_load_raises_error_when_model_missing(self, mock_exists):
         """Test that load() raises FileNotFoundError when model.pt is missing."""
         # model.pt만 없는 경우
-        def exists_side_effect(self):
-            return "vectorizer.joblib" in str(self)
+        def exists_side_effect(path):
+            return "vectorizer.joblib" in str(path)
 
         mock_exists.side_effect = exists_side_effect
 
