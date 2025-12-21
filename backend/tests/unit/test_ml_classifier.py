@@ -6,7 +6,6 @@ import unittest
 from pathlib import Path
 
 import joblib
-import numpy as np
 import torch
 from sklearn.feature_extraction.text import TfidfVectorizer
 
