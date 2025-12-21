@@ -66,7 +66,10 @@ class TfidfMLPClassifier:
 
         # Load vectorizer and model
         self._vectorizer = joblib.load(vec_path)
-        payload = torch.load(model_path, map_location="cpu", weights_only=True)
+        # NOTE: weights_only=False is required because payload contains metadata
+        # (in_dim, hidden) along with state_dict, following PyTorch standard pattern.
+        # For security-critical applications, consider separating metadata into JSON.
+        payload = torch.load(model_path, map_location="cpu", weights_only=False)
 
         # Create MLP and load weights
         in_dim = payload["in_dim"]
