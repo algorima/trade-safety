@@ -1,10 +1,17 @@
 """Unit tests for ML classifier integration."""
 
+import shutil
+import tempfile
 import unittest
 from pathlib import Path
-from unittest.mock import MagicMock, patch
+
+import joblib
+import numpy as np
+import torch
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 from trade_safety.ml.classifier import TfidfMLPClassifier, decide_safe_score
+from trade_safety.ml.mlp import MLP
 
 
 class TestDecideSafeScore(unittest.TestCase):
@@ -84,106 +91,130 @@ class TestDecideSafeScore(unittest.TestCase):
 
 
 class TestTfidfMLPClassifier(unittest.TestCase):
-    """Test TfidfMLPClassifier with mocked model files."""
+    """Test TfidfMLPClassifier with minimal real model."""
 
-    @patch("trade_safety.ml.classifier.joblib.load")
-    @patch("trade_safety.ml.classifier.torch.load")
-    @patch("trade_safety.ml.classifier.Path.exists")
-    @patch("trade_safety.ml.classifier.torch.from_numpy")
-    def test_predict_proba_returns_float(
-        self, mock_from_numpy, mock_exists, mock_torch_load, mock_joblib_load
-    ):
+    def setUp(self):
+        """Create minimal model files for testing."""
+        # Create temporary directory
+        self.temp_dir = Path(tempfile.mkdtemp())
+
+        # Create minimal TF-IDF vectorizer
+        corpus = [
+            "buy cheap product",
+            "scam fraud fake",
+            "safe genuine authentic",
+            "urgent money transfer",
+        ]
+        self.vectorizer = TfidfVectorizer(max_features=20)
+        self.vectorizer.fit(corpus)
+
+        # Save vectorizer
+        vec_path = self.temp_dir / "vectorizer.joblib"
+        joblib.dump(self.vectorizer, vec_path)
+
+        # Create minimal MLP model
+        in_dim = len(self.vectorizer.get_feature_names_out())
+        hidden_dim = 8
+        self.model = MLP(in_dim=in_dim, hidden=hidden_dim)
+
+        # Initialize with small random weights for reproducibility
+        torch.manual_seed(42)
+        for param in self.model.parameters():
+            param.data = torch.randn_like(param.data) * 0.01
+
+        # Save model with hidden dimension
+        model_path = self.temp_dir / "model.pt"
+        torch.save(
+            {
+                "in_dim": in_dim,
+                "hidden": hidden_dim,
+                "state_dict": self.model.state_dict(),
+            },
+            model_path,
+        )
+
+    def tearDown(self):
+        """Clean up temporary directory."""
+        shutil.rmtree(self.temp_dir)
+
+    def test_predict_proba_returns_float(self):
         """Test that predict_proba returns scam probability as float."""
-        # Mock 설정
-        mock_exists.return_value = True
+        classifier = TfidfMLPClassifier(model_dir=self.temp_dir)
 
-        # Mock vectorizer
-        mock_vectorizer = MagicMock()
-        mock_tfidf_result = MagicMock()
-        mock_tfidf_result.toarray.return_value = MagicMock()  # numpy array
-        mock_vectorizer.transform.return_value = mock_tfidf_result
-        mock_joblib_load.return_value = mock_vectorizer
+        result = classifier.predict_proba("urgent money transfer scam")
 
-        mock_torch_load.return_value = {"in_dim": 100, "state_dict": {}}
+        self.assertIsInstance(result, float)
+        self.assertGreaterEqual(result, 0.0)
+        self.assertLessEqual(result, 1.0)
 
-        # Mock torch tensor operations
-        mock_tensor = MagicMock()
-        mock_tensor.float.return_value = mock_tensor
-        mock_tensor.to.return_value = mock_tensor
-        mock_from_numpy.return_value = mock_tensor
+    def test_predict_proba_consistent_results(self):
+        """Test that predict_proba returns consistent results for same input."""
+        classifier = TfidfMLPClassifier(model_dir=self.temp_dir)
 
-        # Mock MLP model
-        with patch("trade_safety.ml.classifier.MLP") as mock_mlp_class:
-            mock_model = MagicMock()
-            mock_logit = MagicMock()
-            mock_model.return_value = mock_logit
-            mock_mlp_class.return_value = mock_model
+        result1 = classifier.predict_proba("scam fraud")
+        result2 = classifier.predict_proba("scam fraud")
 
-            # Mock sigmoid
-            with patch("trade_safety.ml.classifier.torch.sigmoid") as mock_sigmoid:
-                mock_prob = MagicMock()
-                mock_prob.item.return_value = 0.85
-                mock_sigmoid.return_value = mock_prob
-
-                # 분류기 생성
-                classifier = TfidfMLPClassifier(model_dir=Path("/fake/model"))
-                result = classifier.predict_proba("test scam text")
-
-                self.assertIsInstance(result, float)
-                self.assertEqual(result, 0.85)
+        self.assertEqual(result1, result2)
 
     def test_load_raises_error_when_vectorizer_missing(self):
         """Test that load() raises FileNotFoundError when vectorizer is missing."""
-        # vectorizer.joblib만 없는 경우
-        with patch.object(Path, "exists") as mock_exists:
-            # 첫 번째 호출 (vec_path.exists()): False
-            # 두 번째 호출 (model_path.exists()): True
-            mock_exists.side_effect = [False, True]
+        # Remove vectorizer file
+        vec_path = self.temp_dir / "vectorizer.joblib"
+        vec_path.unlink()
 
-            classifier = TfidfMLPClassifier(model_dir=Path("/fake/model"))
+        classifier = TfidfMLPClassifier(model_dir=self.temp_dir)
 
-            with self.assertRaises(FileNotFoundError) as context:
-                classifier.load()
+        with self.assertRaises(FileNotFoundError) as context:
+            classifier.load()
 
-            self.assertIn("Vectorizer not found", str(context.exception))
+        self.assertIn("Vectorizer not found", str(context.exception))
 
     def test_load_raises_error_when_model_missing(self):
         """Test that load() raises FileNotFoundError when model.pt is missing."""
-        # model.pt만 없는 경우
-        with patch.object(Path, "exists") as mock_exists:
-            # 첫 번째 호출 (vec_path.exists()): True
-            # 두 번째 호출 (model_path.exists()): False
-            mock_exists.side_effect = [True, False]
+        # Remove model file
+        model_path = self.temp_dir / "model.pt"
+        model_path.unlink()
 
-            classifier = TfidfMLPClassifier(model_dir=Path("/fake/model"))
+        classifier = TfidfMLPClassifier(model_dir=self.temp_dir)
 
-            with self.assertRaises(FileNotFoundError) as context:
-                classifier.load()
+        with self.assertRaises(FileNotFoundError) as context:
+            classifier.load()
 
-            self.assertIn("Model not found", str(context.exception))
+        self.assertIn("Model not found", str(context.exception))
 
-    @patch("trade_safety.ml.classifier.joblib.load")
-    @patch("trade_safety.ml.classifier.torch.load")
-    @patch("trade_safety.ml.classifier.Path.exists")
-    def test_load_only_once(self, mock_exists, mock_torch_load, mock_joblib_load):
+    def test_load_only_once(self):
         """Test that load() is idempotent (only loads once)."""
-        mock_exists.return_value = True
-        mock_joblib_load.return_value = MagicMock()
-        mock_torch_load.return_value = {"in_dim": 100, "state_dict": {}}
+        classifier = TfidfMLPClassifier(model_dir=self.temp_dir)
 
-        with patch("trade_safety.ml.classifier.MLP"):
-            classifier = TfidfMLPClassifier(model_dir=Path("/fake/model"))
+        # First load
+        classifier.load()
+        first_model = classifier._model
 
-            # 첫 번째 로드
-            classifier.load()
-            first_call_count = mock_joblib_load.call_count
+        # Second load (should not reload)
+        classifier.load()
+        second_model = classifier._model
 
-            # 두 번째 로드 (실제로는 로드하지 않아야 함)
-            classifier.load()
-            second_call_count = mock_joblib_load.call_count
+        # Same model instance
+        self.assertIs(first_model, second_model)
 
-            # 로드는 한 번만 수행되어야 함
-            self.assertEqual(first_call_count, second_call_count)
+    def test_multiple_predictions(self):
+        """Test that classifier can handle multiple predictions."""
+        classifier = TfidfMLPClassifier(model_dir=self.temp_dir)
+
+        texts = [
+            "scam fraud fake",
+            "safe genuine product",
+            "urgent money transfer",
+            "buy cheap",
+        ]
+
+        results = [classifier.predict_proba(text) for text in texts]
+
+        # All results should be valid probabilities
+        for result in results:
+            self.assertIsInstance(result, float)
+            self.assertGreaterEqual(result, 0.0)
+            self.assertLessEqual(result, 1.0)
 
 
 if __name__ == "__main__":

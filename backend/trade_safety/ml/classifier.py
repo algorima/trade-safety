@@ -48,7 +48,10 @@ class TfidfMLPClassifier:
         # Load vectorizer and model
         self._vectorizer = joblib.load(vec_path)
         payload = torch.load(model_path, map_location="cpu")
-        self._model = MLP(in_dim=payload["in_dim"])
+        self._model = MLP(
+            in_dim=payload["in_dim"],
+            hidden=payload.get("hidden", 256),  # Default 256 for backward compatibility
+        )
         self._model.load_state_dict(payload["state_dict"])
         self._model.to(self.device)
         self._model.eval()
