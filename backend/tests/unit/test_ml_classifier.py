@@ -9,8 +9,8 @@ import joblib
 import torch
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-from trade_safety.ml.classifier import TfidfMLPClassifier, decide_safe_score
-from trade_safety.ml.mlp import MLP
+from trade_safety.ml.classifier import TfidfMLPClassifier
+from trade_safety.service import TradeSafetyService
 
 
 class TestDecideSafeScore(unittest.TestCase):
@@ -23,7 +23,7 @@ class TestDecideSafeScore(unittest.TestCase):
         threshold_high = 0.85
         threshold_low = 0.20
 
-        result = decide_safe_score(
+        result = TradeSafetyService._decide_safe_score(
             ml_scam_prob, llm_safe_score, threshold_high, threshold_low
         )
 
@@ -37,7 +37,7 @@ class TestDecideSafeScore(unittest.TestCase):
         threshold_high = 0.85
         threshold_low = 0.20
 
-        result = decide_safe_score(
+        result = TradeSafetyService._decide_safe_score(
             ml_scam_prob, llm_safe_score, threshold_high, threshold_low
         )
 
@@ -51,7 +51,7 @@ class TestDecideSafeScore(unittest.TestCase):
         threshold_high = 0.85
         threshold_low = 0.20
 
-        result = decide_safe_score(
+        result = TradeSafetyService._decide_safe_score(
             ml_scam_prob, llm_safe_score, threshold_high, threshold_low
         )
 
@@ -67,7 +67,7 @@ class TestDecideSafeScore(unittest.TestCase):
         threshold_high = 0.85
         threshold_low = 0.20
 
-        result = decide_safe_score(
+        result = TradeSafetyService._decide_safe_score(
             ml_scam_prob, llm_safe_score, threshold_high, threshold_low
         )
 
@@ -81,7 +81,7 @@ class TestDecideSafeScore(unittest.TestCase):
         threshold_high = 0.85
         threshold_low = 0.20
 
-        result = decide_safe_score(
+        result = TradeSafetyService._decide_safe_score(
             ml_scam_prob, llm_safe_score, threshold_high, threshold_low
         )
 
@@ -111,13 +111,18 @@ class TestTfidfMLPClassifier(unittest.TestCase):
         vec_path = self.temp_dir / "vectorizer.joblib"
         joblib.dump(self.vectorizer, vec_path)
 
-        # Create minimal MLP model
+        # Create minimal MLP model with Sequential
         in_dim = len(self.vectorizer.get_feature_names_out())
         hidden_dim = 8
-        self.model = MLP(in_dim=in_dim, hidden=hidden_dim)
+        torch.manual_seed(42)
+        self.model = torch.nn.Sequential(
+            torch.nn.Linear(in_dim, hidden_dim),
+            torch.nn.ReLU(),
+            torch.nn.Dropout(0.2),
+            torch.nn.Linear(hidden_dim, 1),
+        )
 
         # Initialize with small random weights for reproducibility
-        torch.manual_seed(42)
         for param in self.model.parameters():
             param.data = torch.randn_like(param.data) * 0.01
 

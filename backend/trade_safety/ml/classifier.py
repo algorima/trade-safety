@@ -9,8 +9,6 @@ import joblib
 import torch
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-from .mlp import MLP
-
 
 @dataclass
 class TfidfMLPClassifier:
@@ -25,7 +23,7 @@ class TfidfMLPClassifier:
     device: str = "cpu"
 
     _vectorizer: TfidfVectorizer | None = field(default=None, init=False, repr=False)
-    _model: MLP | None = field(default=None, init=False, repr=False)
+    _model: torch.nn.Module | None = field(default=None, init=False, repr=False)
 
     def load(self) -> None:
         """Load model files (Fail-fast: raises exception on error).
@@ -48,9 +46,15 @@ class TfidfMLPClassifier:
         # Load vectorizer and model
         self._vectorizer = joblib.load(vec_path)
         payload = torch.load(model_path, map_location="cpu")
-        self._model = MLP(
-            in_dim=payload["in_dim"],
-            hidden=payload.get("hidden", 256),  # Default 256 for backward compatibility
+
+        # Create 2-layer MLP with Sequential
+        in_dim = payload["in_dim"]
+        hidden = payload.get("hidden", 256)
+        self._model = torch.nn.Sequential(
+            torch.nn.Linear(in_dim, hidden),
+            torch.nn.ReLU(),
+            torch.nn.Dropout(0.2),
+            torch.nn.Linear(hidden, 1),
         )
         self._model.load_state_dict(payload["state_dict"])
         self._model.to(self.device)
@@ -73,42 +77,7 @@ class TfidfMLPClassifier:
         X = self._vectorizer.transform([text])
         x = torch.from_numpy(X.toarray()).float().to(self.device)
 
-        # Get model prediction
-        logit = self._model(x)
+        # Get model prediction (Sequential returns (batch, 1), squeeze to (batch,))
+        logit = self._model(x).squeeze(-1)
         prob = torch.sigmoid(logit).item()
         return float(prob)
-
-
-def decide_safe_score(
-    ml_scam_prob: float,
-    llm_safe_score: int,
-    threshold_high: float,
-    threshold_low: float,
-) -> int:
-    """Conditional ensemble logic based on ML confidence.
-
-    - ML high confidence (scam_prob >= threshold_high): Use ML only
-    - ML high confidence (scam_prob <= threshold_low): Use ML only
-    - ML uncertain (middle range): Average with LLM
-
-    Args:
-        ml_scam_prob: ML scam probability (0.0~1.0)
-        llm_safe_score: LLM safe score (0~100)
-        threshold_high: High confidence threshold (e.g., 0.85)
-        threshold_low: Low confidence threshold (e.g., 0.20)
-
-    Returns:
-        int: Final safe score (0~100, higher is safer)
-    """
-    ml_safe_score = 100 - int(ml_scam_prob * 100)
-
-    # ML is confident it's a scam
-    if ml_scam_prob >= threshold_high:
-        return ml_safe_score
-
-    # ML is confident it's legit
-    if ml_scam_prob <= threshold_low:
-        return ml_safe_score
-
-    # ML is uncertain → Average with LLM
-    return int((llm_safe_score + ml_safe_score) / 2)
