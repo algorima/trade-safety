@@ -18,7 +18,6 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
 
 from trade_safety.ml.classifier import TfidfMLPClassifier
-from trade_safety.ml.ensemble import decide_safe_score
 from trade_safety.prompts import TRADE_SAFETY_SYSTEM_PROMPT
 from trade_safety.reddit_extract_text_service import RedditService
 from trade_safety.schemas import TradeSafetyAnalysis
@@ -30,6 +29,46 @@ from trade_safety.settings import (
 from trade_safety.twitter_extract_text_service import TwitterService
 
 logger = logging.getLogger(__name__)
+
+
+# ==============================================================================
+# Ensemble Logic
+# ==============================================================================
+
+
+def decide_safe_score(
+    ml_scam_prob: float,
+    llm_safe_score: int,
+    threshold_high: float,
+    threshold_low: float,
+) -> int:
+    """Combine ML and LLM scores using domain-specific rules.
+
+    - ML high confidence (scam_prob >= threshold_high): Use ML only
+    - ML high confidence (scam_prob <= threshold_low): Use ML only
+    - ML uncertain (middle range): Average with LLM
+
+    Args:
+        ml_scam_prob: ML scam probability (0.0~1.0)
+        llm_safe_score: LLM safe score (0~100)
+        threshold_high: High confidence threshold (e.g., 0.85)
+        threshold_low: Low confidence threshold (e.g., 0.20)
+
+    Returns:
+        int: Final safe score (0~100, higher is safer)
+    """
+    ml_safe_score = 100 - int(ml_scam_prob * 100)
+
+    # ML is confident it's a scam
+    if ml_scam_prob >= threshold_high:
+        return ml_safe_score
+
+    # ML is confident it's legit
+    if ml_scam_prob <= threshold_low:
+        return ml_safe_score
+
+    # ML is uncertain → Average with LLM
+    return int((llm_safe_score + ml_safe_score) / 2)
 
 
 # ==============================================================================
@@ -402,9 +441,4 @@ class TradeSafetyService:
         )
 
         # Return new analysis with updated safe_score
-        return TradeSafetyAnalysis(
-            **{
-                **llm_analysis.model_dump(),
-                "safe_score": final_safe_score,
-            }
-        )
+        return llm_analysis.model_copy(update={"safe_score": final_safe_score})
