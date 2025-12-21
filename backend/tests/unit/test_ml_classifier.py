@@ -111,11 +111,16 @@ class TestTfidfMLPClassifier(unittest.TestCase):
         vec_path = self.temp_dir / "vectorizer.joblib"
         joblib.dump(self.vectorizer, vec_path)
 
-        # Create minimal MLP model using factory method
+        # Create minimal MLP model (same structure as classifier)
         in_dim = len(self.vectorizer.get_feature_names_out())
         hidden_dim = 8
         torch.manual_seed(42)
-        self.model = TfidfMLPClassifier._create_mlp(in_dim, hidden_dim)
+        self.model = torch.nn.Sequential(
+            torch.nn.Linear(in_dim, hidden_dim),
+            torch.nn.ReLU(),
+            torch.nn.Dropout(0.2),
+            torch.nn.Linear(hidden_dim, 1),
+        )
 
         # Initialize with small random weights for reproducibility
         for param in self.model.parameters():

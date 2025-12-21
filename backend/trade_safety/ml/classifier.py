@@ -25,24 +25,6 @@ class TfidfMLPClassifier:
     _vectorizer: TfidfVectorizer | None = field(default=None, init=False, repr=False)
     _model: torch.nn.Module | None = field(default=None, init=False, repr=False)
 
-    @staticmethod
-    def _create_mlp(in_dim: int, hidden: int = 256) -> torch.nn.Module:
-        """Create 2-layer MLP model.
-
-        Args:
-            in_dim: Input dimension (TF-IDF feature size)
-            hidden: Hidden layer size (default: 256)
-
-        Returns:
-            torch.nn.Module: Sequential MLP model
-        """
-        return torch.nn.Sequential(
-            torch.nn.Linear(in_dim, hidden),
-            torch.nn.ReLU(),
-            torch.nn.Dropout(0.2),
-            torch.nn.Linear(hidden, 1),
-        )
-
     def load(self) -> None:
         """Load model files (Fail-fast: raises exception on error).
 
@@ -65,10 +47,15 @@ class TfidfMLPClassifier:
         self._vectorizer = joblib.load(vec_path)
         payload = torch.load(model_path, map_location="cpu")
 
-        # Create MLP and load weights
+        # Create 2-layer MLP and load weights
         in_dim = payload["in_dim"]
         hidden = payload.get("hidden", 256)
-        self._model = self._create_mlp(in_dim, hidden)
+        self._model = torch.nn.Sequential(
+            torch.nn.Linear(in_dim, hidden),
+            torch.nn.ReLU(),
+            torch.nn.Dropout(0.2),
+            torch.nn.Linear(hidden, 1),
+        )
         self._model.load_state_dict(payload["state_dict"])
         self._model.to(self.device)
         self._model.eval()
