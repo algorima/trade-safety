@@ -18,6 +18,7 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
 
 from trade_safety.ml.classifier import TfidfMLPClassifier
+from trade_safety.ml.ensemble import decide_safe_score
 from trade_safety.prompts import TRADE_SAFETY_SYSTEM_PROMPT
 from trade_safety.reddit_extract_text_service import RedditService
 from trade_safety.schemas import TradeSafetyAnalysis
@@ -386,7 +387,7 @@ class TradeSafetyService:
         )
 
         # Apply conditional ensemble
-        final_safe_score = self._decide_safe_score(
+        final_safe_score = decide_safe_score(
             ml_scam_prob,
             llm_analysis.safe_score,
             self.model_settings.ml_threshold_high,
@@ -407,38 +408,3 @@ class TradeSafetyService:
                 "safe_score": final_safe_score,
             }
         )
-
-    @staticmethod
-    def _decide_safe_score(
-        ml_scam_prob: float,
-        llm_safe_score: int,
-        threshold_high: float,
-        threshold_low: float,
-    ) -> int:
-        """Conditional ensemble logic based on ML confidence.
-
-        - ML high confidence (scam_prob >= threshold_high): Use ML only
-        - ML high confidence (scam_prob <= threshold_low): Use ML only
-        - ML uncertain (middle range): Average with LLM
-
-        Args:
-            ml_scam_prob: ML scam probability (0.0~1.0)
-            llm_safe_score: LLM safe score (0~100)
-            threshold_high: High confidence threshold (e.g., 0.85)
-            threshold_low: Low confidence threshold (e.g., 0.20)
-
-        Returns:
-            int: Final safe score (0~100, higher is safer)
-        """
-        ml_safe_score = 100 - int(ml_scam_prob * 100)
-
-        # ML is confident it's a scam
-        if ml_scam_prob >= threshold_high:
-            return ml_safe_score
-
-        # ML is confident it's legit
-        if ml_scam_prob <= threshold_low:
-            return ml_safe_score
-
-        # ML is uncertain → Average with LLM
-        return int((llm_safe_score + ml_safe_score) / 2)

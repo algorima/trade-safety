@@ -10,7 +10,7 @@ import torch
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 from trade_safety.ml.classifier import TfidfMLPClassifier
-from trade_safety.service import TradeSafetyService
+from trade_safety.ml.ensemble import decide_safe_score
 
 
 class TestDecideSafeScore(unittest.TestCase):
@@ -23,7 +23,7 @@ class TestDecideSafeScore(unittest.TestCase):
         threshold_high = 0.85
         threshold_low = 0.20
 
-        result = TradeSafetyService._decide_safe_score(
+        result = decide_safe_score(
             ml_scam_prob, llm_safe_score, threshold_high, threshold_low
         )
 
@@ -37,7 +37,7 @@ class TestDecideSafeScore(unittest.TestCase):
         threshold_high = 0.85
         threshold_low = 0.20
 
-        result = TradeSafetyService._decide_safe_score(
+        result = decide_safe_score(
             ml_scam_prob, llm_safe_score, threshold_high, threshold_low
         )
 
@@ -51,7 +51,7 @@ class TestDecideSafeScore(unittest.TestCase):
         threshold_high = 0.85
         threshold_low = 0.20
 
-        result = TradeSafetyService._decide_safe_score(
+        result = decide_safe_score(
             ml_scam_prob, llm_safe_score, threshold_high, threshold_low
         )
 
@@ -67,7 +67,7 @@ class TestDecideSafeScore(unittest.TestCase):
         threshold_high = 0.85
         threshold_low = 0.20
 
-        result = TradeSafetyService._decide_safe_score(
+        result = decide_safe_score(
             ml_scam_prob, llm_safe_score, threshold_high, threshold_low
         )
 
@@ -81,7 +81,7 @@ class TestDecideSafeScore(unittest.TestCase):
         threshold_high = 0.85
         threshold_low = 0.20
 
-        result = TradeSafetyService._decide_safe_score(
+        result = decide_safe_score(
             ml_scam_prob, llm_safe_score, threshold_high, threshold_low
         )
 
@@ -111,16 +111,11 @@ class TestTfidfMLPClassifier(unittest.TestCase):
         vec_path = self.temp_dir / "vectorizer.joblib"
         joblib.dump(self.vectorizer, vec_path)
 
-        # Create minimal MLP model (same structure as classifier)
+        # Create minimal MLP model using public factory method
         in_dim = len(self.vectorizer.get_feature_names_out())
         hidden_dim = 8
         torch.manual_seed(42)
-        self.model = torch.nn.Sequential(
-            torch.nn.Linear(in_dim, hidden_dim),
-            torch.nn.ReLU(),
-            torch.nn.Dropout(0.2),
-            torch.nn.Linear(hidden_dim, 1),
-        )
+        self.model = TfidfMLPClassifier.create_mlp(in_dim, hidden_dim)
 
         # Initialize with small random weights for reproducibility
         for param in self.model.parameters():
