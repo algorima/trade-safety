@@ -344,12 +344,12 @@ class TestTradeSafetyAnalysis(unittest.TestCase):
             assert analysis is not None  # Type narrowing for mypy
 
             # 기본 필드들이 존재해야 함
-            self.assertIsNotNone(analysis.risk_score, "위험 점수가 반환되어야 합니다")
+            self.assertIsNotNone(analysis.safe_score, "안전 점수가 반환되어야 합니다")
             self.assertGreaterEqual(
-                analysis.risk_score, 0, "위험 점수는 0 이상이어야 합니다"
+                analysis.safe_score, 0, "안전 점수는 0 이상이어야 합니다"
             )
             self.assertLessEqual(
-                analysis.risk_score, 100, "위험 점수는 100 이하여야 합니다"
+                analysis.safe_score, 100, "안전 점수는 100 이하여야 합니다"
             )
 
             # 안전 체크리스트가 제공되어야 함
@@ -377,7 +377,7 @@ class TestTradeSafetyAnalysis(unittest.TestCase):
             )
 
             print("\n✅ Twitter URL 분석 성공")
-            print(f"   Risk Score: {analysis.risk_score}/100")
+            print(f"   Safety Score: {analysis.safe_score}/100")
             print(f"   Risk Signals: {len(analysis.risk_signals)}개")
             print(f"   Cautions: {len(analysis.cautions)}개")
             print(f"   Safe Indicators: {len(analysis.safe_indicators)}개")
@@ -422,12 +422,12 @@ class TestTradeSafetyAnalysis(unittest.TestCase):
             assert analysis is not None  # Type narrowing for mypy
 
             # 기본 필드들이 존재해야 함
-            self.assertIsNotNone(analysis.risk_score, "위험 점수가 반환되어야 합니다")
+            self.assertIsNotNone(analysis.safe_score, "안전 점수가 반환되어야 합니다")
             self.assertGreaterEqual(
-                analysis.risk_score, 0, "위험 점수는 0 이상이어야 합니다"
+                analysis.safe_score, 0, "안전 점수는 0 이상이어야 합니다"
             )
             self.assertLessEqual(
-                analysis.risk_score, 100, "위험 점수는 100 이하여야 합니다"
+                analysis.safe_score, 100, "안전 점수는 100 이하여야 합니다"
             )
 
             # 안전 체크리스트가 제공되어야 함
@@ -468,7 +468,7 @@ class TestTradeSafetyAnalysis(unittest.TestCase):
             )
 
             print("\n✅ Reddit URL 분석 성공")
-            print(f"   Risk Score: {analysis.risk_score}/100")
+            print(f"   Safety Score: {analysis.safe_score}/100")
             print(f"   Risk Signals: {len(analysis.risk_signals)}개")
             print(f"   Cautions: {len(analysis.cautions)}개")
             print(f"   Safe Indicators: {len(analysis.safe_indicators)}개")
