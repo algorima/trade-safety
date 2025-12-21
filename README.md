@@ -29,7 +29,9 @@ export OPENAI_API_KEY=sk-...
 poetry run uvicorn main:app --reload
 ```
 
-접속: http://localhost:8000/docs
+API 문서:
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
 
 ### Frontend
 
