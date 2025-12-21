@@ -66,7 +66,7 @@ class TfidfMLPClassifier:
 
         # Load vectorizer and model
         self._vectorizer = joblib.load(vec_path)
-        payload = torch.load(model_path, map_location="cpu")
+        payload = torch.load(model_path, map_location="cpu", weights_only=True)
 
         # Create MLP and load weights
         in_dim = payload["in_dim"]
