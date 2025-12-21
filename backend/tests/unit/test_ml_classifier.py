@@ -132,37 +132,35 @@ class TestTfidfMLPClassifier(unittest.TestCase):
                 self.assertIsInstance(result, float)
                 self.assertEqual(result, 0.85)
 
-    @patch("trade_safety.ml.classifier.Path.exists")
-    def test_load_raises_error_when_vectorizer_missing(self, mock_exists):
+    def test_load_raises_error_when_vectorizer_missing(self):
         """Test that load() raises FileNotFoundError when vectorizer is missing."""
         # vectorizer.joblib만 없는 경우
-        def exists_side_effect(path):
-            return "model.pt" in str(path)
+        with patch.object(Path, "exists") as mock_exists:
+            # 첫 번째 호출 (vec_path.exists()): False
+            # 두 번째 호출 (model_path.exists()): True
+            mock_exists.side_effect = [False, True]
 
-        mock_exists.side_effect = exists_side_effect
+            classifier = TfidfMLPClassifier(model_dir=Path("/fake/model"))
 
-        classifier = TfidfMLPClassifier(model_dir=Path("/fake/model"))
+            with self.assertRaises(FileNotFoundError) as context:
+                classifier.load()
 
-        with self.assertRaises(FileNotFoundError) as context:
-            classifier.load()
+            self.assertIn("Vectorizer not found", str(context.exception))
 
-        self.assertIn("Vectorizer not found", str(context.exception))
-
-    @patch("trade_safety.ml.classifier.Path.exists")
-    def test_load_raises_error_when_model_missing(self, mock_exists):
+    def test_load_raises_error_when_model_missing(self):
         """Test that load() raises FileNotFoundError when model.pt is missing."""
         # model.pt만 없는 경우
-        def exists_side_effect(path):
-            return "vectorizer.joblib" in str(path)
+        with patch.object(Path, "exists") as mock_exists:
+            # 첫 번째 호출 (vec_path.exists()): True
+            # 두 번째 호출 (model_path.exists()): False
+            mock_exists.side_effect = [True, False]
 
-        mock_exists.side_effect = exists_side_effect
+            classifier = TfidfMLPClassifier(model_dir=Path("/fake/model"))
 
-        classifier = TfidfMLPClassifier(model_dir=Path("/fake/model"))
+            with self.assertRaises(FileNotFoundError) as context:
+                classifier.load()
 
-        with self.assertRaises(FileNotFoundError) as context:
-            classifier.load()
-
-        self.assertIn("Model not found", str(context.exception))
+            self.assertIn("Model not found", str(context.exception))
 
     @patch("trade_safety.ml.classifier.joblib.load")
     @patch("trade_safety.ml.classifier.torch.load")
