@@ -41,9 +41,33 @@ class TfidfMLPClassifier:
             FileNotFoundError: If vectorizer.joblib or model.pt is missing
             RuntimeError: If required dependencies are not installed
         """
-        # TODO: Implement in Phase 2
-        raise NotImplementedError("Phase 1 skeleton - implement in Phase 2")
+        if self._model is not None:
+            return  # Already loaded
 
+        if joblib is None or torch is None:
+            raise RuntimeError(
+                "ML dependencies not installed. "
+                "Install torch and scikit-learn to use ML classifier."
+            )
+
+        vec_path = self.model_dir / "vectorizer.joblib"
+        model_path = self.model_dir / "model.pt"
+
+        # Fail-fast: File existence check
+        if not vec_path.exists():
+            raise FileNotFoundError(f"Vectorizer not found: {vec_path}")
+        if not model_path.exists():
+            raise FileNotFoundError(f"Model not found: {model_path}")
+
+        # Load vectorizer and model
+        self._vectorizer = joblib.load(vec_path)
+        payload = torch.load(model_path, map_location="cpu")
+        self._model = MLP(in_dim=payload["in_dim"])
+        self._model.load_state_dict(payload["state_dict"])
+        self._model.to(self.device)
+        self._model.eval()
+
+    @torch.inference_mode()
     def predict_proba(self, text: str) -> float:
         """Predict scam probability for given text.
 
@@ -53,8 +77,17 @@ class TfidfMLPClassifier:
         Returns:
             float: Scam probability (0.0~1.0, higher = more likely scam)
         """
-        # TODO: Implement in Phase 2
-        raise NotImplementedError("Phase 1 skeleton - implement in Phase 2")
+        self.load()
+        assert self._model is not None and self._vectorizer is not None
+
+        # Transform text to TF-IDF features
+        X = self._vectorizer.transform([text])
+        x = torch.from_numpy(X.toarray()).float().to(self.device)
+
+        # Get model prediction
+        logit = self._model(x)
+        prob = torch.sigmoid(logit).item()
+        return float(prob)
 
 
 def decide_safe_score(
@@ -78,5 +111,15 @@ def decide_safe_score(
     Returns:
         int: Final safe score (0~100, higher is safer)
     """
-    # TODO: Implement in Phase 2
-    raise NotImplementedError("Phase 1 skeleton - implement in Phase 2")
+    ml_safe_score = 100 - int(ml_scam_prob * 100)
+
+    # ML is confident it's a scam
+    if ml_scam_prob >= threshold_high:
+        return ml_safe_score
+
+    # ML is confident it's legit
+    if ml_scam_prob <= threshold_low:
+        return ml_safe_score
+
+    # ML is uncertain → Average with LLM
+    return int((llm_safe_score + ml_safe_score) / 2)
