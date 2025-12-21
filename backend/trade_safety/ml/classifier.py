@@ -5,18 +5,11 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from pathlib import Path
 
-try:
-    import joblib  # type: ignore
-    import torch
-    from sklearn.feature_extraction.text import TfidfVectorizer  # type: ignore
+import joblib
+import torch
+from sklearn.feature_extraction.text import TfidfVectorizer
 
-    from .mlp import MLP
-except ImportError:
-    # Dependencies not installed - will raise error on load()
-    joblib = None  # type: ignore
-    torch = None  # type: ignore
-    TfidfVectorizer = None  # type: ignore
-    MLP = None  # type: ignore
+from .mlp import MLP
 
 
 @dataclass
@@ -39,16 +32,9 @@ class TfidfMLPClassifier:
 
         Raises:
             FileNotFoundError: If vectorizer.joblib or model.pt is missing
-            RuntimeError: If required dependencies are not installed
         """
         if self._model is not None:
             return  # Already loaded
-
-        if joblib is None or torch is None:
-            raise RuntimeError(
-                "ML dependencies not installed. "
-                "Install torch and scikit-learn to use ML classifier."
-            )
 
         vec_path = self.model_dir / "vectorizer.joblib"
         model_path = self.model_dir / "model.pt"
