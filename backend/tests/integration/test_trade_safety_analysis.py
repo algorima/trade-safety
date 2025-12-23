@@ -314,6 +314,81 @@ class TestTradeSafetyAnalysis(unittest.TestCase):
             "가격 정보가 제공되었으므로 offered_price가 있어야 합니다",
         )
 
+    def test_analyze_trade_with_twitter_url(self) -> None:
+        """
+        Twitter/X URL을 입력받아 트윗 내용을 추출하고 분석해야 함
+
+        시나리오:
+        - 입력: Twitter/X URL (실제 존재하는 트윗)
+        - 기대 결과: URL에서 트윗 내용을 추출하여 분석 수행
+
+        Note:
+        - 이 테스트는 실제 Twitter API를 호출합니다
+        - Twitter API Bearer Token이 필요합니다 (TWITTER_BEARER_TOKEN 환경변수)
+        - 네트워크 연결이 필요합니다
+        """
+        # Given: 실제 Twitter URL
+        # 예시: K-pop 관련 티켓/굿즈 양도 트윗
+        twitter_url = "https://x.com/mkticket7/status/2000111727493718384"
+
+        # When: Twitter URL로 거래 분석 수행
+        try:
+            analysis = asyncio.run(
+                self.service.analyze_trade(
+                    input_text=twitter_url,
+                )
+            )
+
+            # Then: 분석 결과 검증
+            self.assertIsNotNone(analysis, "분석 결과가 반환되어야 합니다")
+            assert analysis is not None  # Type narrowing for mypy
+
+            # 기본 필드들이 존재해야 함
+            self.assertIsNotNone(analysis.safe_score, "안전 점수가 반환되어야 합니다")
+            self.assertGreaterEqual(
+                analysis.safe_score, 0, "안전 점수는 0 이상이어야 합니다"
+            )
+            self.assertLessEqual(
+                analysis.safe_score, 100, "안전 점수는 100 이하여야 합니다"
+            )
+
+            # 안전 체크리스트가 제공되어야 함
+            self.assertIsNotNone(
+                analysis.safety_checklist, "안전 체크리스트가 포함되어야 합니다"
+            )
+            self.assertGreater(
+                len(analysis.safety_checklist),
+                0,
+                "안전 체크리스트에 최소 1개 이상의 항목이 있어야 합니다",
+            )
+
+            # 번역 또는 뉘앙스 설명이 제공되어야 함
+            has_translation = (
+                analysis.translation is not None
+                and len(analysis.translation.strip()) > 0
+            )
+            has_nuance = (
+                analysis.nuance_explanation is not None
+                and len(analysis.nuance_explanation.strip()) > 0
+            )
+            self.assertTrue(
+                has_translation or has_nuance,
+                "Twitter 콘텐츠에 대한 번역 또는 뉘앙스 설명이 제공되어야 합니다",
+            )
+
+            print("\n✅ Twitter URL 분석 성공")
+            print(f"   Safe Score: {analysis.safe_score}/100")
+            print(f"   Risk Signals: {len(analysis.risk_signals)}개")
+            print(f"   Cautions: {len(analysis.cautions)}개")
+            print(f"   Safe Indicators: {len(analysis.safe_indicators)}개")
+
+        except ValueError as e:
+            # Twitter API 접근 불가 또는 네트워크 에러인 경우 테스트 스킵
+            if "Twitter Bearer Token" in str(e) or "Failed to fetch tweet" in str(e):
+                self.skipTest(f"Twitter API 사용 불가: {e}")
+            else:
+                raise
+
 
 class TestOutputLanguageCompliance(unittest.TestCase):
     """
