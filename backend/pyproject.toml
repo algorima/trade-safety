@@ -21,6 +21,7 @@ langchain = ">=0.1,<1"
 langchain-community = ">=0.1,<1"
 openai = ">=1.0.0"
 langchain-openai = ">=0.1,<1"
+requests = "^2.32.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.0.0"
@@ -30,6 +31,7 @@ ruff = "^0.1.0"
 uvicorn = "^0.38.0"
 pyright = "^1.1.407"
 pylint = "3.3.7"
+types-requests = "^2.32.4.20250913"
 
 [tool.black]
 line-length = 88
