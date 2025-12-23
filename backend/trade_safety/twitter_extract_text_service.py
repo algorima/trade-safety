@@ -158,6 +158,128 @@ class TwitterService:
             logger.error(error_msg)
             raise ValueError(error_msg) from e
 
+    def fetch_metadata(self, twitter_url: str) -> TweetMetadata:
+        """
+        Fetch tweet metadata from Twitter/X URL for post preview.
+
+        This method retrieves comprehensive metadata including author, timestamp,
+        text content, and image URLs. Used for post preview functionality.
+
+        Args:
+            twitter_url: Twitter/X URL (e.g., https://x.com/user/status/123456789)
+
+        Returns:
+            TweetMetadata: Tweet metadata including author, created_at, text, and images
+
+        Raises:
+            ValueError: If bearer token is missing, tweet ID extraction fails, or API call fails
+
+        Example:
+            >>> service = TwitterService(TwitterAPISettings(bearer_token="YOUR_TOKEN"))
+            >>> metadata = service.fetch_metadata("https://x.com/user/status/123")
+            >>> print(metadata.author, len(metadata.images))
+            seller123 2
+        """
+        # Lazy validation: check bearer token at call time
+        if not self.settings.bearer_token:
+            raise ValueError(
+                "Twitter Bearer Token is required. "
+                "Provide it via TwitterAPISettings or TWITTER_BEARER_TOKEN environment variable. "
+                "Get your token at: https://developer.twitter.com/en/portal/dashboard"
+            )
+
+        # Extract tweet ID from URL
+        tweet_id = self._extract_tweet_id(twitter_url)
+        if not tweet_id:
+            raise ValueError(f"Could not extract tweet ID from URL: {twitter_url}")
+
+        try:
+            logger.debug(
+                "Fetching tweet metadata from Twitter API v2: tweet_id=%s", tweet_id
+            )
+
+            # Twitter API v2 endpoint
+            api_url = f"https://api.twitter.com/2/tweets/{tweet_id}"
+
+            headers = {
+                "Authorization": f"Bearer {self.settings.bearer_token}",
+                "User-Agent": "v2TweetLookupPython",
+            }
+
+            # Request extended fields for metadata
+            params = {
+                "tweet.fields": "text,created_at,attachments",
+                "expansions": "author_id,attachments.media_keys",
+                "user.fields": "username",
+                "media.fields": "type,url",
+            }
+
+            response = requests.get(api_url, headers=headers, params=params, timeout=10)
+            response.raise_for_status()
+
+            data = response.json()
+
+            # Validate response structure
+            if "data" not in data or "text" not in data["data"]:
+                raise ValueError(f"Tweet not found or inaccessible: {tweet_id}")
+
+            tweet_data = data["data"]
+            includes = data.get("includes", {})
+
+            # Extract author username
+            users = includes.get("users", [])
+            author = users[0]["username"] if users else "unknown"
+
+            # Extract created_at timestamp
+            created_at_str = tweet_data.get("created_at")
+            created_at = (
+                datetime.fromisoformat(created_at_str.replace("Z", "+00:00"))
+                if created_at_str
+                else None
+            )
+
+            # Extract text
+            text = tweet_data["text"]
+
+            # Extract image URLs (photos only, filter out videos)
+            images = []
+            media_list = includes.get("media", [])
+            for media in media_list:
+                if media.get("type") == "photo" and "url" in media:
+                    images.append(media["url"])
+
+            metadata = TweetMetadata(
+                author=author,
+                created_at=created_at,
+                text=text,
+                images=images,
+            )
+
+            logger.info(
+                "Successfully fetched tweet metadata: author=%s, images=%d",
+                metadata.author,
+                len(metadata.images),
+            )
+
+            return metadata
+
+        except requests.exceptions.Timeout as exc:
+            error_msg = f"Request timeout while fetching tweet metadata: {twitter_url}"
+            logger.error(error_msg)
+            raise ValueError(error_msg) from exc
+
+        except requests.exceptions.HTTPError as e:
+            error_msg = (
+                f"Twitter API error: {e.response.status_code} - {e.response.text}"
+            )
+            logger.error(error_msg)
+            raise ValueError(error_msg) from e
+
+        except requests.exceptions.RequestException as e:
+            error_msg = f"Failed to fetch tweet metadata from API: {str(e)}"
+            logger.error(error_msg)
+            raise ValueError(error_msg) from e
+
     # ==========================================
     # Helper Methods
     # ==========================================

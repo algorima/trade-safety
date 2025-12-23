@@ -144,8 +144,14 @@ class TestTwitterMetadata(unittest.TestCase):
     @patch("requests.get")
     def test_fetch_metadata_api_error(self, mock_get):
         """Test API error handling."""
-        # Given: API returns error
-        mock_get.side_effect = requests.exceptions.HTTPError()
+        # Given: API returns error with response
+        mock_response = MagicMock()
+        mock_response.status_code = 404
+        mock_response.text = "Not Found"
+
+        http_error = requests.exceptions.HTTPError()
+        http_error.response = mock_response
+        mock_get.side_effect = http_error
 
         # When/Then: ValueError raised
         with self.assertRaises(ValueError):
