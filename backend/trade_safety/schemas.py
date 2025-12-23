@@ -6,6 +6,12 @@ from typing import Any
 from pydantic import BaseModel, ConfigDict, Field, field_serializer, field_validator
 
 
+class Platform(str, Enum):
+    """Supported social media platforms"""
+
+    TWITTER = "twitter"
+
+
 class RiskSeverity(str, Enum):
     """Severity level of a risk signal"""
 
@@ -175,6 +181,26 @@ class TradeSafetyCheckUpdate(BaseModel):
     )
     expert_reviewed_by: str | None = Field(
         default=None, description="Expert reviewer ID"
+    )
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+# ==============================================================================
+# Post Preview Models (for URL metadata extraction)
+# ==============================================================================
+
+
+class PostPreview(BaseModel):
+    """Social media post preview metadata"""
+
+    platform: Platform = Field(description="Social media platform")
+    author: str = Field(description="Post author username")
+    created_at: datetime | None = Field(None, description="Post creation timestamp")
+    text: str = Field(description="Full post text content")
+    text_preview: str = Field(description="Truncated preview (first 200 chars)")
+    images: list[str] = Field(
+        default_factory=list, description="Image URLs from the post"
     )
 
     model_config = ConfigDict(from_attributes=True)
