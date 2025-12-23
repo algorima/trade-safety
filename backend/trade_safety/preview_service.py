@@ -62,5 +62,34 @@ class PreviewService:
             >>> print(preview.platform)
             Platform.TWITTER
         """
-        # Implementation to be added
-        raise NotImplementedError("preview() not yet implemented")
+        # Check if Twitter URL
+        if TwitterService.is_twitter_url(url):
+            logger.info("Detected Twitter URL, fetching metadata")
+            metadata = self.twitter_service.fetch_metadata(url)
+
+            # Truncate text to 200 characters for preview
+            text_preview = metadata.text[:200] if len(metadata.text) > 200 else metadata.text
+
+            preview = PostPreview(
+                platform=Platform.TWITTER,
+                author=metadata.author,
+                created_at=metadata.created_at,
+                text=metadata.text,
+                text_preview=text_preview,
+                images=metadata.images,
+            )
+
+            logger.info(
+                "Preview created: platform=%s, author=%s, images=%d",
+                preview.platform,
+                preview.author,
+                len(preview.images),
+            )
+
+            return preview
+
+        # Unsupported URL
+        logger.warning("Unsupported URL: %s", url)
+        raise ValueError(
+            "Unsupported URL. Currently only Twitter/X URLs are supported."
+        )
