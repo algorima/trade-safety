@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { TRADE_SAFETY_NS } from "@/i18n";
 import { SafetyLevel } from "@/types";
 
-interface PageHeaderProps {
+export interface PageHeaderProps {
   level: SafetyLevel;
   score: number;
 }
