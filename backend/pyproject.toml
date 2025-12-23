@@ -21,7 +21,6 @@ langchain = ">=0.1,<1"
 langchain-community = ">=0.1,<1"
 openai = ">=1.0.0"
 langchain-openai = ">=0.1,<1"
-requests = "^2.32.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.0.0"
