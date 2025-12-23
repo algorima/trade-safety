@@ -31,9 +31,7 @@ class PreviewService:
         Platform.TWITTER seller123
     """
 
-    def __init__(
-        self, twitter_service: TwitterService | None = None
-    ):
+    def __init__(self, twitter_service: TwitterService | None = None):
         """
         Initialize PreviewService with platform services.
 
@@ -68,7 +66,9 @@ class PreviewService:
             metadata = self.twitter_service.fetch_metadata(url)
 
             # Truncate text to 200 characters for preview
-            text_preview = metadata.text[:200] if len(metadata.text) > 200 else metadata.text
+            text_preview = (
+                metadata.text[:200] if len(metadata.text) > 200 else metadata.text
+            )
 
             preview = PostPreview(
                 platform=Platform.TWITTER,

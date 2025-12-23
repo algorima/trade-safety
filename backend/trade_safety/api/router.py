@@ -17,10 +17,10 @@ from pydantic import BaseModel, Field
 from sqlalchemy.orm import sessionmaker
 
 from trade_safety.factories import TradeSafetyCheckManagerFactory
+from trade_safety.preview_service import PreviewService
 from trade_safety.repositories.trade_safety_repository import (
     DatabaseTradeSafetyCheckManager,
 )
-from trade_safety.preview_service import PreviewService
 from trade_safety.schemas import (
     PostPreview,
     TradeSafetyCheck,
@@ -306,7 +306,10 @@ class TradeSafetyRouter(
                 200: {
                     "description": "Post preview extracted successfully",
                 },
-                422: {"model": ErrorResponse, "description": "Invalid URL or unsupported platform"},
+                422: {
+                    "model": ErrorResponse,
+                    "description": "Invalid URL or unsupported platform",
+                },
                 500: {"model": ErrorResponse, "description": "Internal server error"},
             },
         )

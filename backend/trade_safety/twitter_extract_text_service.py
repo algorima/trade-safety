@@ -30,9 +30,7 @@ class TweetMetadata(BaseModel):
     author: str = Field(description="Tweet author username")
     created_at: datetime | None = Field(None, description="Tweet creation timestamp")
     text: str = Field(description="Tweet text content")
-    images: list[str] = Field(
-        default_factory=list, description="Image URLs from tweet"
-    )
+    images: list[str] = Field(default_factory=list, description="Image URLs from tweet")
 
 
 # ==============================================================================

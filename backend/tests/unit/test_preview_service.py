@@ -37,8 +37,14 @@ class TestPreviewService(unittest.TestCase):
         # Then: Correct preview returned
         self.assertEqual(result.platform, Platform.TWITTER)
         self.assertEqual(result.author, "seller123")
-        self.assertEqual(result.text, "급처분 포카 양도합니다. 자세한 내용은 DM으로 문의주세요. #급처 #양도 #photocard")
-        self.assertEqual(result.text_preview, "급처분 포카 양도합니다. 자세한 내용은 DM으로 문의주세요. #급처 #양도 #photocard")  # <200 chars
+        self.assertEqual(
+            result.text,
+            "급처분 포카 양도합니다. 자세한 내용은 DM으로 문의주세요. #급처 #양도 #photocard",
+        )
+        self.assertEqual(
+            result.text_preview,
+            "급처분 포카 양도합니다. 자세한 내용은 DM으로 문의주세요. #급처 #양도 #photocard",
+        )  # <200 chars
         self.assertEqual(len(result.images), 1)
         self.assertEqual(result.images[0], "https://pbs.twimg.com/media/img1.jpg")
         self.assertIsInstance(result.created_at, datetime)
@@ -115,9 +121,7 @@ class TestPreviewService(unittest.TestCase):
     def test_preview_twitter_service_error(self):
         """Test error propagation from TwitterService."""
         # Given: TwitterService raises error
-        self.twitter_service.fetch_metadata.side_effect = ValueError(
-            "Tweet not found"
-        )
+        self.twitter_service.fetch_metadata.side_effect = ValueError("Tweet not found")
 
         # When/Then: Error propagated
         with self.assertRaises(ValueError) as ctx:
