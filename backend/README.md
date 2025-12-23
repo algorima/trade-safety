@@ -22,16 +22,11 @@ poetry install
 ### 서비스 사용
 
 ```python
-from aioia_core.settings import OpenAIAPISettings
 from trade_safety.service import TradeSafetyService
 from trade_safety.settings import TradeSafetyModelSettings
 
-openai_api = OpenAIAPISettings(api_key="sk-...")
-model_settings = TradeSafetyModelSettings()
-service = TradeSafetyService(
-    openai_api=openai_api,
-    model_settings=model_settings,
-)
+settings = TradeSafetyModelSettings()
+service = TradeSafetyService(settings)
 
 analysis = await service.analyze_trade("급처분 양도해요")
 print(f"위험도: {analysis.risk_score}/100")
@@ -55,13 +50,6 @@ poetry run make lint
 poetry run make type-check
 poetry run make format
 ```
-
-## 환경 변수
-
-| 변수명 | 필수 | 설명 |
-|--------|------|------|
-| `OPENAI_API_KEY` | O | OpenAI API 키 |
-| `TWITTER_BEARER_TOKEN` | X | Twitter/X URL 분석용 (미설정 시 URL 분석 불가) |
 
 ## 의존성
 

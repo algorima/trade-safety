@@ -132,8 +132,7 @@ class TestServiceLanguageValidation(unittest.TestCase):
         """Test that ValueError is raised for invalid output_language."""
 
         service = TradeSafetyService(
-            openai_api=self.mock_openai_settings,
-            model_settings=self.mock_model_settings,
+            self.mock_openai_settings, self.mock_model_settings
         )
 
         invalid_languages = ["fr", "de", "ru", "123", "abc", "korean"]
