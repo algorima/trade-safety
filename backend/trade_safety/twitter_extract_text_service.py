@@ -9,12 +9,30 @@ from __future__ import annotations
 
 import logging
 import re
+from datetime import datetime
 
 import requests
+from pydantic import BaseModel, Field
 
 from trade_safety.settings import TwitterAPISettings
 
 logger = logging.getLogger(__name__)
+
+
+# ==============================================================================
+# Data Models
+# ==============================================================================
+
+
+class TweetMetadata(BaseModel):
+    """Tweet metadata for preview functionality"""
+
+    author: str = Field(description="Tweet author username")
+    created_at: datetime | None = Field(None, description="Tweet creation timestamp")
+    text: str = Field(description="Tweet text content")
+    images: list[str] = Field(
+        default_factory=list, description="Image URLs from tweet"
+    )
 
 
 # ==============================================================================
