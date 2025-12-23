@@ -1,13 +1,13 @@
 """Unit tests for TwitterService.fetch_metadata()."""
 
 import unittest
-from datetime import datetime, timezone
+from datetime import datetime
 from unittest.mock import MagicMock, patch
 
 import requests
 
 from trade_safety.settings import TwitterAPISettings
-from trade_safety.twitter_extract_text_service import TweetMetadata, TwitterService
+from trade_safety.twitter_extract_text_service import TwitterService
 
 
 class TestTwitterMetadata(unittest.TestCase):
@@ -157,8 +157,7 @@ class TestTwitterMetadata(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.service.fetch_metadata("https://x.com/user/status/123")
 
-    @patch("requests.get")
-    def test_fetch_metadata_invalid_url(self, mock_get):
+    def test_fetch_metadata_invalid_url(self):
         """Test invalid URL handling."""
         # When/Then: ValueError raised for invalid URL
         with self.assertRaises(ValueError) as ctx:
