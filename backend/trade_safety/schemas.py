@@ -84,7 +84,9 @@ class PriceAnalysis(BaseModel):
 class TradeSafetyAnalysis(BaseModel):
     """Complete LLM analysis of a trade"""
 
-    ai_summary: str = Field(description="AI-generated summary of the trade analysis")
+    ai_summary: list[str] = Field(
+        default_factory=list, description="AI-generated 3-line summary of the trade analysis"
+    )
     translation: str | None = Field(
         None, description="Translation of trade post if not in English"
     )
