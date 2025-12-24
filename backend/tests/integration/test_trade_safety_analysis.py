@@ -9,6 +9,8 @@ from decimal import Decimal
 
 from aioia_core.settings import OpenAIAPISettings
 
+from trade_safety.preview_service import PreviewService
+from trade_safety.schemas import Platform
 from trade_safety.service import TradeSafetyService
 from trade_safety.settings import TradeSafetyModelSettings, TwitterAPISettings
 
@@ -819,6 +821,109 @@ class TestOutputLanguageCompliance(unittest.TestCase):
             f"타갈로그어 응답 비율이 {self.LANGUAGE_MATCH_THRESHOLD*100}% 미만입니다. "
             f"실제: {ratio*100:.1f}% ({matched}/{total})\n"
             f"실패 필드: {failed}",
+        )
+
+
+class TestPreviewService(unittest.TestCase):
+    """
+    통합 테스트: PreviewService의 Twitter URL 메타데이터 추출 검증
+
+    이 테스트는 PreviewService가 실제 Twitter API를 사용하여
+    포스트 메타데이터를 추출하고, 올바른 형식의 응답을 반환하는지 검증합니다.
+
+    환경 변수:
+        TWITTER_BEARER_TOKEN: Twitter API Bearer Token (필수)
+    """
+
+    def setUp(self) -> None:
+        twitter_api = TwitterAPISettings()  # Auto-load from environment
+        self.service = PreviewService(twitter_service=None)  # Use default TwitterService
+
+    def test_preview_twitter_url_integration(self) -> None:
+        """
+        Twitter/X URL을 입력받아 포스트 메타데이터를 추출해야 함
+
+        시나리오:
+        - 입력: Twitter/X URL (실제 존재하는 트윗)
+        - 기대 결과: 작성자, 텍스트, 이미지, 생성일 등 메타데이터 추출
+
+        Note:
+        - 이 테스트는 실제 Twitter API를 호출합니다
+        - Twitter API Bearer Token이 필요합니다 (TWITTER_BEARER_TOKEN 환경변수)
+        - 네트워크 연결이 필요합니다
+        """
+        # Given: 실제 Twitter URL
+        twitter_url = "https://x.com/jenniestbalipin/status/1990666828457390345"
+
+        # When: Twitter URL로 메타데이터 추출
+        try:
+            preview = self.service.preview(twitter_url)
+
+            # Then: 메타데이터 검증
+            self.assertIsNotNone(preview, "메타데이터가 반환되어야 합니다")
+
+            # Platform 검증
+            self.assertEqual(
+                preview.platform, Platform.TWITTER, "플랫폼은 TWITTER여야 합니다"
+            )
+
+            # Author 검증
+            self.assertIsNotNone(preview.author, "작성자가 반환되어야 합니다")
+            self.assertGreater(len(preview.author), 0, "작성자는 빈 문자열이 아니어야 합니다")
+
+            # Text 검증
+            self.assertIsNotNone(preview.text, "텍스트가 반환되어야 합니다")
+            self.assertGreater(len(preview.text), 0, "텍스트는 빈 문자열이 아니어야 합니다")
+
+            # Text preview 검증 (200자 제한)
+            self.assertIsNotNone(preview.text_preview, "텍스트 미리보기가 반환되어야 합니다")
+            self.assertLessEqual(
+                len(preview.text_preview), 200, "텍스트 미리보기는 200자 이하여야 합니다"
+            )
+
+            # Images 검증 (리스트여야 함, 비어있을 수 있음)
+            self.assertIsInstance(preview.images, list, "이미지는 리스트여야 합니다")
+
+            # Created_at 검증 (있을 수도 없을 수도 있음)
+            if preview.created_at:
+                self.assertIsNotNone(
+                    preview.created_at, "생성일이 제공된 경우 None이 아니어야 합니다"
+                )
+
+            print("\n✅ Twitter URL 메타데이터 추출 성공")
+            print(f"   Platform: {preview.platform}")
+            print(f"   Author: {preview.author}")
+            print(f"   Text length: {len(preview.text)} chars")
+            print(f"   Text preview length: {len(preview.text_preview)} chars")
+            print(f"   Images: {len(preview.images)}개")
+            print(f"   Created at: {preview.created_at}")
+
+        except ValueError as e:
+            # Twitter API 접근 불가 또는 네트워크 에러인 경우 테스트 스킵
+            if "Twitter Bearer Token" in str(e) or "Failed to fetch tweet" in str(e):
+                self.skipTest(f"Twitter API 사용 불가: {e}")
+            else:
+                raise
+
+    def test_preview_unsupported_url(self) -> None:
+        """
+        지원하지 않는 URL 입력 시 ValueError를 발생시켜야 함
+
+        시나리오:
+        - 입력: 지원하지 않는 플랫폼의 URL
+        - 기대 결과: ValueError 발생
+        """
+        # Given: 지원하지 않는 URL
+        unsupported_url = "https://www.instagram.com/p/ABC123/"
+
+        # When & Then: ValueError 발생해야 함
+        with self.assertRaises(ValueError) as context:
+            self.service.preview(unsupported_url)
+
+        self.assertIn(
+            "Unsupported URL",
+            str(context.exception),
+            "에러 메시지에 'Unsupported URL'이 포함되어야 합니다",
         )
 
 
