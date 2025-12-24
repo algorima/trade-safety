@@ -836,8 +836,8 @@ class TestPreviewService(unittest.TestCase):
     """
 
     def setUp(self) -> None:
-        twitter_api = TwitterAPISettings()  # Auto-load from environment
-        self.service = PreviewService(twitter_service=None)  # Use default TwitterService
+        # PreviewService will auto-create TwitterService with environment settings
+        self.service = PreviewService()
 
     def test_preview_twitter_url_integration(self) -> None:
         """
@@ -869,16 +869,24 @@ class TestPreviewService(unittest.TestCase):
 
             # Author 검증
             self.assertIsNotNone(preview.author, "작성자가 반환되어야 합니다")
-            self.assertGreater(len(preview.author), 0, "작성자는 빈 문자열이 아니어야 합니다")
+            self.assertGreater(
+                len(preview.author), 0, "작성자는 빈 문자열이 아니어야 합니다"
+            )
 
             # Text 검증
             self.assertIsNotNone(preview.text, "텍스트가 반환되어야 합니다")
-            self.assertGreater(len(preview.text), 0, "텍스트는 빈 문자열이 아니어야 합니다")
+            self.assertGreater(
+                len(preview.text), 0, "텍스트는 빈 문자열이 아니어야 합니다"
+            )
 
             # Text preview 검증 (200자 제한)
-            self.assertIsNotNone(preview.text_preview, "텍스트 미리보기가 반환되어야 합니다")
+            self.assertIsNotNone(
+                preview.text_preview, "텍스트 미리보기가 반환되어야 합니다"
+            )
             self.assertLessEqual(
-                len(preview.text_preview), 200, "텍스트 미리보기는 200자 이하여야 합니다"
+                len(preview.text_preview),
+                200,
+                "텍스트 미리보기는 200자 이하여야 합니다",
             )
 
             # Images 검증 (리스트여야 함, 비어있을 수 있음)
