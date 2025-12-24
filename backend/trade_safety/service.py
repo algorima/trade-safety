@@ -18,7 +18,6 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
 
 from trade_safety.prompts import TRADE_SAFETY_SYSTEM_PROMPT
-from trade_safety.reddit_extract_text_service import RedditService
 from trade_safety.schemas import TradeSafetyAnalysis
 from trade_safety.settings import (
     ALLOWED_LANGUAGES,
@@ -58,10 +57,7 @@ class TradeSafetyService:
         >>>
         >>> openai_api = OpenAIAPISettings(api_key="sk-...")
         >>> model_settings = TradeSafetyModelSettings()
-        >>> service = TradeSafetyService(
-        ...     openai_api=openai_api,
-        ...     model_settings=model_settings,
-        ... )
+        >>> service = TradeSafetyService(openai_api, model_settings)
         >>> analysis = await service.analyze_trade(
         ...     input_text="급처분 공구 실패해서 양도해요"
         ... )
@@ -111,7 +107,6 @@ class TradeSafetyService:
         )
         self.system_prompt = system_prompt
         self.twitter_service = TwitterService(twitter_api=twitter_api)
-        self.reddit_service = RedditService()
 
     # ==========================================
     # Main Analysis Method
@@ -327,12 +322,8 @@ class TradeSafetyService:
             logger.info("Detected Twitter/X URL, using TwitterService")
             return self.twitter_service.fetch_tweet_content(url)
 
-        if RedditService.is_reddit_url(url):
-            logger.info("Detected Reddit URL, using RedditService")
-            return self.reddit_service.fetch_post_content(url)
-
         logger.warning("Unsupported URL type: %s", url)
         raise ValueError(
-            "Unsupported URL. Currently only Twitter/X and Reddit URLs are supported."
+            "Unsupported URL. Currently only Twitter/X URLs are supported. "
             "Please paste the text content directly instead of the URL."
         )
