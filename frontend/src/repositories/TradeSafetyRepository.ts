@@ -78,4 +78,24 @@ export class TradeSafetyRepository extends BaseCrudRepository<TradeSafetyCheckRe
   protected getDataSchema() {
     return tradeSafetyCheckResponseSchema;
   }
+
+  /**
+   * Fetch post preview metadata from a social media URL
+   * POST /trade-safety/preview
+   */
+  async fetchPreview(
+    url: string,
+    fetchOptions?: RequestInit,
+  ): Promise<PostPreview> {
+    const endpoint = `${this.apiService.buildUrl(this.resource)}/preview`;
+    const rawResponse = await this.apiService.request(endpoint, {
+      ...fetchOptions,
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url }),
+    });
+
+    const validated = this.validateResponse(rawResponse, previewResponseSchema);
+    return validated.data;
+  }
 }
