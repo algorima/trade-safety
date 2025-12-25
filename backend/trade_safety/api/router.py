@@ -17,10 +17,12 @@ from pydantic import BaseModel, Field
 from sqlalchemy.orm import sessionmaker
 
 from trade_safety.factories import TradeSafetyCheckManagerFactory
+from trade_safety.preview_service import PreviewService
 from trade_safety.repositories.trade_safety_repository import (
     DatabaseTradeSafetyCheckManager,
 )
 from trade_safety.schemas import (
+    PostPreview,
     TradeSafetyCheck,
     TradeSafetyCheckCreate,
     TradeSafetyCheckUpdate,
@@ -44,6 +46,18 @@ class TradeSafetyCheckRequest(BaseModel):
     output_language: str = Field(
         default="en", description="Output language for analysis results"
     )
+
+
+class PreviewRequest(BaseModel):
+    """Request schema for post preview endpoint"""
+
+    url: str = Field(description="Social media post URL (Twitter/X)")
+
+
+class PreviewResponse(BaseModel):
+    """Response schema for post preview endpoint"""
+
+    data: PostPreview
 
 
 class SingleItemResponseModel(BaseModel):
@@ -99,6 +113,7 @@ class TradeSafetyRouter(
         """Register custom routes instead of standard CRUD"""
         self._register_public_create_route()
         self._register_public_get_route()
+        self._register_preview_action()
         # Admin routes
         self._register_list_route()  # GET /trade-safety (Admin only)
         self._register_update_route()  # PATCH /trade-safety/{id} (Admin only)
@@ -266,6 +281,73 @@ class TradeSafetyRouter(
 
             # Return full analysis
             return SingleItemResponseModel(data=check)
+
+    def _register_preview_action(self) -> None:
+        """POST /trade-safety/preview - Public endpoint for post metadata preview"""
+
+        @self.router.post(
+            f"/{self.resource_name}/preview",
+            response_model=PreviewResponse,
+            summary="Get Post Preview",
+            description="""
+            Extract metadata from a social media post URL before running safety analysis.
+
+            Returns post preview including:
+            - Platform (Twitter/X)
+            - Author username
+            - Post creation timestamp
+            - Full text content
+            - Text preview (first 200 characters)
+            - Image URLs
+
+            **Supported platforms**: Twitter/X only
+            """,
+            responses={
+                200: {
+                    "description": "Post preview extracted successfully",
+                },
+                422: {
+                    "model": ErrorResponse,
+                    "description": "Invalid URL or unsupported platform",
+                },
+                500: {"model": ErrorResponse, "description": "Internal server error"},
+            },
+        )
+        async def preview_post(request: PreviewRequest):
+            """
+            Get post metadata preview.
+
+            Flow:
+            1. Extract metadata using PreviewService
+            2. Return preview data
+            """
+            logger.info("Fetching post preview: url=%s", request.url)
+
+            try:
+                # Step 1: Extract metadata
+                preview_service = PreviewService()
+                preview = preview_service.preview(request.url)
+
+                logger.info(
+                    "Post preview created: platform=%s, author=%s, images=%d",
+                    preview.platform,
+                    preview.author,
+                    len(preview.images),
+                )
+
+                # Step 2: Return preview wrapped in data field
+                return PreviewResponse(data=preview)
+
+            except ValueError as e:
+                # Input validation errors from service
+                logger.warning("Validation error in post preview: %s", e)
+                raise HTTPException(
+                    status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                    detail={
+                        "detail": str(e),
+                        "code": VALIDATION_ERROR,
+                    },
+                ) from e
 
 
 def create_trade_safety_router(

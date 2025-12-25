@@ -46,15 +46,56 @@ const tradeSafetyCheckResponseSchema = z.object({
   updated_at: z.string(),
 });
 
+// Platform enum for social media platforms
+const platformSchema = z.enum(["twitter"]);
+
+// PostPreview schema for social media post metadata
+const postPreviewSchema = z.object({
+  platform: platformSchema,
+  author: z.string(),
+  created_at: z.string().nullish(),
+  text: z.string(),
+  text_preview: z.string(),
+  images: z.array(z.string()),
+});
+
+// Response wrapper for preview endpoint
+const previewResponseSchema = z.object({
+  data: postPreviewSchema,
+});
+
 // Response type for all users
 export type TradeSafetyCheckRepositoryResponse = z.infer<
   typeof tradeSafetyCheckResponseSchema
 >;
+
+// PostPreview type
+export type PostPreview = z.infer<typeof postPreviewSchema>;
 
 export class TradeSafetyRepository extends BaseCrudRepository<TradeSafetyCheckRepositoryResponse> {
   readonly resource = "trade-safety";
 
   protected getDataSchema() {
     return tradeSafetyCheckResponseSchema;
+  }
+
+  /**
+   * Fetch post preview metadata from a social media URL
+   * POST /trade-safety/preview
+   */
+  async fetchPreview(
+    url: string,
+    fetchOptions?: RequestInit,
+  ): Promise<PostPreview> {
+    const endpoint = `${this.apiService.buildUrl(this.resource)}/preview`;
+    const rawResponse = await this.apiService.request(endpoint, {
+      ...fetchOptions,
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url }),
+    });
+
+    const validated = this.validateResponse(rawResponse, previewResponseSchema);
+    return validated.data;
   }
 }
