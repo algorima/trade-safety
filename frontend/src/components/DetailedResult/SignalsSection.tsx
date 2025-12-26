@@ -26,17 +26,14 @@ export function SignalsSection({ signals, variant }: SignalsSectionProps) {
 
   return (
     <AnalysisCard badgeVariant={variant} title={t(variantTitle[variant])}>
-      <div className="space-y-4">
+      <div className="divide-y divide-base-300">
         {signals.map((signal, idx) => (
-          <div key={idx} className="space-y-4">
+          <div key={idx} className="space-y-4 py-4 first:pt-0 last:pb-0">
             <SectionContent title={signal.title} content={signal.description} />
             <SectionContent
               title={t("result.whatToDo")}
               content={signal.what_to_do}
             />
-            {idx < signals.length - 1 && (
-              <hr className="mt-4 border-base-300" />
-            )}
           </div>
         ))}
       </div>
