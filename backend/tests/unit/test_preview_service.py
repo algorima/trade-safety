@@ -5,6 +5,7 @@ from datetime import datetime
 from unittest.mock import MagicMock
 
 from trade_safety.preview_service import PreviewService
+from trade_safety.reddit_extract_text_service import RedditPostMetadata, RedditService
 from trade_safety.schemas import Platform
 from trade_safety.twitter_extract_text_service import TweetMetadata, TwitterService
 
@@ -108,14 +109,6 @@ class TestPreviewService(unittest.TestCase):
 
     def test_preview_reddit_url_success(self):
         """Test successful preview for Reddit URL."""
-        from datetime import datetime
-        from unittest.mock import MagicMock
-
-        from trade_safety.reddit_extract_text_service import (
-            RedditPostMetadata,
-            RedditService,
-        )
-
         # Create Reddit service mock
         reddit_service = MagicMock(spec=RedditService)
         reddit_service.fetch_metadata.return_value = RedditPostMetadata(
@@ -147,14 +140,6 @@ class TestPreviewService(unittest.TestCase):
 
     def test_preview_reddit_service_called(self):
         """Test that RedditService.fetch_metadata is called correctly."""
-        from datetime import datetime
-        from unittest.mock import MagicMock
-
-        from trade_safety.reddit_extract_text_service import (
-            RedditPostMetadata,
-            RedditService,
-        )
-
         # Create Reddit service mock
         reddit_service = MagicMock(spec=RedditService)
         reddit_service.fetch_metadata.return_value = RedditPostMetadata(

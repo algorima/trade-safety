@@ -199,7 +199,7 @@ class RedditService:
     # API Request Methods
     # ==========================================
 
-    def _make_api_request(self, post_id: str, access_token: str) -> dict:
+    def _make_api_request(self, post_id: str, access_token: str) -> list:
         """
         Make Reddit OAuth API request to fetch post data.
 
@@ -208,7 +208,7 @@ class RedditService:
             access_token: OAuth access token
 
         Returns:
-            dict: API response JSON data
+            list: API response JSON data (list of listings)
 
         Raises:
             ValueError: If API request fails
@@ -321,13 +321,13 @@ class RedditService:
 
         # Check for direct image URL
         url = post_data.get("url", "")
-        if url and any(ext in url.lower() for ext in [".jpg", ".jpeg", ".png", ".gif"]):
+        if url and any(ext in url.lower() for ext in (".jpg", ".jpeg", ".png", ".gif")):
             images.append(url)
 
         # Check for gallery images
         if post_data.get("is_gallery"):
             media_metadata = post_data.get("media_metadata", {})
-            for media_id, media_info in media_metadata.items():
+            for _, media_info in media_metadata.items():
                 if media_info.get("status") == "valid" and "s" in media_info:
                     # Get the source URL (highest quality)
                     source_url = media_info["s"].get("u", "")

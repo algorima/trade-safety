@@ -71,20 +71,22 @@ class PreviewService:
         # Check if Twitter URL
         if TwitterService.is_twitter_url(url):
             logger.info("Detected Twitter URL, fetching metadata")
-            metadata = self.twitter_service.fetch_metadata(url)
+            twitter_metadata = self.twitter_service.fetch_metadata(url)
 
             # Truncate text to 200 characters for preview
             text_preview = (
-                metadata.text[:200] if len(metadata.text) > 200 else metadata.text
+                twitter_metadata.text[:200]
+                if len(twitter_metadata.text) > 200
+                else twitter_metadata.text
             )
 
             preview = PostPreview(
                 platform=Platform.TWITTER,
-                author=metadata.author,
-                created_at=metadata.created_at,
-                text=metadata.text,
+                author=twitter_metadata.author,
+                created_at=twitter_metadata.created_at,
+                text=twitter_metadata.text,
                 text_preview=text_preview,
-                images=metadata.images,
+                images=twitter_metadata.images,
             )
 
             logger.info(
@@ -99,13 +101,13 @@ class PreviewService:
         # Check if Reddit URL
         if RedditService.is_reddit_url(url):
             logger.info("Detected Reddit URL, fetching metadata")
-            metadata = self.reddit_service.fetch_metadata(url)
+            reddit_metadata = self.reddit_service.fetch_metadata(url)
 
             # Combine title and text for full content
             full_text = (
-                f"{metadata.title}\n\n{metadata.text}"
-                if metadata.text
-                else metadata.title
+                f"{reddit_metadata.title}\n\n{reddit_metadata.text}"
+                if reddit_metadata.text
+                else reddit_metadata.title
             )
 
             # Truncate text to 200 characters for preview
@@ -113,18 +115,18 @@ class PreviewService:
 
             preview = PostPreview(
                 platform=Platform.REDDIT,
-                author=metadata.author,
-                created_at=metadata.created_at,
+                author=reddit_metadata.author,
+                created_at=reddit_metadata.created_at,
                 text=full_text,
                 text_preview=text_preview,
-                images=metadata.images,
+                images=reddit_metadata.images,
             )
 
             logger.info(
                 "Preview created: platform=%s, author=%s, subreddit=%s, images=%d",
                 preview.platform,
                 preview.author,
-                metadata.subreddit,
+                reddit_metadata.subreddit,
                 len(preview.images),
             )
 

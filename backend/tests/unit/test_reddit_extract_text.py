@@ -1,12 +1,12 @@
 """Unit tests for RedditService."""
 
 import unittest
-from datetime import datetime, timezone
+from datetime import datetime
 from unittest.mock import MagicMock, patch
 
 import requests
 
-from trade_safety.reddit_extract_text_service import RedditPostMetadata, RedditService
+from trade_safety.reddit_extract_text_service import RedditService
 from trade_safety.settings import RedditAPISettings
 
 
@@ -208,7 +208,7 @@ class TestRedditService(unittest.TestCase):
 
     @patch("trade_safety.reddit_extract_text_service.requests.get")
     @patch("trade_safety.reddit_extract_text_service.requests.post")
-    def test_fetch_metadata_invalid_url(self, mock_post, mock_get):
+    def test_fetch_metadata_invalid_url(self, _mock_post, _mock_get):
         """Test that ValueError is raised for invalid Reddit URL."""
         url = "https://www.reddit.com/r/kpopforsale/"
 
