@@ -1,5 +1,6 @@
 "use client";
 
+import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 
 import { TRADE_SAFETY_NS } from "@/i18n";
@@ -46,7 +47,10 @@ export function AnalysisCard({
       <header className="mb-4 flex flex-col items-start">
         {badgeVariant && (
           <div
-            className={`mb-2 rounded-full px-4 py-1 text-sm font-bold ${badgeStyles[badgeVariant]}`}
+            className={clsx(
+              "mb-2 rounded-full px-4 py-1 text-sm font-bold",
+              badgeStyles[badgeVariant],
+            )}
           >
             {t(badgeLabel[badgeVariant])}
           </div>
@@ -61,7 +65,10 @@ export function AnalysisCard({
         <div className="flex items-center gap-2 text-neutral">
           {icon && <span className="text-base">{icon}</span>}
           <h2
-            className={`whitespace-pre-line break-keep sm:whitespace-normal ${titleSizeStyles[titleSize]}`}
+            className={clsx(
+              "whitespace-pre-line break-keep sm:whitespace-normal",
+              titleSizeStyles[titleSize],
+            )}
           >
             {title}
           </h2>
