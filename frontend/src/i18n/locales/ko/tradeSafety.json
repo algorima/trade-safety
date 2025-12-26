@@ -87,16 +87,25 @@
     },
     "safetyLevel": {
       "safe": {
+        "badge": "분석 결과",
+        "prefix": "안전한 거래",
+        "suffix": "입니다",
         "title": "안전한 거래입니다",
-        "description": "거래 게시글은 안전 점수가 {{score}}점으로 판단됩니다. 항상 신중하게 주의하세요!"
+        "description": "지금 게시물은 안전 확도가 {{score}}%에요.\n안전해 보여요 보여 안심하고 계약 가능 필요하세요."
       },
       "caution": {
+        "badge": "추가 확인",
+        "prefix": "주의가",
+        "suffix": "필요합니다",
         "title": "주의가 필요합니다",
-        "description": "거래 게시글은 안전 점수가 {{score}}점으로 판단됩니다. 일부 주의 신호가 있어 확인이 필요합니다."
+        "description": "지금 게시물은 안전 확도가 {{score}}%에요.\n주의해야 할 신호가 보여 계약가 될 필요하세요."
       },
       "danger": {
+        "badge": "추가 분석",
+        "prefix": "추가 확인 전에는",
+        "suffix": "진행하지 마세요",
         "title": "위험이 감지되었습니다",
-        "description": "거래 게시글은 안전 점수가 {{score}}점으로 판단됩니다. 거래를 피하는 것을 권장합니다."
+        "description": "지금 게시물은 안전 확도가 {{score}}%에요.\n주의해야 할 신호가 보여 계약가 될 필요하세요."
       }
     },
     "companionCta": {

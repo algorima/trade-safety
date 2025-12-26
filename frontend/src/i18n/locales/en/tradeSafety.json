@@ -87,16 +87,25 @@
     },
     "safetyLevel": {
       "safe": {
+        "badge": "Analysis Result",
+        "prefix": "Safe to",
+        "suffix": "Trade",
         "title": "Safe to Trade",
-        "description": "This trade post has a safety score of {{score}}. Always proceed with caution!"
+        "description": "This post has a safety confidence of {{score}}%.\nIt looks safe, so you can proceed with confidence."
       },
       "caution": {
+        "badge": "Additional Check",
+        "prefix": "Proceed with",
+        "suffix": "Caution",
         "title": "Proceed with Caution",
-        "description": "This trade post has a safety score of {{score}}. Some caution signals detected, verification needed."
+        "description": "This post has a safety confidence of {{score}}%.\nThere are some caution signals, so be careful before proceeding."
       },
       "danger": {
+        "badge": "Additional Analysis",
+        "prefix": "Before proceeding,",
+        "suffix": "Do Not Trade",
         "title": "High Risk Detected",
-        "description": "This trade post has a safety score of {{score}}. We recommend avoiding this trade."
+        "description": "This post has a safety confidence of {{score}}%.\nThere are caution signals, so be careful before proceeding."
       }
     },
     "companionCta": {
