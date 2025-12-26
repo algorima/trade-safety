@@ -87,25 +87,19 @@
     },
     "safetyLevel": {
       "safe": {
-        "badge": "Resultado del Análisis",
-        "prefix": "Transacción segura",
-        "suffix": "es",
-        "title": "Transacción Segura",
-        "description": "Esta publicación tiene una puntuación de seguridad de {{score}}%.\nSe ve segura, puede proceder con el contrato."
+        "badge": "Resultado del análisis",
+        "title": "Según la información actual, <b>parece seguro.</b>",
+        "description": "Esta publicación tiene una <b>puntuación de seguridad de {{score}}</b>. Por ahora no vemos <b>señales de riesgo</b> claras, pero conviene revisarlo."
       },
       "caution": {
-        "badge": "Confirmación Adicional",
-        "prefix": "Se requiere",
-        "suffix": "precaución",
-        "title": "Se Requiere Precaución",
-        "description": "Esta publicación tiene una puntuación de seguridad de {{score}}%.\nSe detectaron algunas señales de advertencia, se necesita verificación."
+        "badge": "Resultado del análisis",
+        "title": "Según la información actual, <b>procede con precaución.</b>",
+        "description": "Esta publicación tiene una <b>puntuación de seguridad de {{score}}</b>. Estamos viendo <b>señales de riesgo</b>, así que conviene revisarlo."
       },
       "danger": {
-        "badge": "Análisis Adicional",
-        "prefix": "Antes de confirmación adicional",
-        "suffix": "no proceda",
-        "title": "Riesgo Detectado",
-        "description": "Esta publicación tiene una puntuación de seguridad de {{score}}%.\nSe detectaron algunas señales de advertencia, recomendamos evitar esta transacción."
+        "badge": "Resultado del análisis",
+        "title": "<b>No continúes</b> sin más verificaciones.",
+        "description": "Esta publicación tiene una <b>puntuación de seguridad de {{score}}</b>. Se detectaron <b>señales de riesgo</b>; no continúes sin verificar."
       }
     },
     "companionCta": {

@@ -88,24 +88,18 @@
     "safetyLevel": {
       "safe": {
         "badge": "Resulta ng Pagsusuri",
-        "prefix": "Ligtas ang Trade",
-        "suffix": "ay",
-        "title": "Ligtas ang Trade",
-        "description": "Ang post na ito ay may safety score na {{score}}%.\nMukhang ligtas, maaari nang magpatuloy sa kontrata."
+        "title": "Base sa kasalukuyang impormasyon, <b>mukhang ligtas.</b>",
+        "description": "Ang post na ito ay may <b>{{score}} na safety score</b>. Sa ngayon, wala pang malinaw na <b>senyales ng panganib</b>, pero mainam na i-check pa rin."
       },
       "caution": {
-        "badge": "Dagdag na Pag-Verify",
-        "prefix": "Kailangan ng",
-        "suffix": "pag-ingat",
-        "title": "Mag-ingat sa Pagpapatuloy",
-        "description": "Ang post na ito ay may safety score na {{score}}%.\nMay ilang caution signal na natukoy, kailangang i-verify."
+        "badge": "Resulta ng Pagsusuri",
+        "title": "Base sa kasalukuyang impormasyon, <b>mag-ingat.</b>",
+        "description": "Ang post na ito ay may <b>{{score}} na safety score</b>. May nakikitang <b>senyales ng panganib</b>, kaya kailangang i-check."
       },
       "danger": {
-        "badge": "Dagdag na Pagsusuri",
-        "prefix": "Bago ang karagdagang pag-verify",
-        "suffix": "huwag magpatuloy",
-        "title": "Nakita ang Mataas na Panganib",
-        "description": "Ang post na ito ay may safety score na {{score}}%.\nMay ilang caution signal na natukoy, inirerekomenda naming iwasan ang trade na ito."
+        "badge": "Resulta ng Pagsusuri",
+        "title": "<b>Huwag ituloy</b> nang walang karagdagang check.",
+        "description": "Ang post na ito ay may <b>{{score}} na safety score</b>. May na-detect na <b>senyales ng panganib</b>—huwag ituloy nang hindi chine-check."
       }
     },
     "companionCta": {

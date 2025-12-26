@@ -88,24 +88,18 @@
     "safetyLevel": {
       "safe": {
         "badge": "Analysis Result",
-        "prefix": "Safe to",
-        "suffix": "Trade",
-        "title": "Safe to Trade",
-        "description": "This post has a safety confidence of {{score}}%.\nIt looks safe, so you can proceed with confidence."
+        "title": "Based on current information, <b>it looks safe.</b>",
+        "description": "This post has a <b>safety score of {{score}}</b>. We don't see clear risky <b>signals</b> right now, but a quick check is recommended."
       },
       "caution": {
-        "badge": "Additional Check",
-        "prefix": "Proceed with",
-        "suffix": "Caution",
-        "title": "Proceed with Caution",
-        "description": "This post has a safety confidence of {{score}}%.\nThere are some caution signals, so be careful before proceeding."
+        "badge": "Analysis Result",
+        "title": "Based on current information, <b>proceed with caution.</b>",
+        "description": "This post has a <b>safety score of {{score}}</b>. We're seeing <b>risky signals</b>, so a check is strongly recommended."
       },
       "danger": {
-        "badge": "Additional Analysis",
-        "prefix": "Before proceeding,",
-        "suffix": "Do Not Trade",
-        "title": "High Risk Detected",
-        "description": "This post has a safety confidence of {{score}}%.\nThere are caution signals, so be careful before proceeding."
+        "badge": "Analysis Result",
+        "title": "<b>Don't proceed</b> without further checks.",
+        "description": "This post has a <b>safety score of {{score}}</b>. <b>Risky signals</b> are detected—don't proceed without checking."
       }
     },
     "companionCta": {
