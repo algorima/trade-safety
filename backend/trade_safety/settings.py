@@ -19,6 +19,21 @@ class TwitterAPISettings(BaseSettings):
         env_prefix = "TWITTER_"
 
 
+class RedditAPISettings(BaseSettings):
+    """Reddit API OAuth settings.
+
+    Environment variables:
+        REDDIT_CLIENT_ID: Reddit API Client ID
+        REDDIT_CLIENT_SECRET: Reddit API Client Secret
+        REDDIT_USER_AGENT: Reddit API User Agent
+    """
+    client_id: str | None = None
+    client_secret: str | None = None
+    user_agent: str = "trade-safety/1.0"
+    class Config:
+        env_prefix = "REDDIT_"
+
+
 class TradeSafetyModelSettings(BaseSettings):
     """
     Trade Safety LLM model settings.
