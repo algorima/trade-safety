@@ -12,7 +12,11 @@ from aioia_core.settings import OpenAIAPISettings
 from trade_safety.preview_service import PreviewService
 from trade_safety.schemas import Platform
 from trade_safety.service import TradeSafetyService
-from trade_safety.settings import TradeSafetyModelSettings, TwitterAPISettings
+from trade_safety.settings import (
+    RedditAPISettings,
+    TradeSafetyModelSettings,
+    TwitterAPISettings,
+)
 
 
 class TestTradeSafetyAnalysis(unittest.TestCase):
@@ -38,11 +42,13 @@ class TestTradeSafetyAnalysis(unittest.TestCase):
         openai_api = OpenAIAPISettings(api_key=api_key)
         model_settings = TradeSafetyModelSettings()
         twitter_api = TwitterAPISettings()  # Auto-load from environment
+        reddit_api = RedditAPISettings()  # Auto-load from environment
 
         self.service = TradeSafetyService(
             openai_api=openai_api,
             model_settings=model_settings,
             twitter_api=twitter_api,
+            reddit_api=reddit_api,
         )
 
     def test_analyze_trade_with_price_info(self) -> None:
@@ -391,6 +397,79 @@ class TestTradeSafetyAnalysis(unittest.TestCase):
             else:
                 raise
 
+    def test_analyze_trade_with_reddit_url(self) -> None:
+        """
+        Reddit URL을 입력받아 포스트 내용을 추출하고 분석해야 함
+
+        시나리오:
+        - 입력: Reddit URL (실제 존재하는 포스트)
+        - 기대 결과: URL에서 포스트 내용을 추출하여 분석 수행
+
+        Note:
+        - 이 테스트는 실제 Reddit OAuth API를 호출합니다
+        - Reddit API 자격 증명이 필요합니다 (REDDIT_CLIENT_ID, REDDIT_CLIENT_SECRET 환경변수)
+        - 네트워크 연결이 필요합니다
+        """
+        # Given: 실제 Reddit URL (r/kpopforsale 거래 포스트)
+        reddit_url = "https://www.reddit.com/r/kpopforsale/comments/1ptmrbl/wtsusa_selling_my_entire_kpop_album_collection/"
+
+        # When: Reddit URL로 거래 분석 수행
+        try:
+            analysis = asyncio.run(
+                self.service.analyze_trade(
+                    input_text=reddit_url,
+                )
+            )
+
+            # Then: 분석 결과 검증
+            self.assertIsNotNone(analysis, "분석 결과가 반환되어야 합니다")
+            assert analysis is not None  # Type narrowing for mypy
+
+            # 기본 필드들이 존재해야 함
+            self.assertIsNotNone(analysis.safe_score, "안전 점수가 반환되어야 합니다")
+            self.assertGreaterEqual(
+                analysis.safe_score, 0, "안전 점수는 0 이상이어야 합니다"
+            )
+            self.assertLessEqual(
+                analysis.safe_score, 100, "안전 점수는 100 이하여야 합니다"
+            )
+
+            # 안전 체크리스트가 제공되어야 함
+            self.assertIsNotNone(
+                analysis.safety_checklist, "안전 체크리스트가 포함되어야 합니다"
+            )
+            self.assertGreater(
+                len(analysis.safety_checklist),
+                0,
+                "안전 체크리스트에 최소 1개 이상의 항목이 있어야 합니다",
+            )
+
+            # 번역 또는 뉘앙스 설명이 제공되어야 함
+            has_translation = (
+                analysis.translation is not None
+                and len(analysis.translation.strip()) > 0
+            )
+            has_nuance = (
+                analysis.nuance_explanation is not None
+                and len(analysis.nuance_explanation.strip()) > 0
+            )
+            self.assertTrue(
+                has_translation or has_nuance,
+                "Reddit 콘텐츠에 대한 번역 또는 뉘앙스 설명이 제공되어야 합니다",
+            )
+
+            print("\n✅ Reddit URL 분석 성공")
+            print(f"   Safe Score: {analysis.safe_score}/100")
+            print(f"   Risk Signals: {len(analysis.risk_signals)}개")
+            print(f"   Cautions: {len(analysis.cautions)}개")
+            print(f"   Safe Indicators: {len(analysis.safe_indicators)}개")
+
+        except ValueError as e:
+            # Reddit API 접근 불가 또는 네트워크 에러인 경우 테스트 스킵
+            if "Reddit API credentials" in str(e) or "Failed to fetch" in str(e):
+                self.skipTest(f"Reddit API 사용 불가: {e}")
+            else:
+                raise
 
 class TestOutputLanguageCompliance(unittest.TestCase):
     """
