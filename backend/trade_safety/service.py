@@ -18,9 +18,11 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
 
 from trade_safety.prompts import TRADE_SAFETY_SYSTEM_PROMPT
+from trade_safety.reddit_extract_text_service import RedditService
 from trade_safety.schemas import TradeSafetyAnalysis
 from trade_safety.settings import (
     ALLOWED_LANGUAGES,
+    RedditAPISettings,
     TradeSafetyModelSettings,
     TwitterAPISettings,
 )
@@ -70,6 +72,7 @@ class TradeSafetyService:
         openai_api: OpenAIAPISettings,
         model_settings: TradeSafetyModelSettings,
         twitter_api: TwitterAPISettings | None = None,
+        reddit_api: RedditAPISettings | None = None,
         system_prompt: str = TRADE_SAFETY_SYSTEM_PROMPT,
     ):
         """
@@ -80,6 +83,8 @@ class TradeSafetyService:
             model_settings: Model settings (model name)
             twitter_api: Twitter API settings (bearer_token). If not provided, will try
                          TWITTER_BEARER_TOKEN env var via TwitterAPISettings().
+            reddit_api: Reddit API settings (client_id, client_secret). If not provided,
+                        will try REDDIT_CLIENT_ID and REDDIT_CLIENT_SECRET env vars.
             system_prompt: System prompt for trade safety analysis (default: TRADE_SAFETY_SYSTEM_PROMPT)
 
         Note:
@@ -107,6 +112,7 @@ class TradeSafetyService:
         )
         self.system_prompt = system_prompt
         self.twitter_service = TwitterService(twitter_api=twitter_api)
+        self.reddit_service = RedditService(reddit_api=reddit_api)
 
     # ==========================================
     # Main Analysis Method
@@ -322,8 +328,16 @@ class TradeSafetyService:
             logger.info("Detected Twitter/X URL, using TwitterService")
             return self.twitter_service.fetch_tweet_content(url)
 
+        # Reddit URL인지 판별
+        if RedditService.is_reddit_url(url):
+            logger.info("Detected Reddit URL, using RedditService")
+            metadata = self.reddit_service.fetch_metadata(url)
+            # Combine title and text for analysis
+            content = f"{metadata.title}\n\n{metadata.text}" if metadata.text else metadata.title
+            return content
+
         logger.warning("Unsupported URL type: %s", url)
         raise ValueError(
-            "Unsupported URL. Currently only Twitter/X URLs are supported. "
+            "Unsupported URL. Currently only Twitter/X and Reddit URLs are supported. "
             "Please paste the text content directly instead of the URL."
         )
