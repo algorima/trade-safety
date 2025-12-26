@@ -57,15 +57,23 @@
     "signupButton": "Libreng Pag-sign Up",
     "signupToView": "Mag-sign up para makita ang buong analysis",
     "whatToDo": "Ano ang dapat gawin",
-    "translation": "Pagsasalin at Nuance",
-    "translationTitle": "Pagsasalin",
-    "nuanceTitle": "Paliwanag ng Nuance",
-    "priceAnalysis": "Price Analysis",
+    "translation": {
+      "subtitle": "Lahat ng termino ay ipinaliwanag nang madali",
+      "title": "Ito ang ibig sabihin\nng post",
+      "label": "Pagsasalin"
+    },
+    "nuance": {
+      "label": "Paliwanag ng Nuance"
+    },
+    "priceAnalysis": {
+      "subtitle": "Makatarungan ba ang presyo?",
+      "title": "Suriin ang presyo gamit\nang kasalukuyang impormasyon ng market"
+    },
     "marketPrice": "Market Price Range",
     "offeredPrice": "Inaalok na Presyo",
     "priceAssessment": "Pagsusuri ng Presyo",
     "priceWarnings": "Mga Babala sa Presyo",
-    "safetyChecklist": "Safety Checklist",
+    "safetyChecklist": "Checklist",
     "checklistDescription": "Suriin ang mga item na ito bago magpatuloy sa trade",
     "aiSummary": "AI Summary",
     "recommendation": "Rekomendasyon",
@@ -103,6 +111,18 @@
       "title": "Gusto mo bang mag-usap?",
       "description": "Ibahagi ang iniisip mo sa iyong AI companion",
       "button": "Magsimula ng Chat"
+    },
+    "danger": {
+      "badge": "Senyales ng Panganib",
+      "title": "Ang mga senyales ng panganib na ito\nay mukhang mga pattern ng scam"
+    },
+    "caution": {
+      "badge": "Pag-iingat",
+      "title": "Suriin ng mabuti\nbago mag-trade"
+    },
+    "safe": {
+      "badge": "Safe Indicator",
+      "title": "Ang mga aspetong ito\nay mukhang mapagkakatiwalaan"
     }
   }
 }
