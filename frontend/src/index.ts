@@ -8,6 +8,11 @@
 export { DetailedResult } from "./components/DetailedResult";
 export { HomeHeroSection } from "./components/HomeHeroSection";
 export type { HomeHeroSectionProps } from "./components/HomeHeroSection";
+export { PageHeader } from "./components/PageHeader";
+export type { PageHeaderProps } from "./components/PageHeader";
+
+// Utils
+export { getSafetyLevel } from "./utils/safetyScore";
 
 // Repositories (Repository pattern for API access)
 export { TradeSafetyRepository } from "./repositories";
