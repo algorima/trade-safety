@@ -103,12 +103,88 @@ class TestPreviewService(unittest.TestCase):
         )
 
     # ==============================================
+    # preview() Tests - Reddit
+    # ==============================================
+
+    def test_preview_reddit_url_success(self):
+        """Test successful preview for Reddit URL."""
+        from datetime import datetime
+        from unittest.mock import MagicMock
+
+        from trade_safety.reddit_extract_text_service import (
+            RedditPostMetadata,
+            RedditService,
+        )
+
+        # Create Reddit service mock
+        reddit_service = MagicMock(spec=RedditService)
+        reddit_service.fetch_metadata.return_value = RedditPostMetadata(
+            author="seller123",
+            created_at=datetime(2024, 12, 26, 10, 30),
+            title="[WTS][USA] Selling my entire kpop album collection",
+            text="Cleaning out my collection. $5 each.",
+            subreddit="kpopforsale",
+            images=["https://i.redd.it/image.jpg"],
+        )
+
+        # Create service with Reddit mock
+        service = PreviewService(
+            twitter_service=self.twitter_service,
+            reddit_service=reddit_service,
+        )
+
+        # When: Preview Reddit URL
+        result = service.preview(
+            "https://www.reddit.com/r/kpopforsale/comments/1ptmrbl/wtsusa_selling/"
+        )
+
+        # Then: Correct preview returned
+        self.assertEqual(result.platform, Platform.REDDIT)
+        self.assertEqual(result.author, "seller123")
+        self.assertIn("[WTS][USA]", result.text)
+        self.assertIn("Cleaning out", result.text)
+        self.assertEqual(len(result.images), 1)
+
+    def test_preview_reddit_service_called(self):
+        """Test that RedditService.fetch_metadata is called correctly."""
+        from datetime import datetime
+        from unittest.mock import MagicMock
+
+        from trade_safety.reddit_extract_text_service import (
+            RedditPostMetadata,
+            RedditService,
+        )
+
+        # Create Reddit service mock
+        reddit_service = MagicMock(spec=RedditService)
+        reddit_service.fetch_metadata.return_value = RedditPostMetadata(
+            author="user1",
+            created_at=None,
+            title="Test",
+            text="",
+            subreddit="test",
+            images=[],
+        )
+
+        service = PreviewService(
+            twitter_service=self.twitter_service,
+            reddit_service=reddit_service,
+        )
+
+        # When
+        url = "https://www.reddit.com/r/kpopforsale/comments/abc123/title/"
+        service.preview(url)
+
+        # Then: RedditService called with correct URL
+        reddit_service.fetch_metadata.assert_called_once_with(url)
+
+    # ==============================================
     # Error Handling Tests
     # ==============================================
 
     def test_preview_unsupported_url(self):
-        """Test error for unsupported URL (non-Twitter)."""
-        # Given: Non-Twitter URL
+        """Test error for unsupported URL (non-Twitter, non-Reddit)."""
+        # Given: Non-supported URL
         unsupported_url = "https://facebook.com/post/123"
 
         # When/Then: ValueError raised
@@ -116,7 +192,6 @@ class TestPreviewService(unittest.TestCase):
             self.service.preview(unsupported_url)
 
         self.assertIn("Unsupported URL", str(ctx.exception))
-        self.assertIn("Twitter", str(ctx.exception))
 
     def test_preview_twitter_service_error(self):
         """Test error propagation from TwitterService."""
@@ -132,3 +207,4 @@ class TestPreviewService(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
