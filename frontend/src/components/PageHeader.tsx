@@ -74,17 +74,17 @@ export function PageHeader({ level, score, lottieData }: PageHeaderProps) {
 
   return (
     <div className="mb-8 flex flex-col items-center text-center">
-      <div className="mb-4 rounded-full bg-base-300 px-4 py-1.5">
-        <span className="text-sm font-medium text-base-content">
+      <div className="mb-5 rounded-full bg-neutral/75 px-4 py-1.5">
+        <span className="text-sm font-medium text-neutral-content">
           {t(`result.safetyLevel.${level}.badge`)}
         </span>
       </div>
 
-      <h1 className="mb-6 text-4xl font-bold leading-tight text-base-content">
+      <h1 className="mb-9 break-keep text-4xl font-bold leading-tight text-base-content">
         {parseTextWithBold(title, level)}
       </h1>
 
-      <div className="mb-6 flex size-32 items-center justify-center sm:size-40 md:size-48">
+      <div className="mb-9 flex h-32 w-32 items-center justify-center">
         {lottieData ? (
           <Lottie animationData={lottieData} loop autoplay />
         ) : (
@@ -99,7 +99,7 @@ export function PageHeader({ level, score, lottieData }: PageHeaderProps) {
         )}
       </div>
 
-      <p className="max-w-md text-sm leading-relaxed text-base-content/80 sm:text-base">
+      <p className="max-w-md text-xl leading-relaxed text-base-content/80 sm:text-base">
         {parseTextWithBold(description, level)}
       </p>
     </div>
