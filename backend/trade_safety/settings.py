@@ -27,9 +27,11 @@ class RedditAPISettings(BaseSettings):
         REDDIT_CLIENT_SECRET: Reddit API Client Secret
         REDDIT_USER_AGENT: Reddit API User Agent
     """
+
     client_id: str | None = None
     client_secret: str | None = None
     user_agent: str = "trade-safety/1.0"
+
     class Config:
         env_prefix = "REDDIT_"
 

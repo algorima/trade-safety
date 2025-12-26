@@ -176,13 +176,17 @@ class RedditService:
             self._access_token = token_data["access_token"]
             expires_in = token_data.get("expires_in", 3600)
             # Calculate expiration time with 60 second buffer
-            self._token_expires_at = datetime.now(timezone.utc) + timedelta(seconds=expires_in - 60)
+            self._token_expires_at = datetime.now(timezone.utc) + timedelta(
+                seconds=expires_in - 60
+            )
 
             logger.info("Successfully obtained Reddit OAuth token")
             return self._access_token
 
         except requests.exceptions.HTTPError as e:
-            error_msg = f"Reddit OAuth error: {e.response.status_code} - {e.response.text}"
+            error_msg = (
+                f"Reddit OAuth error: {e.response.status_code} - {e.response.text}"
+            )
             logger.error(error_msg)
             raise ValueError(error_msg) from e
 
@@ -230,7 +234,9 @@ class RedditService:
             raise ValueError(error_msg) from exc
 
         except requests.exceptions.HTTPError as e:
-            error_msg = f"Reddit API error: {e.response.status_code} - {e.response.text}"
+            error_msg = (
+                f"Reddit API error: {e.response.status_code} - {e.response.text}"
+            )
             logger.error(error_msg)
             raise ValueError(error_msg) from e
 

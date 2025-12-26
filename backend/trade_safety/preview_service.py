@@ -102,7 +102,11 @@ class PreviewService:
             metadata = self.reddit_service.fetch_metadata(url)
 
             # Combine title and text for full content
-            full_text = f"{metadata.title}\n\n{metadata.text}" if metadata.text else metadata.title
+            full_text = (
+                f"{metadata.title}\n\n{metadata.text}"
+                if metadata.text
+                else metadata.title
+            )
 
             # Truncate text to 200 characters for preview
             text_preview = full_text[:200] if len(full_text) > 200 else full_text
@@ -131,4 +135,3 @@ class PreviewService:
         raise ValueError(
             "Unsupported URL. Currently only Twitter/X and Reddit URLs are supported."
         )
-

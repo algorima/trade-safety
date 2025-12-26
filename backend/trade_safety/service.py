@@ -333,7 +333,11 @@ class TradeSafetyService:
             logger.info("Detected Reddit URL, using RedditService")
             metadata = self.reddit_service.fetch_metadata(url)
             # Combine title and text for analysis
-            content = f"{metadata.title}\n\n{metadata.text}" if metadata.text else metadata.title
+            content = (
+                f"{metadata.title}\n\n{metadata.text}"
+                if metadata.text
+                else metadata.title
+            )
             return content
 
         logger.warning("Unsupported URL type: %s", url)

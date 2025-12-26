@@ -198,7 +198,9 @@ class TestRedditService(unittest.TestCase):
 
         # Verify result
         self.assertEqual(metadata.author, "seller123")
-        self.assertEqual(metadata.title, "[WTS][USA] Selling my entire kpop album collection")
+        self.assertEqual(
+            metadata.title, "[WTS][USA] Selling my entire kpop album collection"
+        )
         self.assertEqual(metadata.text, "Cleaning out my collection. $5 each.")
         self.assertEqual(metadata.subreddit, "kpopforsale")
         self.assertIsInstance(metadata.created_at, datetime)
@@ -221,7 +223,10 @@ class TestRedditService(unittest.TestCase):
         """Test that ValueError is raised on API timeout."""
         # Mock OAuth success
         mock_oauth_response = MagicMock()
-        mock_oauth_response.json.return_value = {"access_token": "test", "expires_in": 3600}
+        mock_oauth_response.json.return_value = {
+            "access_token": "test",
+            "expires_in": 3600,
+        }
         mock_oauth_response.raise_for_status = MagicMock()
         mock_post.return_value = mock_oauth_response
 
