@@ -10,6 +10,7 @@ class Platform(str, Enum):
     """Supported social media platforms"""
 
     TWITTER = "twitter"
+    REDDIT = "reddit"
 
 
 class RiskSeverity(str, Enum):
