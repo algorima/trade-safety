@@ -63,10 +63,6 @@ class RedditService:
         REDDIT_USER_AGENT: Custom User-Agent (optional)
     """
 
-    # OAuth token cache
-    _access_token: str | None = None
-    _token_expires_at: datetime | None = None
-
     def __init__(self, reddit_api: RedditAPISettings | None = None):
         """
         Initialize RedditService with Reddit API settings.
@@ -80,6 +76,9 @@ class RedditService:
             not at initialization.
         """
         self.settings = reddit_api or RedditAPISettings()
+        # OAuth token cache (instance-level to avoid cross-instance conflicts)
+        self._access_token: str | None = None
+        self._token_expires_at: datetime | None = None
         logger.debug("Initialized RedditService")
 
     # ==========================================
