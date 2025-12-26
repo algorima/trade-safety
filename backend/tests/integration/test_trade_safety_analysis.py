@@ -471,6 +471,7 @@ class TestTradeSafetyAnalysis(unittest.TestCase):
             else:
                 raise
 
+
 class TestOutputLanguageCompliance(unittest.TestCase):
     """
     통합 테스트: LLM이 output_language 파라미터에 맞는 언어로 응답하는지 검증
