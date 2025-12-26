@@ -50,8 +50,8 @@ export default function TradeSafetyResultPage() {
 
   if (isLoading) {
     return (
-      <div className="container mx-auto px-6 py-20">
-        <div className="flex justify-center">
+      <div className="min-h-screen bg-base-200 px-6 py-20 sm:px-0 sm:py-40">
+        <div className="mx-auto flex w-full justify-center sm:max-w-xl lg:max-w-2xl">
           <span className="loading loading-spinner loading-lg"></span>
         </div>
       </div>
@@ -60,9 +60,11 @@ export default function TradeSafetyResultPage() {
 
   if (error || !result) {
     return (
-      <div className="container mx-auto px-6 py-20">
-        <div className="alert alert-error">
-          <span>{error || t("result.notFound")}</span>
+      <div className="min-h-screen bg-base-200 px-6 py-20 sm:px-0 sm:py-40">
+        <div className="mx-auto w-full sm:max-w-xl lg:max-w-2xl">
+          <div className="alert alert-error">
+            <span>{error || t("result.notFound")}</span>
+          </div>
         </div>
       </div>
     );
@@ -71,8 +73,8 @@ export default function TradeSafetyResultPage() {
   const safetyLevel = getSafetyLevel(result.llm_analysis.safe_score);
 
   return (
-    <div className="container mx-auto px-6 py-20">
-      <div className="mx-auto mb-12 max-w-3xl">
+    <div className="min-h-screen bg-base-200 px-6 py-20 sm:px-0 sm:py-40">
+      <div className="mx-auto w-full sm:max-w-xl lg:max-w-2xl">
         <PageHeader
           level={safetyLevel}
           score={result.llm_analysis.safe_score}
