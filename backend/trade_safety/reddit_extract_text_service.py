@@ -173,7 +173,8 @@ class RedditService:
             token_data = response.json()
 
             # Cache token
-            self._access_token = token_data["access_token"]
+            access_token: str = token_data["access_token"]
+            self._access_token = access_token
             expires_in = token_data.get("expires_in", 3600)
             # Calculate expiration time with 60 second buffer
             self._token_expires_at = datetime.now(timezone.utc) + timedelta(
@@ -181,7 +182,7 @@ class RedditService:
             )
 
             logger.info("Successfully obtained Reddit OAuth token")
-            return self._access_token
+            return access_token
 
         except requests.exceptions.HTTPError as e:
             error_msg = (
