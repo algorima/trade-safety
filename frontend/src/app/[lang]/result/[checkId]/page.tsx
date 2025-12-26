@@ -38,7 +38,6 @@ export default function TradeSafetyResultPage() {
   const [error, setError] = useState<string | null>(null);
   const [lottieData, setLottieData] = useState<object | null>(null);
 
-  // Don't set default "safe" to prevent "Flash of Safe" UX issue
   const safetyLevel = result
     ? getSafetyLevel(result.llm_analysis.safe_score)
     : null;
@@ -65,7 +64,6 @@ export default function TradeSafetyResultPage() {
   }, [checkId, repository]);
 
   useEffect(() => {
-    // Don't fetch until we have actual safetyLevel (prevents "Flash of Safe")
     if (!safetyLevel) {
       setLottieData(null);
       return;

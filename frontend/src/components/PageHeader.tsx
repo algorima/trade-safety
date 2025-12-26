@@ -48,9 +48,6 @@ const LEVEL_STYLES: Record<SafetyLevel, string> = {
   safe: "font-bold text-success",
 };
 
-/**
- * Parse text with <b> tags and apply color to bold parts
- */
 const parseTextWithBold = (text: string, level: SafetyLevel): ReactNode[] => {
   const parts = text.split(/(<b>.*?<\/b>)/g);
 
