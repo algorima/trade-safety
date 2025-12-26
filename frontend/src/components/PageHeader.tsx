@@ -84,7 +84,7 @@ export function PageHeader({ level, score, lottieData }: PageHeaderProps) {
         {parseTextWithBold(title, level)}
       </h1>
 
-      <div className="mb-9 flex h-32 w-32 items-center justify-center">
+      <div className="mb-9 flex size-32 items-center justify-center">
         {lottieData ? (
           <Lottie animationData={lottieData} loop autoplay />
         ) : (
@@ -99,7 +99,7 @@ export function PageHeader({ level, score, lottieData }: PageHeaderProps) {
         )}
       </div>
 
-      <p className="max-w-md text-xl leading-relaxed text-base-content/80 sm:text-base">
+      <p className="max-w-md text-xl leading-relaxed text-base-content">
         {parseTextWithBold(description, level)}
       </p>
     </div>
