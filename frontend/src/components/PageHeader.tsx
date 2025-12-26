@@ -99,7 +99,7 @@ export function PageHeader({ level, score, lottieData }: PageHeaderProps) {
         )}
       </div>
 
-      <p className="max-w-md text-xl leading-relaxed text-base-content">
+      <p className="max-w-md break-keep text-xl leading-relaxed text-base-content">
         {parseTextWithBold(description, level)}
       </p>
     </div>
