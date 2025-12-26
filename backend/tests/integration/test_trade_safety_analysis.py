@@ -444,19 +444,8 @@ class TestTradeSafetyAnalysis(unittest.TestCase):
                 "안전 체크리스트에 최소 1개 이상의 항목이 있어야 합니다",
             )
 
-            # 번역 또는 뉘앙스 설명이 제공되어야 함
-            has_translation = (
-                analysis.translation is not None
-                and len(analysis.translation.strip()) > 0
-            )
-            has_nuance = (
-                analysis.nuance_explanation is not None
-                and len(analysis.nuance_explanation.strip()) > 0
-            )
-            self.assertTrue(
-                has_translation or has_nuance,
-                "Reddit 콘텐츠에 대한 번역 또는 뉘앙스 설명이 제공되어야 합니다",
-            )
+            self.assertIsNotNone(analysis.ai_summary)
+            self.assertGreater(len(analysis.ai_summary.strip()), 0)
 
             print("\n✅ Reddit URL 분석 성공")
             print(f"   Safe Score: {analysis.safe_score}/100")
