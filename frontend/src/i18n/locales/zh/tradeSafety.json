@@ -87,16 +87,25 @@
     },
     "safetyLevel": {
       "safe": {
+        "badge": "分析结果",
+        "prefix": "安全的交易",
+        "suffix": "是",
         "title": "交易安全",
-        "description": "交易帖子的安全评分为{{score}}分。请始终保持谨慎！"
+        "description": "此帖子的安全评分为{{score}}%。\n看起来安全，可以进行合约。"
       },
       "caution": {
+        "badge": "额外确认",
+        "prefix": "需要",
+        "suffix": "注意",
         "title": "需要注意",
-        "description": "交易帖子的安全评分为{{score}}分。检测到一些注意信号，需要核实。"
+        "description": "此帖子的安全评分为{{score}}%。\n检测到一些警告信号，需要验证。"
       },
       "danger": {
+        "badge": "额外分析",
+        "prefix": "在进一步确认之前",
+        "suffix": "不要进行",
         "title": "检测到风险",
-        "description": "交易帖子的安全评分为{{score}}分。建议避免此交易。"
+        "description": "此帖子的安全评分为{{score}}%。\n检测到一些警告信号，建议避免此交易。"
       }
     },
     "companionCta": {

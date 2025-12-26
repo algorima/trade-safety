@@ -87,16 +87,25 @@
     },
     "safetyLevel": {
       "safe": {
+        "badge": "Resulta ng Pagsusuri",
+        "prefix": "Ligtas ang Trade",
+        "suffix": "ay",
         "title": "Ligtas ang Trade",
-        "description": "Ang trade post na ito ay may safety score na {{score}}. Laging mag-ingat!"
+        "description": "Ang post na ito ay may safety score na {{score}}%.\nMukhang ligtas, maaari nang magpatuloy sa kontrata."
       },
       "caution": {
+        "badge": "Dagdag na Pag-Verify",
+        "prefix": "Kailangan ng",
+        "suffix": "pag-ingat",
         "title": "Mag-ingat sa Pagpapatuloy",
-        "description": "Ang trade post na ito ay may safety score na {{score}}. May ilang caution signal na natukoy, kailangang i-verify."
+        "description": "Ang post na ito ay may safety score na {{score}}%.\nMay ilang caution signal na natukoy, kailangang i-verify."
       },
       "danger": {
+        "badge": "Dagdag na Pagsusuri",
+        "prefix": "Bago ang karagdagang pag-verify",
+        "suffix": "huwag magpatuloy",
         "title": "Nakita ang Mataas na Panganib",
-        "description": "Ang trade post na ito ay may safety score na {{score}}. Inirerekomenda naming iwasan ang trade na ito."
+        "description": "Ang post na ito ay may safety score na {{score}}%.\nMay ilang caution signal na natukoy, inirerekomenda naming iwasan ang trade na ito."
       }
     },
     "companionCta": {

@@ -87,16 +87,25 @@
     },
     "safetyLevel": {
       "safe": {
+        "badge": "Resultado del Análisis",
+        "prefix": "Transacción segura",
+        "suffix": "es",
         "title": "Transacción Segura",
-        "description": "Esta publicación tiene una puntuación de seguridad de {{score}}. ¡Siempre proceda con precaución!"
+        "description": "Esta publicación tiene una puntuación de seguridad de {{score}}%.\nSe ve segura, puede proceder con el contrato."
       },
       "caution": {
+        "badge": "Confirmación Adicional",
+        "prefix": "Se requiere",
+        "suffix": "precaución",
         "title": "Se Requiere Precaución",
-        "description": "Esta publicación tiene una puntuación de seguridad de {{score}}. Se detectaron algunas señales de precaución, se necesita verificación."
+        "description": "Esta publicación tiene una puntuación de seguridad de {{score}}%.\nSe detectaron algunas señales de advertencia, se necesita verificación."
       },
       "danger": {
+        "badge": "Análisis Adicional",
+        "prefix": "Antes de confirmación adicional",
+        "suffix": "no proceda",
         "title": "Riesgo Detectado",
-        "description": "Esta publicación tiene una puntuación de seguridad de {{score}}. Recomendamos evitar esta transacción."
+        "description": "Esta publicación tiene una puntuación de seguridad de {{score}}%.\nSe detectaron algunas señales de advertencia, recomendamos evitar esta transacción."
       }
     },
     "companionCta": {
