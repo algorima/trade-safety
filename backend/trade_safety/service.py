@@ -104,7 +104,7 @@ class TradeSafetyService:
             model=model_settings.model,
             temperature=0.7,  # Hardcoded - balanced for analytical tasks
             api_key=openai_api.api_key,  # type: ignore[arg-type]
-            max_retries=3,
+            max_retries=5,
         )
         self.chat_model = base_model.with_structured_output(
             TradeSafetyAnalysis,
