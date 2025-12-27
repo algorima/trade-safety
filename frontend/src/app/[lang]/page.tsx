@@ -1,18 +1,17 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { HomeHeroSection } from "@/components/HomeHeroSection";
-import type { LinkPreviewData } from "@/components/UrlPreviewCard";
+import { useUrlPreview } from "@/hooks/useUrlPreview";
 import { TRADE_SAFETY_NS } from "@/i18n";
 import { TradeSafetyRepository } from "@/repositories/TradeSafetyRepository";
 import { getApiService } from "@/services/ApiService";
-import { detectUrl, mapPostPreviewToLinkPreview } from "@/utils/urlPreview";
 
 export default function HomePage() {
-  const { i18n, t } = useTranslation(TRADE_SAFETY_NS);
+  const { i18n } = useTranslation(TRADE_SAFETY_NS);
   const router = useRouter();
 
   const repository = useMemo<TradeSafetyRepository>(
@@ -23,65 +22,9 @@ export default function HomePage() {
   const [inputText, setInputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [previewData, setPreviewData] = useState<LinkPreviewData | null>(null);
-  const [isLoadingPreview, setIsLoadingPreview] = useState(false);
-  const [previewError, setPreviewError] = useState<string | null>(null);
 
-  const lastUrlRef = useRef<string | null>(null);
-
-  // URL 감지 및 미리보기 데이터 페칭
-  useEffect(() => {
-    const detectedUrl = detectUrl(inputText);
-
-    if (!detectedUrl) {
-      setPreviewData(null);
-      setPreviewError(null);
-      lastUrlRef.current = null;
-      return;
-    }
-
-    if (lastUrlRef.current === detectedUrl) {
-      return;
-    }
-
-    lastUrlRef.current = detectedUrl;
-    let isCancelled = false;
-
-    const fetchPreview = async () => {
-      setIsLoadingPreview(true);
-      setPreviewError(null);
-
-      try {
-        const postPreview = await repository.fetchPreview(detectedUrl);
-        const linkPreviewData = mapPostPreviewToLinkPreview(
-          postPreview,
-          detectedUrl,
-        );
-
-        if (!isCancelled) {
-          setPreviewData(linkPreviewData);
-        }
-      } catch (err) {
-        if (!isCancelled) {
-          console.error("Failed to fetch URL metadata:", err);
-          setPreviewData(null);
-          setPreviewError(t("hero.previewError"));
-        }
-      } finally {
-        if (!isCancelled) {
-          setIsLoadingPreview(false);
-        }
-      }
-    };
-
-    void fetchPreview();
-
-    return () => {
-      isCancelled = true;
-    };
-    // repository is stable (created with useMemo and empty deps)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inputText]);
+  const { previewData, isLoadingPreview, previewError } =
+    useUrlPreview(inputText);
 
   const handleSubmit = async () => {
     if (!inputText.trim()) {
