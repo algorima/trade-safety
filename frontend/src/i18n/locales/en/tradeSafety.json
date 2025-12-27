@@ -57,15 +57,23 @@
     "signupButton": "Sign Up Free",
     "signupToView": "Sign up to see full analysis",
     "whatToDo": "What to do",
-    "translation": "Translation & Nuance",
-    "translationTitle": "Translation",
-    "nuanceTitle": "Nuance Explanation",
-    "priceAnalysis": "Price Analysis",
+    "translation": {
+      "subtitle": "All terms explained simply",
+      "title": "Here's what\nthe post means",
+      "label": "Translation"
+    },
+    "nuance": {
+      "label": "Nuance Explanation"
+    },
+    "priceAnalysis": {
+      "subtitle": "Is the price fair?",
+      "title": "Analyze prices with\ncurrent market info"
+    },
     "marketPrice": "Market Price Range",
     "offeredPrice": "Offered Price",
     "priceAssessment": "Price Assessment",
     "priceWarnings": "Price Warnings",
-    "safetyChecklist": "Safety Checklist",
+    "safetyChecklist": "Checklist",
     "checklistDescription": "Check these items before proceeding with the trade",
     "aiSummary": "AI Summary",
     "recommendation": "Recommendation",
@@ -103,6 +111,18 @@
       "title": "Want to talk?",
       "description": "Share what's on your mind with your AI companion",
       "button": "Start Chat"
+    },
+    "danger": {
+      "badge": "Risk Signal",
+      "title": "These red flags\nlook like scam patterns"
+    },
+    "caution": {
+      "badge": "Caution",
+      "title": "Check carefully\nbefore trading"
+    },
+    "safe": {
+      "badge": "Safe Indicator",
+      "title": "These aspects\nseem trustworthy"
     }
   }
 }
