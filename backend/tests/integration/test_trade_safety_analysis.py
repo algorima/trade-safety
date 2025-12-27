@@ -584,7 +584,8 @@ class TestOutputLanguageCompliance(unittest.TestCase):
         # 기본 필드들
         fields.append(("recommendation", analysis.recommendation))
         fields.append(("emotional_support", analysis.emotional_support))
-        fields.append(("ai_summary", analysis.ai_summary))
+        for i, summary_item in enumerate(analysis.ai_summary):
+            fields.append((f"ai_summary[{i}]", summary_item))
         fields.append(("nuance_explanation", analysis.nuance_explanation))
 
         # risk_signals 내부 필드들
