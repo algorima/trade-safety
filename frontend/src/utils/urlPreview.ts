@@ -36,7 +36,7 @@ export const detectUrl = (text: string): string | null => {
       }
 
       const domain = urlObj.hostname.replace("www.", "");
-      if (SUPPORTED_DOMAINS.some((d) => domain.includes(d))) {
+      if (SUPPORTED_DOMAINS.some((d) => domain === d || domain.endsWith(`.${d}`))) {
         return url;
       }
     } catch {
