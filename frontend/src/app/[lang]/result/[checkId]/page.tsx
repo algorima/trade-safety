@@ -62,21 +62,21 @@ export default function TradeSafetyResultPage() {
       return;
     }
 
-    let isMounted = true;
+    const controller = new AbortController();
+    const { signal } = controller;
 
     const fetchLottie = async () => {
       try {
-        const response = await fetch(EMOJI_ASSETS[safetyLevel].lottie);
+        const response = await fetch(EMOJI_ASSETS[safetyLevel].lottie, {
+          signal,
+        });
         if (!response.ok) {
           throw new Error("Failed to fetch Lottie");
         }
         const data = (await response.json()) as object;
-
-        if (isMounted) {
-          setLottieData(data);
-        }
+        setLottieData(data);
       } catch (err) {
-        if (isMounted) {
+        if (err instanceof Error && err.name !== "AbortError") {
           console.error("Failed to load Lottie animation:", err);
           setLottieData(null);
         }
@@ -86,7 +86,7 @@ export default function TradeSafetyResultPage() {
     void fetchLottie();
 
     return () => {
-      isMounted = false;
+      controller.abort();
     };
   }, [safetyLevel]);
 
