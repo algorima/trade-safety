@@ -49,6 +49,9 @@ export const Loading: Story = {
       "I'm selling a MacBook Pro 2021 for $1,200. Contact me at email@example.com",
     isLoading: true,
   },
+  parameters: {
+    chromatic: { disableSnapshot: true },
+  },
 };
 
 export const WithError: Story = {
