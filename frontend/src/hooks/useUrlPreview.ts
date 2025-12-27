@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import type { LinkPreviewData } from "@/components/UrlPreviewCard";
@@ -20,12 +20,15 @@ export function useUrlPreview(inputText: string) {
 
   const lastUrlRef = useRef<string | null>(null);
 
+  const getErrorMessage = useCallback(() => t("hero.previewError"), [t]);
+
   useEffect(() => {
     const detectedUrl = detectUrl(inputText);
 
     if (!detectedUrl) {
       setPreviewData(null);
       setPreviewError(null);
+      setIsLoadingPreview(false);
       lastUrlRef.current = null;
       return;
     }
@@ -35,30 +38,30 @@ export function useUrlPreview(inputText: string) {
     }
 
     lastUrlRef.current = detectedUrl;
-    let isCancelled = false;
+    const controller = new AbortController();
+    const { signal } = controller;
 
     const fetchPreview = async () => {
       setIsLoadingPreview(true);
       setPreviewError(null);
 
       try {
-        const postPreview = await repository.fetchPreview(detectedUrl);
+        const postPreview = await repository.fetchPreview(detectedUrl, {
+          signal,
+        });
         const linkPreviewData = mapPostPreviewToLinkPreview(
           postPreview,
           detectedUrl,
         );
-
-        if (!isCancelled) {
-          setPreviewData(linkPreviewData);
-        }
+        setPreviewData(linkPreviewData);
       } catch (err) {
-        if (!isCancelled) {
+        if (err instanceof Error && err.name !== "AbortError") {
           console.error("Failed to fetch URL metadata:", err);
           setPreviewData(null);
-          setPreviewError(t("hero.previewError"));
+          setPreviewError(getErrorMessage());
         }
       } finally {
-        if (!isCancelled) {
+        if (!signal.aborted) {
           setIsLoadingPreview(false);
         }
       }
@@ -67,11 +70,9 @@ export function useUrlPreview(inputText: string) {
     void fetchPreview();
 
     return () => {
-      isCancelled = true;
+      controller.abort();
     };
-    // repository is stable (created with useMemo and empty deps)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inputText]);
+  }, [inputText, repository, getErrorMessage]);
 
   return { previewData, isLoadingPreview, previewError };
 }

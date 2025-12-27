@@ -131,7 +131,11 @@ export function HomeHeroSection({
                   </div>
                 )}
 
-                {isLoadingPreview && <UrlPreviewCardSkeleton />}
+                {isLoadingPreview && (
+                  <div className="px-4 pb-4">
+                    <UrlPreviewCardSkeleton />
+                  </div>
+                )}
 
                 {previewError && (
                   <div className="alert alert-warning mx-4 mb-4 flex items-center gap-2 text-sm">
