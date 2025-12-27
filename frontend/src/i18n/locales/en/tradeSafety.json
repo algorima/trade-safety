@@ -96,18 +96,18 @@
     "safetyLevel": {
       "safe": {
         "badge": "Analysis Result",
-        "title": "Based on current information, <b>it looks safe.</b>",
-        "description": "This post has a <b>safety score of {{score}}</b>. We don't see clear risky <b>signals</b> right now, but a quick check is recommended."
+        "title": "Based on current information, <1>it looks safe.</1>",
+        "description": "This post has a <1>safety score of {{score}}</1>. We don't see clear risky <2>signals</2> right now, but a quick check is recommended."
       },
       "caution": {
         "badge": "Analysis Result",
-        "title": "Based on current information, <b>proceed with caution.</b>",
-        "description": "This post has a <b>safety score of {{score}}</b>. We're seeing <b>risky signals</b>, so a check is strongly recommended."
+        "title": "Based on current information, <1>proceed with caution.</1>",
+        "description": "This post has a <1>safety score of {{score}}</1>. We're seeing <2>risky signals</2>, so a check is strongly recommended."
       },
       "danger": {
         "badge": "Analysis Result",
-        "title": "<b>Don't proceed</b> without further checks.",
-        "description": "This post has a <b>safety score of {{score}}</b>. <b>Risky signals</b> are detected—don't proceed without checking."
+        "title": "<1>Don't proceed</1> without further checks.",
+        "description": "This post has a <1>safety score of {{score}}</1>. <2>Risky signals</2> are detected—don't proceed without checking."
       }
     },
     "companionCta": {

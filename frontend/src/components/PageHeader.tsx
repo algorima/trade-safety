@@ -1,8 +1,7 @@
 "use client";
 
 import Lottie from "lottie-react";
-import { ReactNode } from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 
 import { EMOJI_ASSETS } from "@/constants/assets";
 import { TRADE_SAFETY_NS } from "@/i18n";
@@ -20,29 +19,10 @@ const LEVEL_STYLES: Record<SafetyLevel, string> = {
   safe: "font-bold text-success",
 };
 
-const parseTextWithBold = (text: string, level: SafetyLevel): ReactNode[] => {
-  const parts = text.split(/(<b>.*?<\/b>)/g);
-
-  return parts.map((part, index) => {
-    const boldMatch = part.match(/<b>(.*?)<\/b>/);
-    if (boldMatch) {
-      return (
-        <strong key={index} className={LEVEL_STYLES[level]}>
-          {boldMatch[1]}
-        </strong>
-      );
-    }
-    return part || null;
-  });
-};
-
 export function PageHeader({ level, score, lottieData }: PageHeaderProps) {
   const { t } = useTranslation(TRADE_SAFETY_NS);
 
   const assets = EMOJI_ASSETS[level];
-
-  const title = t(`result.safetyLevel.${level}.title`);
-  const description = t(`result.safetyLevel.${level}.description`, { score });
 
   return (
     <div className="mb-8 flex flex-col items-center text-center">
@@ -53,7 +33,11 @@ export function PageHeader({ level, score, lottieData }: PageHeaderProps) {
       </div>
 
       <h1 className="mb-9 break-keep text-4xl font-bold leading-tight text-base-content">
-        {parseTextWithBold(title, level)}
+        <Trans
+          t={t}
+          i18nKey={`result.safetyLevel.${level}.title`}
+          components={[<strong key="0" className={LEVEL_STYLES[level]} />]}
+        />
       </h1>
 
       <div className="mb-9 flex size-32 items-center justify-center">
@@ -72,7 +56,15 @@ export function PageHeader({ level, score, lottieData }: PageHeaderProps) {
       </div>
 
       <p className="max-w-md break-keep text-xl leading-relaxed text-base-content">
-        {parseTextWithBold(description, level)}
+        <Trans
+          t={t}
+          i18nKey={`result.safetyLevel.${level}.description`}
+          values={{ score }}
+          components={[
+            <strong key="0" className={LEVEL_STYLES[level]} />,
+            <strong key="1" className={LEVEL_STYLES[level]} />,
+          ]}
+        />
       </p>
     </div>
   );
