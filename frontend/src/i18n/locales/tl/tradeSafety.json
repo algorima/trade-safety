@@ -96,18 +96,18 @@
     "safetyLevel": {
       "safe": {
         "badge": "Resulta ng Pagsusuri",
-        "title": "Base sa kasalukuyang impormasyon, <1>mukhang ligtas.</1>",
-        "description": "Ang post na ito ay may <1>{{score}} na safety score</1>. Sa ngayon, wala pang malinaw na <2>senyales ng panganib</2>, pero mainam na i-check pa rin."
+        "title": "Base sa kasalukuyang impormasyon, <0>mukhang ligtas.</0>",
+        "description": "Ang post na ito ay may <0>{{score}} na safety score</0>. Sa ngayon, wala pang malinaw na <1>senyales ng panganib</1>, pero mainam na i-check pa rin."
       },
       "caution": {
         "badge": "Resulta ng Pagsusuri",
-        "title": "Base sa kasalukuyang impormasyon, <1>mag-ingat.</1>",
-        "description": "Ang post na ito ay may <1>{{score}} na safety score</1>. May nakikitang <2>senyales ng panganib</2>, kaya kailangang i-check."
+        "title": "Base sa kasalukuyang impormasyon, <0>mag-ingat.</0>",
+        "description": "Ang post na ito ay may <0>{{score}} na safety score</0>. May nakikitang <1>senyales ng panganib</1>, kaya kailangang i-check."
       },
       "danger": {
         "badge": "Resulta ng Pagsusuri",
-        "title": "<1>Huwag ituloy</1> nang walang karagdagang check.",
-        "description": "Ang post na ito ay may <1>{{score}} na safety score</1>. May na-detect na <2>senyales ng panganib</2>—huwag ituloy nang hindi chine-check."
+        "title": "<0>Huwag ituloy</0> nang walang karagdagang check.",
+        "description": "Ang post na ito ay may <0>{{score}} na safety score</0>. May na-detect na <1>senyales ng panganib</1>—huwag ituloy nang hindi chine-check."
       }
     },
     "companionCta": {

@@ -96,18 +96,18 @@
     "safetyLevel": {
       "safe": {
         "badge": "Kết quả phân tích",
-        "title": "Dựa trên thông tin hiện tại, <1>có vẻ an toàn.</1>",
-        "description": "Bài đăng này có <1>điểm an toàn {{score}}</1>. Hiện chưa thấy <2>dấu hiệu rủi ro</2> rõ ràng, nhưng vẫn nên kiểm tra."
+        "title": "Dựa trên thông tin hiện tại, <0>có vẻ an toàn.</0>",
+        "description": "Bài đăng này có <0>điểm an toàn {{score}}</0>. Hiện chưa thấy <1>dấu hiệu rủi ro</1> rõ ràng, nhưng vẫn nên kiểm tra."
       },
       "caution": {
         "badge": "Kết quả phân tích",
-        "title": "Dựa trên thông tin hiện tại, <1>hãy thận trọng.</1>",
-        "description": "Bài đăng này có <1>điểm an toàn {{score}}</1>. Có <2>dấu hiệu rủi ro</2>, nên rất cần kiểm tra."
+        "title": "Dựa trên thông tin hiện tại, <0>hãy thận trọng.</0>",
+        "description": "Bài đăng này có <0>điểm an toàn {{score}}</0>. Có <1>dấu hiệu rủi ro</1>, nên rất cần kiểm tra."
       },
       "danger": {
         "badge": "Kết quả phân tích",
-        "title": "<1>Đừng tiếp tục</1> khi chưa kiểm tra thêm.",
-        "description": "Bài đăng này có <1>điểm an toàn {{score}}</1>. Đã phát hiện <2>dấu hiệu rủi ro</2>—đừng tiếp tục khi chưa kiểm tra."
+        "title": "<0>Đừng tiếp tục</0> khi chưa kiểm tra thêm.",
+        "description": "Bài đăng này có <0>điểm an toàn {{score}}</0>. Đã phát hiện <1>dấu hiệu rủi ro</1>—đừng tiếp tục khi chưa kiểm tra."
       }
     },
     "companionCta": {
