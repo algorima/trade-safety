@@ -38,7 +38,7 @@ export function UrlPreviewCard({ data }: UrlPreviewCardProps) {
             >
               <Image
                 src={imageUrl}
-                alt={`Preview ${index + 1}`}
+                alt={`Image ${index + 1} from post by ${data.author}`}
                 fill
                 className="object-cover"
               />
