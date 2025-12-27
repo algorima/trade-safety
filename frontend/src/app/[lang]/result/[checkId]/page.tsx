@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 
 import { DetailedResult } from "@/components/DetailedResult";
 import { PageHeader } from "@/components/PageHeader";
+import { EMOJI_ASSETS } from "@/constants/assets";
 import { TRADE_SAFETY_NS } from "@/i18n";
 import { TradeSafetyRepository } from "@/repositories";
 import { TradeSafetyCheckRepositoryResponse } from "@/repositories/TradeSafetyRepository";
@@ -15,7 +16,9 @@ import { getSafetyLevel } from "@/utils/safetyScore";
 export default function TradeSafetyResultPage() {
   const params = useParams();
   const { t } = useTranslation(TRADE_SAFETY_NS);
-  const checkId = params.checkId as string;
+  const checkId = Array.isArray(params.checkId)
+    ? params.checkId[0]
+    : params.checkId;
 
   const repository = useMemo<TradeSafetyRepository>(
     () => new TradeSafetyRepository(getApiService()),
@@ -26,6 +29,11 @@ export default function TradeSafetyResultPage() {
     useState<TradeSafetyCheckRepositoryResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [lottieData, setLottieData] = useState<object | null>(null);
+
+  const safetyLevel = result
+    ? getSafetyLevel(result.llm_analysis.safe_score)
+    : null;
 
   useEffect(() => {
     if (typeof checkId !== "string" || !checkId) {
@@ -48,6 +56,40 @@ export default function TradeSafetyResultPage() {
     void fetchResult();
   }, [checkId, repository]);
 
+  useEffect(() => {
+    if (!safetyLevel) {
+      setLottieData(null);
+      return;
+    }
+
+    const controller = new AbortController();
+    const { signal } = controller;
+
+    const fetchLottie = async () => {
+      try {
+        const response = await fetch(EMOJI_ASSETS[safetyLevel].lottie, {
+          signal,
+        });
+        if (!response.ok) {
+          throw new Error("Failed to fetch Lottie");
+        }
+        const data = (await response.json()) as object;
+        setLottieData(data);
+      } catch (err) {
+        if (err instanceof Error && err.name !== "AbortError") {
+          console.error("Failed to load Lottie animation:", err);
+          setLottieData(null);
+        }
+      }
+    };
+
+    void fetchLottie();
+
+    return () => {
+      controller.abort();
+    };
+  }, [safetyLevel]);
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-base-200 px-6 py-20 sm:px-0 sm:py-40">
@@ -58,7 +100,7 @@ export default function TradeSafetyResultPage() {
     );
   }
 
-  if (error || !result) {
+  if (error || !result || !safetyLevel) {
     return (
       <div className="min-h-screen bg-base-200 px-6 py-20 sm:px-0 sm:py-40">
         <div className="mx-auto w-full sm:max-w-xl lg:max-w-2xl">
@@ -70,14 +112,13 @@ export default function TradeSafetyResultPage() {
     );
   }
 
-  const safetyLevel = getSafetyLevel(result.llm_analysis.safe_score);
-
   return (
     <div className="min-h-screen bg-base-200 px-6 py-20 sm:px-0 sm:py-40">
       <div className="mx-auto w-full sm:max-w-xl lg:max-w-2xl">
         <PageHeader
           level={safetyLevel}
           score={result.llm_analysis.safe_score}
+          lottieData={lottieData}
         />
         <div className="mt-6">
           <DetailedResult analysis={result.llm_analysis} />

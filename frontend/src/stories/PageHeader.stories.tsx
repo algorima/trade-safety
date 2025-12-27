@@ -9,6 +9,13 @@ const meta: Meta<typeof PageHeader> = {
   parameters: {
     layout: "padded",
   },
+  decorators: [
+    (Story) => (
+      <div className="flex min-h-dvh w-full flex-col items-center justify-center bg-base-100">
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export default meta;
@@ -18,6 +25,7 @@ export const Safe: Story = {
   args: {
     level: "safe",
     score: 70,
+    lottieData: null,
   },
 };
 
@@ -25,6 +33,7 @@ export const Caution: Story = {
   args: {
     level: "caution",
     score: 40,
+    lottieData: null,
   },
 };
 
@@ -32,5 +41,6 @@ export const Danger: Story = {
   args: {
     level: "danger",
     score: 39,
+    lottieData: null,
   },
 };

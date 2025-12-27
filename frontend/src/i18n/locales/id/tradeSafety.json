@@ -95,16 +95,19 @@
     },
     "safetyLevel": {
       "safe": {
-        "title": "Transaksi Aman",
-        "description": "Postingan transaksi ini memiliki skor keamanan {{score}}. Selalu berhati-hati!"
+        "badge": "Hasil Analisis",
+        "title": "Berdasarkan informasi saat ini, <0>terlihat aman.</0>",
+        "description": "Postingan ini memiliki <0>skor keamanan {{score}}</0>. Saat ini belum terlihat <1>tanda berisiko</1> yang jelas, tetapi sebaiknya tetap dicek."
       },
       "caution": {
-        "title": "Perlu Perhatian",
-        "description": "Postingan transaksi ini memiliki skor keamanan {{score}}. Beberapa sinyal peringatan terdeteksi, perlu verifikasi."
+        "badge": "Hasil Analisis",
+        "title": "Berdasarkan informasi saat ini, <0>lanjutkan dengan hati-hati.</0>",
+        "description": "Postingan ini memiliki <0>skor keamanan {{score}}</0>. Terlihat <1>tanda berisiko</1>, jadi sebaiknya dicek."
       },
       "danger": {
-        "title": "Risiko Terdeteksi",
-        "description": "Postingan transaksi ini memiliki skor keamanan {{score}}. Kami merekomendasikan untuk menghindari transaksi ini."
+        "badge": "Hasil Analisis",
+        "title": "<0>Jangan lanjut</0> tanpa pengecekan lebih lanjut.",
+        "description": "Postingan ini memiliki <0>skor keamanan {{score}}</0>. Terdeteksi <1>tanda berisiko</1>—jangan lanjut tanpa pengecekan."
       }
     },
     "companionCta": {
