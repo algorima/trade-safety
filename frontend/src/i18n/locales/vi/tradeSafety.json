@@ -10,7 +10,8 @@
     "analyzing": "Đang phân tích...",
     "analyzingDescription": "AI đang phân tích ngôn ngữ, tín hiệu lừa đảo và giá...",
     "tryExample": "Thử ví dụ",
-    "disclaimer": "Kết quả phân tích AI chỉ mang tính chất tham khảo và có thể không chính xác 100%. Dịch vụ này không cung cấp bảo đảm hoặc bồi thường cho thiệt hại giao dịch."
+    "disclaimer": "Kết quả phân tích AI chỉ mang tính chất tham khảo và có thể không chính xác 100%. Dịch vụ này không cung cấp bảo đảm hoặc bồi thường cho thiệt hại giao dịch.",
+    "previewError": "Không thể tải bản xem trước URL. Vui lòng thử lại."
   },
   "features": {
     "title": "AI Phân Tích <1>3 Điều Cùng Lúc</1>",

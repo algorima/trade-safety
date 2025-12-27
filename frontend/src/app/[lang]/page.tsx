@@ -12,7 +12,7 @@ import { getApiService } from "@/services/ApiService";
 import { detectUrl, mapPostPreviewToLinkPreview } from "@/utils/urlPreview";
 
 export default function HomePage() {
-  const { i18n } = useTranslation(TRADE_SAFETY_NS);
+  const { i18n, t } = useTranslation(TRADE_SAFETY_NS);
   const router = useRouter();
 
   const repository = useMemo<TradeSafetyRepository>(
@@ -65,7 +65,7 @@ export default function HomePage() {
         if (!isCancelled) {
           console.error("Failed to fetch URL metadata:", err);
           setPreviewData(null);
-          setPreviewError("Failed to load URL preview. Please try again.");
+          setPreviewError(t("hero.previewError"));
         }
       } finally {
         if (!isCancelled) {

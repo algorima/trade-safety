@@ -10,7 +10,8 @@
     "analyzing": "分析中...",
     "analyzingDescription": "AI正在分析语言、诈骗信号和价格...",
     "tryExample": "试试示例",
-    "disclaimer": "AI分析结果仅供参考，可能不是100%准确。本服务不提供交易损失的保证和赔偿。"
+    "disclaimer": "AI分析结果仅供参考，可能不是100%准确。本服务不提供交易损失的保证和赔偿。",
+    "previewError": "无法加载URL预览。请重试。"
   },
   "features": {
     "title": "AI<1>同时分析3个方面</1>",
