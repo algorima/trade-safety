@@ -6,19 +6,12 @@ import { useTranslation } from "react-i18next";
 
 import { DetailedResult } from "@/components/DetailedResult";
 import { PageHeader } from "@/components/PageHeader";
+import { EMOJI_ASSETS } from "@/constants/assets";
 import { TRADE_SAFETY_NS } from "@/i18n";
 import { TradeSafetyRepository } from "@/repositories";
 import { TradeSafetyCheckRepositoryResponse } from "@/repositories/TradeSafetyRepository";
 import { getApiService } from "@/services/ApiService";
-import { SafetyLevel } from "@/types";
 import { getSafetyLevel } from "@/utils/safetyScore";
-
-const LOTTIE_URLS: Record<SafetyLevel, string> = {
-  danger: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f6a8/lottie.json",
-  caution:
-    "https://fonts.gstatic.com/s/e/notoemoji/latest/26a0_fe0f/lottie.json",
-  safe: "https://fonts.gstatic.com/s/e/notoemoji/latest/2705/lottie.json",
-};
 
 export default function TradeSafetyResultPage() {
   const params = useParams();
@@ -73,7 +66,7 @@ export default function TradeSafetyResultPage() {
 
     const fetchLottie = async () => {
       try {
-        const response = await fetch(LOTTIE_URLS[safetyLevel]);
+        const response = await fetch(EMOJI_ASSETS[safetyLevel].lottie);
         if (!response.ok) {
           throw new Error("Failed to fetch Lottie");
         }
