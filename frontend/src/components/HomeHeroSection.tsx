@@ -61,7 +61,7 @@ export function HomeHeroSection({
 
   return (
     <div className="flex w-full flex-col items-center justify-center">
-      <div className="w-full lg:max-w-[720px]">
+      <div className="w-full lg:max-w-3xl">
         <h1 className="mb-2 text-left text-3xl font-bold text-base-content sm:mb-8 sm:text-center sm:text-4xl md:mb-8">
           {t("hero.title")}
         </h1>
@@ -75,7 +75,7 @@ export function HomeHeroSection({
               <div className="relative">
                 <input
                   type="text"
-                  className="input input-bordered h-[72px] w-full pr-36 text-sm placeholder:text-base-300 focus:outline-none"
+                  className="input input-bordered h-20 w-full pr-36 text-sm placeholder:text-base-300 focus:outline-none"
                   placeholder={t("hero.placeholder")}
                   aria-label={t("hero.placeholder")}
                   value={value}
@@ -88,7 +88,7 @@ export function HomeHeroSection({
                   }}
                 />
                 <button
-                  className="btn btn-neutral absolute right-2 top-1/2 h-[56px] min-h-0 -translate-y-1/2 !animate-none px-6 font-bold text-neutral-content"
+                  className="btn btn-neutral absolute right-2 top-1/2 h-14 min-h-0 -translate-y-1/2 !animate-none px-6 font-bold text-neutral-content"
                   onClick={onSubmit}
                   disabled={isButtonDisabled}
                 >
