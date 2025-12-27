@@ -16,7 +16,6 @@ type Story = StoryObj<typeof AISummarySection>;
 
 export const Default: Story = {
   args: {
-    summary:
-      "This trade appears generally safe. The seller provides clear descriptions with detailed photos, and the price is reasonable for the market. However, we recommend verifying in person before completing the transaction.",
+    summary: "", // Currently using internal mock data (string[])
   },
 };
