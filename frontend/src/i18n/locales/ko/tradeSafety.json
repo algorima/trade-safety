@@ -57,15 +57,23 @@
     "signupButton": "무료 가입하기",
     "signupToView": "가입하고 전체 분석 보기",
     "whatToDo": "어떻게 대응할까요",
-    "translation": "번역 및 뉘앙스",
-    "translationTitle": "번역",
-    "nuanceTitle": "뉘앙스 설명",
-    "priceAnalysis": "가격 분석",
+    "translation": {
+      "subtitle": "모든 용어도 이해하기 쉽게",
+      "title": "게시글을 번역하면\n이런 뜻이에요",
+      "label": "번역"
+    },
+    "nuance": {
+      "label": "뉘앙스 설명"
+    },
+    "priceAnalysis": {
+      "subtitle": "적당한 가격인지 아닌지는",
+      "title": "현재 시세 정보를 보고\n가격을 분석할 수 있어요"
+    },
     "marketPrice": "일반 시세",
     "offeredPrice": "제시된 가격",
     "priceAssessment": "가격 평가",
     "priceWarnings": "가격 관련 경고",
-    "safetyChecklist": "안전 체크리스트",
+    "safetyChecklist": "체크리스트",
     "checklistDescription": "거래를 진행하기 전에 다음 항목을 확인하세요",
     "aiSummary": "AI 요약",
     "recommendation": "종합 추천",
@@ -106,6 +114,18 @@
       "title": "이야기 나눌까요?",
       "description": "마음속 이야기를 나눠보세요",
       "button": "대화 시작하기"
+    },
+    "danger": {
+      "badge": "위험 신호",
+      "title": "이런 위험한 점이\n사기 패턴으로 보여요"
+    },
+    "caution": {
+      "badge": "주의 사항",
+      "title": "거래 전에\n신중하게 확인하세요"
+    },
+    "safe": {
+      "badge": "안전 지표",
+      "title": "이런 부분에서는\n비교적 믿을 수 있어요"
     }
   }
 }

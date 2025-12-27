@@ -1,3 +1,4 @@
+import { ListBulletIcon } from "@heroicons/react/24/solid";
 import type { Meta, StoryObj } from "@storybook/react";
 
 import { AnalysisCard } from "../components/DetailedResult/AnalysisCard";
@@ -21,41 +22,51 @@ export const Default: Story = {
   },
 };
 
-export const Error: Story = {
+export const Danger: Story = {
   args: {
     title: "Risk Signal",
-    variant: "error",
+    badgeVariant: "danger",
     children: <p className="text-sm">This indicates a high risk warning.</p>,
   },
 };
 
-export const Warning: Story = {
+export const Caution: Story = {
   args: {
     title: "Caution",
-    variant: "warning",
+    badgeVariant: "caution",
     children: <p className="text-sm">This indicates a medium risk caution.</p>,
   },
 };
 
-export const Success: Story = {
+export const Safe: Story = {
   args: {
     title: "Safe Indicator",
-    variant: "success",
+    badgeVariant: "safe",
     children: <p className="text-sm">This indicates a safe signal.</p>,
   },
 };
 
-export const Info: Story = {
+export const WithSubtitle: Story = {
   args: {
-    title: "Information",
-    variant: "info",
-    children: <p className="text-sm">This is an informational card.</p>,
+    subtitle: "All terms explained simply",
+    title: "Here's what\nthe post means",
+    children: <p className="text-sm">Translation content goes here.</p>,
   },
 };
 
-export const WithoutTitle: Story = {
+export const SmallTitle: Story = {
   args: {
-    variant: "default",
-    children: <p className="text-sm">Card without title.</p>,
+    title: "Checklist",
+    titleSize: "sm",
+    children: <p className="text-sm">Checklist items go here.</p>,
+  },
+};
+
+export const WithIcon: Story = {
+  args: {
+    icon: <ListBulletIcon className="size-6" />,
+    title: "Checklist",
+    titleSize: "sm",
+    children: <p className="text-sm">Checklist items with icon go here.</p>,
   },
 };

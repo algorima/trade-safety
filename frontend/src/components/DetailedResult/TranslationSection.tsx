@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { TRADE_SAFETY_NS } from "@/i18n";
 
 import { AnalysisCard } from "./AnalysisCard";
+import { SectionContent } from "./SectionContent";
 
 interface TranslationSectionProps {
   translation?: string | null;
@@ -18,20 +19,22 @@ export function TranslationSection({
   const { t } = useTranslation(TRADE_SAFETY_NS);
 
   return (
-    <AnalysisCard title={t("result.translation")}>
-      {translation && (
-        <div className="mb-2">
-          <h3 className="text-sm font-bold">{t("result.translationTitle")}</h3>
-          <p className="text-xs">{translation}</p>
-        </div>
-      )}
+    <AnalysisCard
+      subtitle={t("result.translation.subtitle")}
+      title={t("result.translation.title")}
+    >
+      <div className="space-y-4">
+        {translation && (
+          <SectionContent
+            title={t("result.translation.label")}
+            content={translation}
+          />
+        )}
 
-      {nuance && (
-        <div>
-          <h3 className="text-sm font-bold">{t("result.nuanceTitle")}</h3>
-          <p className="text-xs">{nuance}</p>
-        </div>
-      )}
+        {nuance && (
+          <SectionContent title={t("result.nuance.label")} content={nuance} />
+        )}
+      </div>
     </AnalysisCard>
   );
 }

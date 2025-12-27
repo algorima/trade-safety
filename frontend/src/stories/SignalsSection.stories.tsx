@@ -55,21 +55,21 @@ const mockSafeIndicators: RiskSignal[] = [
 export const RiskSignals: Story = {
   args: {
     signals: mockRiskSignals,
-    variant: "error",
+    variant: "danger",
   },
 };
 
 export const Cautions: Story = {
   args: {
     signals: mockCautions,
-    variant: "warning",
+    variant: "caution",
   },
 };
 
 export const SafeIndicators: Story = {
   args: {
     signals: mockSafeIndicators,
-    variant: "success",
+    variant: "safe",
   },
 };
 
@@ -85,6 +85,6 @@ export const MultipleSignals: Story = {
         what_to_do: "Request a safer payment method with buyer protection.",
       },
     ],
-    variant: "error",
+    variant: "danger",
   },
 };

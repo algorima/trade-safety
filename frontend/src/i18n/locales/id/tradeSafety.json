@@ -57,15 +57,23 @@
     "signupButton": "Daftar Gratis",
     "signupToView": "Daftar untuk melihat analisis lengkap",
     "whatToDo": "Apa yang harus dilakukan",
-    "translation": "Terjemahan & Nuansa",
-    "translationTitle": "Terjemahan",
-    "nuanceTitle": "Penjelasan Nuansa",
-    "priceAnalysis": "Analisis Harga",
+    "translation": {
+      "subtitle": "Semua istilah dijelaskan dengan mudah",
+      "title": "Ini arti dari\npostingan tersebut",
+      "label": "Terjemahan"
+    },
+    "nuance": {
+      "label": "Penjelasan Nuansa"
+    },
+    "priceAnalysis": {
+      "subtitle": "Apakah harganya wajar?",
+      "title": "Analisis harga dengan\ninformasi pasar terkini"
+    },
     "marketPrice": "Kisaran Harga Pasar",
     "offeredPrice": "Harga yang Ditawarkan",
     "priceAssessment": "Penilaian Harga",
     "priceWarnings": "Peringatan Harga",
-    "safetyChecklist": "Daftar Periksa Keamanan",
+    "safetyChecklist": "Daftar Periksa",
     "checklistDescription": "Periksa item-item ini sebelum melanjutkan transaksi",
     "aiSummary": "Ringkasan AI",
     "recommendation": "Rekomendasi",
@@ -106,6 +114,18 @@
       "title": "Ingin bicara?",
       "description": "Bagikan apa yang ada di pikiran Anda dengan rekan AI Anda",
       "button": "Mulai Chat"
+    },
+    "danger": {
+      "badge": "Sinyal Risiko",
+      "title": "Tanda bahaya ini\nterlihat seperti pola penipuan"
+    },
+    "caution": {
+      "badge": "Peringatan",
+      "title": "Periksa dengan teliti\nsebelum bertransaksi"
+    },
+    "safe": {
+      "badge": "Indikator Aman",
+      "title": "Aspek-aspek ini\nterlihat dapat dipercaya"
     }
   }
 }
