@@ -16,6 +16,6 @@ type Story = StoryObj<typeof AISummarySection>;
 
 export const Default: Story = {
   args: {
-    summary: "", // Currently using internal mock data (string[])
+    summary: "",
   },
 };
