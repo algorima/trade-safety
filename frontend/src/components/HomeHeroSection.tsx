@@ -1,4 +1,5 @@
 import { clsx } from "clsx";
+import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { FaReddit, FaXTwitter } from "react-icons/fa6";
 
@@ -30,6 +31,24 @@ export function HomeHeroSection({
   previewError,
 }: HomeHeroSectionProps) {
   const { t } = useTranslation(TRADE_SAFETY_NS);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const prevShowInputRef = useRef(true); // Initially showing input state
+
+  const showInput =
+    !value && !previewData && !isLoadingPreview && !previewError;
+
+  useEffect(() => {
+    // Auto-focus textarea when transitioning from input to textarea
+    const isTransitioningFromInput = prevShowInputRef.current && !showInput;
+
+    if (isTransitioningFromInput && textareaRef.current) {
+      textareaRef.current.focus();
+      const length = textareaRef.current.value.length;
+      textareaRef.current.setSelectionRange(length, length);
+    }
+
+    prevShowInputRef.current = showInput;
+  }, [showInput]);
 
   const buttonContent = isLoading ? (
     <span className="loading loading-spinner loading-sm" />
@@ -50,51 +69,35 @@ export function HomeHeroSection({
         </p>
 
         <div className={clsx("mb-4", !error && "sm:mb-8 md:mb-12")}>
-          <div className="hidden lg:block">
-            <div className="relative">
-              <input
-                type="text"
-                className="input input-bordered h-[72px] w-full pr-36 text-sm placeholder:text-base-300 focus:outline-none"
-                placeholder={t("hero.placeholder")}
-                aria-label={t("hero.placeholder")}
-                value={value}
-                onChange={(e) => onChange(e.target.value)}
-                disabled={isLoading}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !isButtonDisabled) {
-                    onSubmit();
-                  }
-                }}
-              />
-              <button
-                className="btn btn-neutral absolute right-2 top-1/2 h-[56px] min-h-0 -translate-y-1/2 !animate-none px-6 font-bold text-neutral-content"
-                onClick={onSubmit}
-                disabled={isButtonDisabled}
-              >
-                {buttonContent}
-              </button>
+          {showInput ? (
+            <div className="hidden lg:block">
+              <div className="relative">
+                <input
+                  type="text"
+                  className="input input-bordered h-[72px] w-full pr-36 text-sm placeholder:text-base-300 focus:outline-none"
+                  placeholder={t("hero.placeholder")}
+                  aria-label={t("hero.placeholder")}
+                  value={value}
+                  onChange={(e) => onChange(e.target.value)}
+                  disabled={isLoading}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !isButtonDisabled) {
+                      onSubmit();
+                    }
+                  }}
+                />
+                <button
+                  className="btn btn-neutral absolute right-2 top-1/2 h-[56px] min-h-0 -translate-y-1/2 !animate-none px-6 font-bold text-neutral-content"
+                  onClick={onSubmit}
+                  disabled={isButtonDisabled}
+                >
+                  {buttonContent}
+                </button>
+              </div>
             </div>
+          ) : null}
 
-            {previewData && (
-              <div className="mt-4">
-                <UrlPreviewCard data={previewData} />
-              </div>
-            )}
-
-            {isLoadingPreview && (
-              <div className="mt-4 flex items-center justify-center">
-                <span className="loading loading-spinner loading-sm" />
-              </div>
-            )}
-
-            {previewError && (
-              <div className="alert alert-warning mt-4 flex items-center gap-2 text-sm">
-                <span>{previewError}</span>
-              </div>
-            )}
-          </div>
-
-          <div className="block lg:hidden">
+          <div className={clsx(showInput ? "block lg:hidden" : "block")}>
             <div className="relative flex min-h-[400px] w-full flex-col overflow-hidden rounded-xl border border-base-300 bg-base-100">
               {!value && (
                 <div
@@ -112,6 +115,7 @@ export function HomeHeroSection({
 
               <div className="flex flex-1 flex-col pb-24">
                 <textarea
+                  ref={textareaRef}
                   className="flex-1 resize-none overflow-auto border-none bg-transparent p-4 leading-6 text-base-content outline-none"
                   value={value}
                   aria-label={t("hero.placeholder")}
@@ -127,8 +131,19 @@ export function HomeHeroSection({
                 )}
 
                 {isLoadingPreview && (
-                  <div className="flex items-center justify-center px-4 pb-4">
-                    <span className="loading loading-spinner loading-sm" />
+                  <div className="mx-4 mb-4 space-y-3 border-l-4 border-base-300 bg-base-100 pl-3">
+                    <div className="space-y-2">
+                      <div className="skeleton h-4 w-3/4"></div>
+                      <div className="flex items-center gap-2">
+                        <div className="skeleton h-3 w-20"></div>
+                        <div className="skeleton h-3 w-16"></div>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2">
+                      <div className="skeleton aspect-square"></div>
+                      <div className="skeleton aspect-square"></div>
+                      <div className="skeleton aspect-square"></div>
+                    </div>
                   </div>
                 )}
 

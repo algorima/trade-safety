@@ -1,23 +1,25 @@
 import type { LinkPreviewData } from "@/components/UrlPreviewCard";
+import type { PostPreview } from "@/repositories/TradeSafetyRepository";
 
 const SUPPORTED_DOMAINS = ["x.com", "twitter.com", "reddit.com"] as const;
 
 /**
  * URL에서 도메인을 추출합니다.
  */
-export function extractDomain(url: string): string | null {
+export const extractDomain = (url: string): string | null => {
   try {
     const urlObj = new URL(url);
     return urlObj.hostname.replace("www.", "");
   } catch {
     return null;
   }
-}
+};
 
 /**
- * 텍스트에서 URL을 감지합니다.
+ * 텍스트에서 지원되는 소셜 미디어 URL을 감지합니다.
+ * URL 형식 검증을 포함합니다.
  */
-export function detectUrl(text: string): string | null {
+export const detectUrl = (text: string): string | null => {
   const urlRegex = /(https?:\/\/[^\s]+)/g;
   const matches = text.match(urlRegex);
 
@@ -26,41 +28,43 @@ export function detectUrl(text: string): string | null {
   }
 
   for (const url of matches) {
-    const domain = extractDomain(url);
-    if (domain && SUPPORTED_DOMAINS.some((d) => domain.includes(d))) {
-      return url;
+    try {
+      const urlObj = new URL(url);
+
+      if (urlObj.protocol !== "http:" && urlObj.protocol !== "https:") {
+        continue;
+      }
+
+      const domain = urlObj.hostname.replace("www.", "");
+      if (SUPPORTED_DOMAINS.some((d) => domain.includes(d))) {
+        return url;
+      }
+    } catch {
+      continue;
     }
   }
 
   return null;
-}
+};
 
 /**
- * URL에서 메타데이터를 가져옵니다. (Mock 구현)
+ * 백엔드 PostPreview를 프론트엔드 LinkPreviewData로 변환합니다.
  */
-export async function fetchUrlMetadata(
+export const mapPostPreviewToLinkPreview = (
+  postPreview: PostPreview,
   url: string,
-): Promise<LinkPreviewData | null> {
-  const domain = extractDomain(url);
-
-  if (!domain) {
-    return null;
-  }
-
-  // Mock delay to simulate API call
-  await new Promise((resolve) => setTimeout(resolve, 500));
-
-  // Mock data based on domain
-  if (domain.includes("x.com") || domain.includes("twitter.com")) {
-    return MOCK_TWITTER_PREVIEW;
-  }
-
-  if (domain.includes("reddit.com")) {
-    return MOCK_REDDIT_PREVIEW;
-  }
-
-  return null;
-}
+): LinkPreviewData => {
+  return {
+    url,
+    title: postPreview.text_preview,
+    author: postPreview.author,
+    date: postPreview.created_at
+      ? new Date(postPreview.created_at).toISOString().split("T")[0]
+      : new Date().toISOString().split("T")[0],
+    content: postPreview.text,
+    images: postPreview.images,
+  };
+};
 
 // Mock data for Storybook and testing
 export const MOCK_TWITTER_PREVIEW: LinkPreviewData = {

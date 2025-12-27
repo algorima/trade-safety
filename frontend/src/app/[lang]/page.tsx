@@ -9,7 +9,7 @@ import type { LinkPreviewData } from "@/components/UrlPreviewCard";
 import { TRADE_SAFETY_NS } from "@/i18n";
 import { TradeSafetyRepository } from "@/repositories/TradeSafetyRepository";
 import { getApiService } from "@/services/ApiService";
-import { detectUrl, fetchUrlMetadata } from "@/utils/urlPreview";
+import { detectUrl, mapPostPreviewToLinkPreview } from "@/utils/urlPreview";
 
 export default function HomePage() {
   const { i18n } = useTranslation(TRADE_SAFETY_NS);
@@ -52,16 +52,20 @@ export default function HomePage() {
       setPreviewError(null);
 
       try {
-        const metadata = await fetchUrlMetadata(detectedUrl);
+        const postPreview = await repository.fetchPreview(detectedUrl);
+        const linkPreviewData = mapPostPreviewToLinkPreview(
+          postPreview,
+          detectedUrl,
+        );
 
         if (!isCancelled) {
-          setPreviewData(metadata);
+          setPreviewData(linkPreviewData);
         }
       } catch (err) {
         if (!isCancelled) {
           console.error("Failed to fetch URL metadata:", err);
           setPreviewData(null);
-          setPreviewError("URL 미리보기를 불러올 수 없습니다.");
+          setPreviewError("Failed to load URL preview. Please try again.");
         }
       } finally {
         if (!isCancelled) {
@@ -75,6 +79,8 @@ export default function HomePage() {
     return () => {
       isCancelled = true;
     };
+    // repository is stable (created with useMemo and empty deps)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputText]);
 
   const handleSubmit = async () => {

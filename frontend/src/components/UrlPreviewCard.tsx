@@ -33,7 +33,7 @@ export function UrlPreviewCard({ data }: UrlPreviewCardProps) {
         <div className="grid grid-cols-3 gap-2">
           {displayImages.map((imageUrl, index) => (
             <div
-              key={index}
+              key={imageUrl}
               className="relative aspect-square overflow-hidden rounded bg-base-200"
             >
               <Image

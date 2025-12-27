@@ -5,7 +5,15 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "picsum.photos",
+        hostname: "pbs.twimg.com",
+      },
+      {
+        protocol: "https",
+        hostname: "i.redd.it",
+      },
+      {
+        protocol: "https",
+        hostname: "preview.redd.it",
       },
     ],
   },

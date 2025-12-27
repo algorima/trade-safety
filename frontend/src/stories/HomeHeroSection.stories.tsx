@@ -181,7 +181,7 @@ export const WithPreviewError: Story = {
   args: {
     ...defaultArgs,
     value: "https://x.com/broken_url/status/123",
-    previewError: "URL 미리보기를 불러올 수 없습니다.",
+    previewError: "Failed to load URL preview. Please try again.",
   },
 };
 
@@ -189,7 +189,7 @@ export const WithPreviewErrorMobile: Story = {
   args: {
     ...defaultArgs,
     value: "https://x.com/broken_url/status/123",
-    previewError: "URL 미리보기를 불러올 수 없습니다.",
+    previewError: "Failed to load URL preview. Please try again.",
   },
   parameters: {
     viewport: {
