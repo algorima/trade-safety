@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
+import isChromatic from "chromatic/isChromatic";
 
 import { HomeHeroSection } from "../components/HomeHeroSection";
 
@@ -49,9 +50,16 @@ export const Loading: Story = {
       "I'm selling a MacBook Pro 2021 for $1,200. Contact me at email@example.com",
     isLoading: true,
   },
-  parameters: {
-    chromatic: { disableSnapshot: true },
-  },
+  decorators: [
+    (Story) => (
+      <>
+        {isChromatic() && (
+          <style>{`.loading { animation: none !important; }`}</style>
+        )}
+        <Story />
+      </>
+    ),
+  ],
 };
 
 export const WithError: Story = {
