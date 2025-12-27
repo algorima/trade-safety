@@ -16,6 +16,7 @@ export const SAFETY_SCORE_THRESHOLDS = {
 export interface TradeSafetyCheckRequest {
   input_text: string;
   output_language?: string;
+  image_urls?: string[];
 }
 
 export interface RiskSignal {

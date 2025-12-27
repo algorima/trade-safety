@@ -10,7 +10,8 @@
     "analyzing": "Analizando...",
     "analyzingDescription": "La IA está analizando idioma, señales de estafa y precio...",
     "tryExample": "Probar ejemplo",
-    "disclaimer": "Los resultados del análisis de IA son solo de referencia y pueden no ser 100% precisos. Este servicio no proporciona garantías ni compensación por daños comerciales."
+    "disclaimer": "Los resultados del análisis de IA son solo de referencia y pueden no ser 100% precisos. Este servicio no proporciona garantías ni compensación por daños comerciales.",
+    "previewError": "No se pudo cargar la vista previa de la URL. Inténtelo de nuevo."
   },
   "features": {
     "title": "La IA Analiza <1>3 Cosas Simultáneamente</1>",

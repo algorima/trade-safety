@@ -10,7 +10,8 @@
     "analyzing": "Menganalisis...",
     "analyzingDescription": "AI sedang menganalisis bahasa, sinyal penipuan, dan harga...",
     "tryExample": "Coba contoh",
-    "disclaimer": "Hasil analisis AI hanya untuk referensi dan mungkin tidak 100% akurat. Layanan ini tidak memberikan jaminan atau kompensasi untuk kerugian transaksi."
+    "disclaimer": "Hasil analisis AI hanya untuk referensi dan mungkin tidak 100% akurat. Layanan ini tidak memberikan jaminan atau kompensasi untuk kerugian transaksi.",
+    "previewError": "Gagal memuat pratinjau URL. Silakan coba lagi."
   },
   "features": {
     "title": "AI Menganalisis <1>3 Hal Secara Bersamaan</1>",
