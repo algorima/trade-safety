@@ -15,7 +15,7 @@ interface DetailedResultProps {
 export function DetailedResult({ analysis }: DetailedResultProps) {
   return (
     <div className="space-y-6">
-      {analysis.ai_summary && (
+      {analysis.ai_summary.length > 0 && (
         <AISummarySection summary={analysis.ai_summary} />
       )}
 
