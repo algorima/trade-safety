@@ -3,7 +3,7 @@ import Image from "next/image";
 export interface LinkPreviewData {
   title: string;
   author: string;
-  date: string;
+  date: string | null;
   images: string[];
   url: string;
   content: string;
@@ -25,7 +25,7 @@ export function UrlPreviewCard({ data }: UrlPreviewCardProps) {
         </h3>
         <div className="flex items-center gap-2 text-xs text-base-content/60">
           <span>{data.author}</span>
-          <span>{data.date}</span>
+          {data.date && <span>{data.date}</span>}
         </div>
       </div>
 

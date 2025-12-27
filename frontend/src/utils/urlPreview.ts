@@ -60,7 +60,7 @@ export const mapPostPreviewToLinkPreview = (
     author: postPreview.author,
     date: postPreview.created_at
       ? new Date(postPreview.created_at).toISOString().split("T")[0]
-      : new Date().toISOString().split("T")[0],
+      : null,
     content: postPreview.text,
     images: postPreview.images,
   };
