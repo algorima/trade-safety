@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckBadgeIcon } from "@heroicons/react/24/solid";
+import { ListBulletIcon } from "@heroicons/react/24/solid";
 import { useTranslation } from "react-i18next";
 
 import { TRADE_SAFETY_NS } from "@/i18n";
@@ -17,21 +17,25 @@ export function SafetyChecklistSection({ items }: SafetyChecklistSectionProps) {
   if (items.length === 0) return null;
 
   return (
-    <div className="mb-4">
-      <h2 className="flex items-center gap-1 py-4 font-bold">
-        {t("result.safetyChecklist")} <CheckBadgeIcon className="size-6" />
-      </h2>
-      <AnalysisCard variant="info">
+    <AnalysisCard
+      icon={<ListBulletIcon className="size-6" />}
+      title={t("result.safetyChecklist")}
+      titleSize="sm"
+    >
+      <div className="space-y-4">
         {items.map((item, idx) => (
-          <label key={idx} className="label w-fit cursor-pointer gap-2">
+          <label
+            key={idx}
+            className="label cursor-pointer gap-4 rounded-2xl bg-base-200 p-4"
+          >
+            <span className="label-text break-keep text-neutral">{item}</span>
             <input
               type="checkbox"
-              className="checkbox rounded-full [--chkbg:theme(colors.neutral)] [--chkfg:theme(colors.neutral-content)]"
+              className="checkbox checkbox-sm [--chkbg:theme(colors.neutral)] [--chkfg:theme(colors.neutral-content)]"
             />
-            <span className="label-text">{item}</span>
           </label>
         ))}
-      </AnalysisCard>
-    </div>
+      </div>
+    </AnalysisCard>
   );
 }
