@@ -57,15 +57,23 @@
     "signupButton": "Registro Gratuito",
     "signupToView": "Regístrate para ver el análisis completo",
     "whatToDo": "Qué hacer",
-    "translation": "Traducción y Matices",
-    "translationTitle": "Traducción",
-    "nuanceTitle": "Explicación de Matices",
-    "priceAnalysis": "Análisis de Precios",
+    "translation": {
+      "subtitle": "Todos los términos explicados fácilmente",
+      "title": "Esto es lo que\nsignifica la publicación",
+      "label": "Traducción"
+    },
+    "nuance": {
+      "label": "Explicación de Matices"
+    },
+    "priceAnalysis": {
+      "subtitle": "¿Es el precio justo?",
+      "title": "Analiza precios con\ninformación del mercado actual"
+    },
     "marketPrice": "Rango de Precio de Mercado",
     "offeredPrice": "Precio Ofrecido",
     "priceAssessment": "Evaluación de Precio",
     "priceWarnings": "Advertencias de Precio",
-    "safetyChecklist": "Lista de Verificación de Seguridad",
+    "safetyChecklist": "Lista de verificación",
     "checklistDescription": "Revise estos elementos antes de proceder con la transacción",
     "aiSummary": "Resumen de IA",
     "recommendation": "Recomendación",
@@ -103,6 +111,18 @@
       "title": "¿Quieres hablar?",
       "description": "Comparte lo que tienes en mente con tu compañero de IA",
       "button": "Iniciar Chat"
+    },
+    "danger": {
+      "badge": "Señal de Riesgo",
+      "title": "Estas señales de peligro\nparecen patrones de estafa"
+    },
+    "caution": {
+      "badge": "Precaución",
+      "title": "Verifica cuidadosamente\nantes de comerciar"
+    },
+    "safe": {
+      "badge": "Indicador Seguro",
+      "title": "Estos aspectos\nparecen confiables"
     }
   }
 }

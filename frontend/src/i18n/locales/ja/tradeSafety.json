@@ -57,15 +57,23 @@
     "signupButton": "無料サインアップ",
     "signupToView": "サインアップして全体分析を見る",
     "whatToDo": "対応方法",
-    "translation": "翻訳とニュアンス",
-    "translationTitle": "翻訳",
-    "nuanceTitle": "ニュアンスの説明",
-    "priceAnalysis": "価格分析",
+    "translation": {
+      "subtitle": "すべての用語をわかりやすく",
+      "title": "投稿を翻訳すると\nこういう意味です",
+      "label": "翻訳"
+    },
+    "nuance": {
+      "label": "ニュアンスの説明"
+    },
+    "priceAnalysis": {
+      "subtitle": "適正価格かどうかは",
+      "title": "現在の市場情報を見て\n価格を分析できます"
+    },
     "marketPrice": "市場価格帯",
     "offeredPrice": "提示価格",
     "priceAssessment": "価格評価",
     "priceWarnings": "価格警告",
-    "safetyChecklist": "安全チェックリスト",
+    "safetyChecklist": "チェックリスト",
     "checklistDescription": "取引を進める前にこれらの項目を確認してください",
     "aiSummary": "AI要約",
     "recommendation": "総合推奨事項",
@@ -103,6 +111,18 @@
       "title": "お話ししませんか？",
       "description": "心に思っていることをAIコンパニオンと共有しましょう",
       "button": "チャット開始"
+    },
+    "danger": {
+      "badge": "リスク信号",
+      "title": "このような危険な点が\n詐欺パターンに見えます"
+    },
+    "caution": {
+      "badge": "注意事項",
+      "title": "取引前に\n慎重に確認してください"
+    },
+    "safe": {
+      "badge": "安全指標",
+      "title": "この部分では\n比較的信頼できます"
     }
   }
 }

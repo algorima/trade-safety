@@ -57,15 +57,23 @@
     "signupButton": "Đăng Ký Miễn Phí",
     "signupToView": "Đăng ký để xem phân tích đầy đủ",
     "whatToDo": "Nên làm gì",
-    "translation": "Dịch Thuật & Sắc Thái",
-    "translationTitle": "Dịch Thuật",
-    "nuanceTitle": "Giải Thích Sắc Thái",
-    "priceAnalysis": "Phân Tích Giá",
+    "translation": {
+      "subtitle": "Tất cả thuật ngữ được giải thích dễ hiểu",
+      "title": "Đây là ý nghĩa\ncủa bài đăng",
+      "label": "Dịch Thuật"
+    },
+    "nuance": {
+      "label": "Giải Thích Sắc Thái"
+    },
+    "priceAnalysis": {
+      "subtitle": "Giá có hợp lý không?",
+      "title": "Phân tích giá với\nthông tin thị trường hiện tại"
+    },
     "marketPrice": "Phạm Vi Giá Thị Trường",
     "offeredPrice": "Giá Đề Xuất",
     "priceAssessment": "Đánh Giá Giá",
     "priceWarnings": "Cảnh Báo Giá",
-    "safetyChecklist": "Danh Sách Kiểm Tra An Toàn",
+    "safetyChecklist": "Danh sách kiểm tra",
     "checklistDescription": "Kiểm tra các mục này trước khi tiến hành giao dịch",
     "aiSummary": "Tóm Tắt AI",
     "recommendation": "Khuyến Nghị",
@@ -103,6 +111,18 @@
       "title": "Muốn trò chuyện?",
       "description": "Chia sẻ những gì bạn đang nghĩ với bạn đồng hành AI của bạn",
       "button": "Bắt Đầu Chat"
+    },
+    "danger": {
+      "badge": "Tín Hiệu Rủi Ro",
+      "title": "Những dấu hiệu nguy hiểm này\ntrông giống như mô hình lừa đảo"
+    },
+    "caution": {
+      "badge": "Cảnh Báo",
+      "title": "Kiểm tra kỹ\ntrước khi giao dịch"
+    },
+    "safe": {
+      "badge": "Chỉ Báo An Toàn",
+      "title": "Những khía cạnh này\ncó vẻ đáng tin cậy"
     }
   }
 }

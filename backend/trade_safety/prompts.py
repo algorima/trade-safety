@@ -62,7 +62,7 @@ Classify signals into three categories:
 Provide actionable checklist items users should verify before proceeding.
 
 ### 5. Overall Assessment
-- Write a brief AI summary (2-3 sentences) that captures the key findings
+- Write an AI summary as a list of **EXACTLY 3 strings** (one key finding per string, no more, no less)
 - Calculate a safety score (0–100, where 100 is safest)
 - Provide a clear recommendation
 - Include an empathetic message to reduce FOMO and anxiety
@@ -80,7 +80,7 @@ Provide actionable checklist items users should verify before proceeding.
 Return JSON in the following structure:
 
 {
-  "ai_summary": "A brief 2-3 sentence summary of the trade analysis highlighting key findings",
+  "ai_summary": ["Key finding 1", "Key finding 2", "Key finding 3"],
   "translation": "If the input text language differs from `output_language`,
                 translate the full original text into `output_language`. 
                 If they are the same language, set to null.",

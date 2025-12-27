@@ -57,15 +57,23 @@
     "signupButton": "免费注册",
     "signupToView": "注册查看完整分析",
     "whatToDo": "如何应对",
-    "translation": "翻译与语境",
-    "translationTitle": "翻译",
-    "nuanceTitle": "语境说明",
-    "priceAnalysis": "价格分析",
+    "translation": {
+      "subtitle": "所有术语都易于理解",
+      "title": "帖子翻译后\n是这个意思",
+      "label": "翻译"
+    },
+    "nuance": {
+      "label": "语境说明"
+    },
+    "priceAnalysis": {
+      "subtitle": "价格是否合理",
+      "title": "查看当前市场信息\n分析价格"
+    },
     "marketPrice": "市场价格区间",
     "offeredPrice": "报价",
     "priceAssessment": "价格评估",
     "priceWarnings": "价格警告",
-    "safetyChecklist": "安全检查清单",
+    "safetyChecklist": "检查清单",
     "checklistDescription": "交易前请检查这些项目",
     "aiSummary": "AI摘要",
     "recommendation": "综合建议",
@@ -103,6 +111,18 @@
       "title": "想聊聊吗？",
       "description": "与您的AI同伴分享您心中所想",
       "button": "开始聊天"
+    },
+    "danger": {
+      "badge": "风险信号",
+      "title": "这些危险信号\n看起来像诈骗模式"
+    },
+    "caution": {
+      "badge": "注意事项",
+      "title": "交易前\n请仔细确认"
+    },
+    "safe": {
+      "badge": "安全指标",
+      "title": "在这些方面\n相对可信"
     }
   }
 }
