@@ -445,7 +445,8 @@ class TestTradeSafetyAnalysis(unittest.TestCase):
             )
 
             self.assertIsNotNone(analysis.ai_summary)
-            self.assertGreater(len(analysis.ai_summary.strip()), 0)
+            self.assertGreater(len(analysis.ai_summary), 0)
+            self.assertTrue(all(item.strip() for item in analysis.ai_summary))
 
             print("\n✅ Reddit URL 분석 성공")
             print(f"   Safe Score: {analysis.safe_score}/100")
