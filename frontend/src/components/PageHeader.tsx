@@ -1,6 +1,6 @@
 "use client";
 
-import Lottie from "lottie-react";
+import { LottiePlayer } from "@aioia/core/client";
 import { Trans, useTranslation } from "react-i18next";
 
 import { EMOJI_ASSETS } from "@/constants/assets";
@@ -10,7 +10,6 @@ import { SafetyLevel } from "@/types";
 export interface PageHeaderProps {
   level: SafetyLevel;
   score: number;
-  lottieData: object | null;
 }
 
 const LEVEL_STYLES: Record<SafetyLevel, string> = {
@@ -19,7 +18,7 @@ const LEVEL_STYLES: Record<SafetyLevel, string> = {
   safe: "font-bold text-success",
 };
 
-export function PageHeader({ level, score, lottieData }: PageHeaderProps) {
+export function PageHeader({ level, score }: PageHeaderProps) {
   const { t } = useTranslation(TRADE_SAFETY_NS);
 
   const assets = EMOJI_ASSETS[level];
@@ -41,18 +40,7 @@ export function PageHeader({ level, score, lottieData }: PageHeaderProps) {
       </h1>
 
       <div className="mb-9 flex size-32 items-center justify-center">
-        {lottieData ? (
-          <Lottie animationData={lottieData} loop autoplay />
-        ) : (
-          <picture>
-            <source srcSet={assets.webp} type="image/webp" />
-            <img
-              src={assets.gif}
-              alt={assets.alt}
-              className="size-full object-contain"
-            />
-          </picture>
-        )}
+        <LottiePlayer src={assets.lottie} autoplay loop className="size-full" />
       </div>
 
       <p className="max-w-md break-keep text-xl leading-relaxed text-base-content">
