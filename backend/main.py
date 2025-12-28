@@ -166,7 +166,7 @@ trade_safety_router = create_trade_safety_router(
     jwt_settings=jwt_settings,
     db_session_factory=db_session_factory,
     manager_factory=TradeSafetyCheckManagerFactory(db_session_factory),
-    role_provider=None,  # Standalone mode: no user authentication
+    user_info_provider=None,  # Standalone mode: no user authentication
 )
 app.include_router(trade_safety_router)
 
