@@ -96,17 +96,17 @@
     "safetyLevel": {
       "safe": {
         "badge": "Hasil Analisis",
-        "title": "Berdasarkan informasi saat ini, <0>terlihat aman.</0>",
+        "title": "Berdasarkan informasi saat ini, tampak <0>aman</0>.",
         "description": "Postingan ini memiliki <0>skor keamanan {{score}}</0>. Saat ini belum terlihat <1>tanda berisiko</1> yang jelas, tetapi sebaiknya tetap dicek."
       },
       "caution": {
         "badge": "Hasil Analisis",
-        "title": "Berdasarkan informasi saat ini, <0>lanjutkan dengan hati-hati.</0>",
+        "title": "Berdasarkan informasi saat ini, harap <0>berhati-hati</0>.",
         "description": "Postingan ini memiliki <0>skor keamanan {{score}}</0>. Terlihat <1>tanda berisiko</1>, jadi sebaiknya dicek."
       },
       "danger": {
         "badge": "Hasil Analisis",
-        "title": "<0>Jangan lanjut</0> tanpa pengecekan lebih lanjut.",
+        "title": "<0>Jangan lanjut</0> tanpa pemeriksaan tambahan.",
         "description": "Postingan ini memiliki <0>skor keamanan {{score}}</0>. Terdeteksi <1>tanda berisiko</1>—jangan lanjut tanpa pengecekan."
       }
     },

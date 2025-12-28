@@ -96,17 +96,17 @@
     "safetyLevel": {
       "safe": {
         "badge": "Resultado del análisis",
-        "title": "Según la información actual, <0>parece seguro.</0>",
+        "title": "Con la información actual, parece <0>seguro</0>.",
         "description": "Esta publicación tiene una <0>puntuación de seguridad de {{score}}</0>. Por ahora no vemos <1>señales de riesgo</1> claras, pero conviene revisarlo."
       },
       "caution": {
         "badge": "Resultado del análisis",
-        "title": "Según la información actual, <0>procede con precaución.</0>",
+        "title": "Con la información actual, procede con <0>cautela</0>.",
         "description": "Esta publicación tiene una <0>puntuación de seguridad de {{score}}</0>. Estamos viendo <1>señales de riesgo</1>, así que conviene revisarlo."
       },
       "danger": {
         "badge": "Resultado del análisis",
-        "title": "<0>No continúes</0> sin más verificaciones.",
+        "title": "<0>No continúes</0> sin verificaciones adicionales.",
         "description": "Esta publicación tiene una <0>puntuación de seguridad de {{score}}</0>. Se detectaron <1>señales de riesgo</1>; no continúes sin verificar."
       }
     },

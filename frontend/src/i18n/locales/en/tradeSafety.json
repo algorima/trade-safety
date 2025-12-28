@@ -96,12 +96,12 @@
     "safetyLevel": {
       "safe": {
         "badge": "Analysis Result",
-        "title": "Based on current information, <0>it looks safe.</0>",
+        "title": "Based on current information, it looks <0>safe.</0>",
         "description": "This post has a <0>safety score of {{score}}</0>. We don't see clear risky <1>signals</1> right now, but a quick check is recommended."
       },
       "caution": {
         "badge": "Analysis Result",
-        "title": "Based on current information, <0>proceed with caution.</0>",
+        "title": "Based on current information, proceed with <0>caution</0>.",
         "description": "This post has a <0>safety score of {{score}}</0>. We're seeing <1>risky signals</1>, so a check is strongly recommended."
       },
       "danger": {
