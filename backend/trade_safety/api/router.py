@@ -8,7 +8,7 @@ This module provides public API endpoints for trade safety analysis:
 
 import logging
 
-from aioia_core.auth import UserRoleProvider
+from aioia_core.auth import UserInfoProvider
 from aioia_core.errors import RESOURCE_NOT_FOUND, VALIDATION_ERROR, ErrorResponse
 from aioia_core.fastapi import BaseCrudRouter
 from aioia_core.settings import JWTSettings, OpenAIAPISettings
@@ -356,7 +356,7 @@ def create_trade_safety_router(
     jwt_settings: JWTSettings,
     db_session_factory: sessionmaker,
     manager_factory: TradeSafetyCheckManagerFactory,
-    role_provider: UserRoleProvider | None,
+    user_info_provider: UserInfoProvider | None,
     system_prompt: str | None = None,
 ) -> APIRouter:
     """
@@ -368,7 +368,7 @@ def create_trade_safety_router(
         jwt_settings (JWTSettings): JWT authentication settings
         db_session_factory (sessionmaker): SQLAlchemy session factory
         manager_factory (TradeSafetyCheckManagerFactory): Factory for creating manager
-        role_provider (UserRoleProvider | None): UserRoleProvider for authentication
+        user_info_provider (UserInfoProvider | None): UserInfoProvider for authentication
         system_prompt (str | None): Optional custom system prompt for trade safety analysis
 
     Returns:
@@ -383,7 +383,7 @@ def create_trade_safety_router(
         update_schema=TradeSafetyCheckUpdate,
         db_session_factory=db_session_factory,
         manager_factory=manager_factory,
-        role_provider=role_provider,
+        user_info_provider=user_info_provider,
         jwt_secret_key=jwt_settings.secret_key,
         resource_name="trade-safety",
         tags=["Trade Safety"],
