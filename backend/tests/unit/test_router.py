@@ -15,9 +15,7 @@ from trade_safety.settings import TradeSafetyModelSettings
 class MockUserInfoProvider:
     """Mock implementation of UserInfoProvider protocol."""
 
-    def get_user_info(
-        self, user_id: str, db: Session
-    ) -> UserInfo | None:
+    def get_user_info(self, user_id: str, db: Session) -> UserInfo | None:
         """Return mock user info."""
         return UserInfo(
             user_id=user_id,
