@@ -27,7 +27,7 @@ export function AISummarySection({ summary }: AISummarySectionProps) {
           <p
             key={`${item}-${index}`}
             className={clsx(
-              "py-2 text-sm leading-relaxed text-neutral",
+              "py-2 text-sm leading-relaxed text-neutral first:pt-0",
               index < summary.length - 1 && "border-b border-base-300",
             )}
           >
