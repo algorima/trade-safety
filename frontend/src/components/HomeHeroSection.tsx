@@ -3,12 +3,10 @@ import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { FaReddit, FaXTwitter } from "react-icons/fa6";
 
-import {
-  type LinkPreviewData,
-  UrlPreviewCard,
-} from "@/components/UrlPreviewCard";
+import { UrlPreviewCard } from "@/components/UrlPreviewCard";
 import { UrlPreviewCardSkeleton } from "@/components/UrlPreviewCardSkeleton";
 import { TRADE_SAFETY_NS } from "@/i18n";
+import type { LinkPreviewData } from "@/types";
 
 export interface HomeHeroSectionProps {
   value: string;

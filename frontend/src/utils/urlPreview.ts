@@ -1,5 +1,5 @@
-import type { LinkPreviewData } from "@/components/UrlPreviewCard";
 import type { PostPreview } from "@/repositories/TradeSafetyRepository";
+import type { LinkPreviewData } from "@/types";
 
 const SUPPORTED_DOMAINS = ["x.com", "twitter.com", "reddit.com"] as const;
 

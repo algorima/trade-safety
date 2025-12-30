@@ -1,13 +1,6 @@
 import Image from "next/image";
 
-export interface LinkPreviewData {
-  title: string;
-  author: string;
-  date: string | null;
-  images: string[];
-  url: string;
-  content: string;
-}
+import type { LinkPreviewData } from "@/types";
 
 interface UrlPreviewCardProps {
   data: LinkPreviewData;

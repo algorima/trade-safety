@@ -1,3 +1,12 @@
+export interface LinkPreviewData {
+  title: string;
+  author: string;
+  date: string | null;
+  images: string[];
+  url: string;
+  content: string;
+}
+
 export type RiskSeverity = "high" | "medium" | "low";
 export type RiskCategory =
   | "payment"

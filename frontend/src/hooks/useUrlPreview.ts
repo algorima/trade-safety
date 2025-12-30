@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import type { LinkPreviewData } from "@/components/UrlPreviewCard";
 import { TRADE_SAFETY_NS } from "@/i18n";
 import { TradeSafetyRepository } from "@/repositories/TradeSafetyRepository";
 import { getApiService } from "@/services/ApiService";
+import type { LinkPreviewData } from "@/types";
 import { detectUrl, mapPostPreviewToLinkPreview } from "@/utils/urlPreview";
 
 export function useUrlPreview(inputText: string) {

@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import {
-  type LinkPreviewData,
-  UrlPreviewCard,
-} from "../components/UrlPreviewCard";
+import { UrlPreviewCard } from "../components/UrlPreviewCard";
+import type { LinkPreviewData } from "../types";
 import { MOCK_REDDIT_PREVIEW, MOCK_TWITTER_PREVIEW } from "../utils/urlPreview";
 
 const meta: Meta<typeof UrlPreviewCard> = {
