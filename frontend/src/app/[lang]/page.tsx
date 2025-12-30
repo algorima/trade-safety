@@ -23,8 +23,10 @@ export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { previewData, isLoadingPreview, previewError } =
-    useUrlPreview(inputText);
+  const { previewData, isLoadingPreview, previewError } = useUrlPreview(
+    inputText,
+    repository,
+  );
 
   const handleSubmit = async () => {
     if (!inputText.trim()) {

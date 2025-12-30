@@ -1,18 +1,16 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { TRADE_SAFETY_NS } from "@/i18n";
-import { TradeSafetyRepository } from "@/repositories/TradeSafetyRepository";
-import { getApiService } from "@/services/ApiService";
+import type { TradeSafetyRepository } from "@/repositories/TradeSafetyRepository";
 import type { LinkPreviewData } from "@/types";
 import { detectUrl, mapPostPreviewToLinkPreview } from "@/utils/urlPreview";
 
-export function useUrlPreview(inputText: string) {
+export function useUrlPreview(
+  inputText: string,
+  repository: TradeSafetyRepository,
+) {
   const { t } = useTranslation(TRADE_SAFETY_NS);
-  const repository = useMemo<TradeSafetyRepository>(
-    () => new TradeSafetyRepository(getApiService()),
-    [],
-  );
 
   const [previewData, setPreviewData] = useState<LinkPreviewData | null>(null);
   const [isLoadingPreview, setIsLoadingPreview] = useState(false);
