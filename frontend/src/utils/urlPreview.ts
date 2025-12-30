@@ -3,15 +3,6 @@ import type { LinkPreviewData } from "@/types";
 
 const SUPPORTED_DOMAINS = ["x.com", "twitter.com", "reddit.com"] as const;
 
-export const extractDomain = (url: string): string | null => {
-  try {
-    const urlObj = new URL(url);
-    return urlObj.hostname.replace("www.", "");
-  } catch {
-    return null;
-  }
-};
-
 export const detectUrl = (text: string): string | null => {
   const urlRegex = /(https?:\/\/[^\s]+)/g;
   const matches = text.match(urlRegex);

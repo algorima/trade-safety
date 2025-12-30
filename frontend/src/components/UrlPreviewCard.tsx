@@ -26,7 +26,7 @@ export function UrlPreviewCard({ data }: UrlPreviewCardProps) {
         <div className="flex gap-2">
           {displayImages.map((imageUrl, index) => (
             <div
-              key={imageUrl}
+              key={`${imageUrl}-${index}`}
               className="relative size-14 overflow-hidden rounded bg-base-200"
             >
               <Image
