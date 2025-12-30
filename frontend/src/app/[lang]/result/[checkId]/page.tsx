@@ -15,7 +15,9 @@ import { getSafetyLevel } from "@/utils/safetyScore";
 export default function TradeSafetyResultPage() {
   const params = useParams();
   const { t } = useTranslation(TRADE_SAFETY_NS);
-  const checkId = params.checkId as string;
+  const checkId = Array.isArray(params.checkId)
+    ? params.checkId[0]
+    : params.checkId;
 
   const repository = useMemo<TradeSafetyRepository>(
     () => new TradeSafetyRepository(getApiService()),
@@ -26,6 +28,10 @@ export default function TradeSafetyResultPage() {
     useState<TradeSafetyCheckRepositoryResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const safetyLevel = result
+    ? getSafetyLevel(result.llm_analysis.safe_score)
+    : null;
 
   useEffect(() => {
     if (typeof checkId !== "string" || !checkId) {
@@ -58,7 +64,7 @@ export default function TradeSafetyResultPage() {
     );
   }
 
-  if (error || !result) {
+  if (error || !result || !safetyLevel) {
     return (
       <div className="min-h-screen bg-base-200 px-6 py-20 sm:px-0 sm:py-40">
         <div className="mx-auto w-full sm:max-w-xl lg:max-w-2xl">
@@ -69,8 +75,6 @@ export default function TradeSafetyResultPage() {
       </div>
     );
   }
-
-  const safetyLevel = getSafetyLevel(result.llm_analysis.safe_score);
 
   return (
     <div className="min-h-screen bg-base-200 px-6 py-20 sm:px-0 sm:py-40">

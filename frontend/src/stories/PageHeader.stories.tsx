@@ -9,6 +9,13 @@ const meta: Meta<typeof PageHeader> = {
   parameters: {
     layout: "padded",
   },
+  decorators: [
+    (Story) => (
+      <div className="flex min-h-dvh w-full flex-col items-center justify-center bg-base-100">
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export default meta;

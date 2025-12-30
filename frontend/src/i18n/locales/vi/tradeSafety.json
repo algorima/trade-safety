@@ -95,16 +95,19 @@
     },
     "safetyLevel": {
       "safe": {
-        "title": "An Toàn Để Giao Dịch",
-        "description": "Bài đăng giao dịch này có điểm an toàn {{score}}. Luôn tiến hành thận trọng!"
+        "badge": "Kết quả phân tích",
+        "title": "Dựa trên thông tin hiện tại, có vẻ <0>an toàn</0>.",
+        "description": "Bài đăng này có <0>điểm an toàn {{score}}</0>. Hiện chưa thấy <1>dấu hiệu rủi ro</1> rõ ràng, nhưng vẫn nên kiểm tra."
       },
       "caution": {
-        "title": "Tiến Hành Thận Trọng",
-        "description": "Bài đăng giao dịch này có điểm an toàn {{score}}. Đã phát hiện một số tín hiệu cảnh báo, cần xác minh."
+        "badge": "Kết quả phân tích",
+        "title": "Dựa trên thông tin hiện tại, cần <0>thận trọng</0>.",
+        "description": "Bài đăng này có <0>điểm an toàn {{score}}</0>. Có <1>dấu hiệu rủi ro</1>, nên rất cần kiểm tra."
       },
       "danger": {
-        "title": "Phát Hiện Rủi Ro Cao",
-        "description": "Bài đăng giao dịch này có điểm an toàn {{score}}. Chúng tôi khuyên nên tránh giao dịch này."
+        "badge": "Kết quả phân tích",
+        "title": "<0>Đừng tiếp tục</0> nếu chưa kiểm tra thêm.",
+        "description": "Bài đăng này có <0>điểm an toàn {{score}}</0>. Đã phát hiện <1>dấu hiệu rủi ro</1>—đừng tiếp tục khi chưa kiểm tra."
       }
     },
     "companionCta": {

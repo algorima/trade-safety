@@ -95,16 +95,19 @@
     },
     "safetyLevel": {
       "safe": {
-        "title": "Safe to Trade",
-        "description": "This trade post has a safety score of {{score}}. Always proceed with caution!"
+        "badge": "Analysis Result",
+        "title": "Based on current information, it looks <0>safe.</0>",
+        "description": "This post has a <0>safety score of {{score}}</0>. We don't see clear risky <1>signals</1> right now, but a quick check is recommended."
       },
       "caution": {
-        "title": "Proceed with Caution",
-        "description": "This trade post has a safety score of {{score}}. Some caution signals detected, verification needed."
+        "badge": "Analysis Result",
+        "title": "Based on current information, proceed with <0>caution</0>.",
+        "description": "This post has a <0>safety score of {{score}}</0>. We're seeing <1>risky signals</1>, so a check is strongly recommended."
       },
       "danger": {
-        "title": "High Risk Detected",
-        "description": "This trade post has a safety score of {{score}}. We recommend avoiding this trade."
+        "badge": "Analysis Result",
+        "title": "<0>Don't proceed</0> without further checks.",
+        "description": "This post has a <0>safety score of {{score}}</0>. <1>Risky signals</1> are detected—don't proceed without checking."
       }
     },
     "companionCta": {
