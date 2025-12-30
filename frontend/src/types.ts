@@ -36,7 +36,7 @@ export interface PriceAnalysis {
 }
 
 export interface TradeSafetyAnalysis {
-  ai_summary: string;
+  ai_summary: string[];
   translation?: string | null;
   nuance_explanation?: string | null;
   risk_signals: RiskSignal[];
