@@ -3,9 +3,6 @@ import type { LinkPreviewData } from "@/types";
 
 const SUPPORTED_DOMAINS = ["x.com", "twitter.com", "reddit.com"] as const;
 
-/**
- * URL에서 도메인을 추출합니다.
- */
 export const extractDomain = (url: string): string | null => {
   try {
     const urlObj = new URL(url);
@@ -15,10 +12,6 @@ export const extractDomain = (url: string): string | null => {
   }
 };
 
-/**
- * 텍스트에서 지원되는 소셜 미디어 URL을 감지합니다.
- * URL 형식 검증을 포함합니다.
- */
 export const detectUrl = (text: string): string | null => {
   const urlRegex = /(https?:\/\/[^\s]+)/g;
   const matches = text.match(urlRegex);
@@ -49,9 +42,6 @@ export const detectUrl = (text: string): string | null => {
   return null;
 };
 
-/**
- * 백엔드 PostPreview를 프론트엔드 LinkPreviewData로 변환합니다.
- */
 export const mapPostPreviewToLinkPreview = (
   postPreview: PostPreview,
   url: string,

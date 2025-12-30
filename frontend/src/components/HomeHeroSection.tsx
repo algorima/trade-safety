@@ -137,7 +137,7 @@ export const HomeHeroSection = memo(
                   )}
 
                   {previewError && (
-                    <div className="alert alert-warning mx-4 mb-4 flex items-center gap-2 text-sm">
+                    <div className="alert alert-error mx-4 mb-4 flex w-auto items-center text-sm">
                       <span>{previewError}</span>
                     </div>
                   )}
