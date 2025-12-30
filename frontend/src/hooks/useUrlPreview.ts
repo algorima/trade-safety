@@ -35,39 +35,43 @@ export function useUrlPreview(
       return;
     }
 
-    lastUrlRef.current = detectedUrl;
     const controller = new AbortController();
     const { signal } = controller;
 
-    const fetchPreview = async () => {
-      setIsLoadingPreview(true);
-      setPreviewError(null);
+    const timeoutId = setTimeout(() => {
+      lastUrlRef.current = detectedUrl;
 
-      try {
-        const postPreview = await repository.fetchPreview(detectedUrl, {
-          signal,
-        });
-        const linkPreviewData = mapPostPreviewToLinkPreview(
-          postPreview,
-          detectedUrl,
-        );
-        setPreviewData(linkPreviewData);
-      } catch (err) {
-        if (err instanceof Error && err.name !== "AbortError") {
-          console.error("Failed to fetch URL metadata:", err);
-          setPreviewData(null);
-          setPreviewError(getErrorMessage());
-        }
-      } finally {
-        if (!signal.aborted) {
-          setIsLoadingPreview(false);
-        }
-      }
-    };
+      const fetchPreview = async () => {
+        setIsLoadingPreview(true);
+        setPreviewError(null);
 
-    void fetchPreview();
+        try {
+          const postPreview = await repository.fetchPreview(detectedUrl, {
+            signal,
+          });
+          const linkPreviewData = mapPostPreviewToLinkPreview(
+            postPreview,
+            detectedUrl,
+          );
+          setPreviewData(linkPreviewData);
+        } catch (err) {
+          if (err instanceof Error && err.name !== "AbortError") {
+            console.error("Failed to fetch URL metadata:", err);
+            setPreviewData(null);
+            setPreviewError(getErrorMessage());
+          }
+        } finally {
+          if (!signal.aborted) {
+            setIsLoadingPreview(false);
+          }
+        }
+      };
+
+      void fetchPreview();
+    }, 300);
 
     return () => {
+      clearTimeout(timeoutId);
       controller.abort();
     };
   }, [inputText, repository, getErrorMessage]);

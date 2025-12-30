@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { HomeHeroSection } from "@/components/HomeHeroSection";
@@ -28,7 +28,7 @@ export default function HomePage() {
     repository,
   );
 
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     if (!inputText.trim()) {
       return;
     }
@@ -56,7 +56,7 @@ export default function HomePage() {
       setError(err instanceof Error ? err.message : "An error occurred");
       setIsLoading(false);
     }
-  };
+  }, [inputText, previewData, repository, i18n.language, router]);
 
   return (
     <main className="flex min-h-dvh w-full flex-col items-center justify-center bg-base-100 p-6 pt-20 lg:pt-0">
