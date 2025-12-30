@@ -11,7 +11,7 @@ export function UrlPreviewCard({ data }: UrlPreviewCardProps) {
   const hasImages = displayImages.length > 0;
 
   return (
-    <div className="relative border-l-4 border-base-300 bg-base-100 px-5 py-2">
+    <div className="relative rounded-l-md border-l-4 border-neutral/50 bg-base-100 px-5 py-2">
       <div className="mb-3">
         <h3 className="mb-2 text-sm font-bold text-base-content">
           {data.title}
