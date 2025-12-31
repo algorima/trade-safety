@@ -47,7 +47,7 @@ const tradeSafetyCheckResponseSchema = z.object({
 });
 
 // Platform enum for social media platforms
-const platformSchema = z.enum(["twitter"]);
+const platformSchema = z.enum(["twitter", "reddit"]);
 
 // PostPreview schema for social media post metadata
 const postPreviewSchema = z.object({
