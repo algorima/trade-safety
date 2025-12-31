@@ -14,11 +14,6 @@ export const detectUrl = (text: string): string | null => {
   for (const url of matches) {
     try {
       const urlObj = new URL(url);
-
-      if (urlObj.protocol !== "http:" && urlObj.protocol !== "https:") {
-        continue;
-      }
-
       const domain = urlObj.hostname.replace("www.", "");
       if (
         SUPPORTED_DOMAINS.some((d) => domain === d || domain.endsWith(`.${d}`))

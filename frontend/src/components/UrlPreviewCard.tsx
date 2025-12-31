@@ -16,9 +16,11 @@ export function UrlPreviewCard({ data }: UrlPreviewCardProps) {
         <h3 className="mb-2 text-sm font-bold text-base-content">
           {data.title}
         </h3>
-        <div className="flex items-center gap-2 text-sm text-base-content/60">
-          <span>{data.author}</span>
-          {data.date && <span>{data.date}</span>}
+        <div className="flex min-w-0 items-center gap-2 text-sm text-base-content/60">
+          <span className="truncate">{data.author}</span>
+          {data.date && (
+            <span className="shrink-0 whitespace-nowrap">{data.date}</span>
+          )}
         </div>
       </div>
 
