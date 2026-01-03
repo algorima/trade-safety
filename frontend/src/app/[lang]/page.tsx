@@ -1,10 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { HomeHeroSection } from "@/components/HomeHeroSection";
+import { useUrlPreview } from "@/hooks/useUrlPreview";
 import { TRADE_SAFETY_NS } from "@/i18n";
 import { TradeSafetyRepository } from "@/repositories/TradeSafetyRepository";
 import { getApiService } from "@/services/ApiService";
@@ -22,7 +23,12 @@ export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async () => {
+  const { previewData, isLoadingPreview, previewError } = useUrlPreview(
+    inputText,
+    repository,
+  );
+
+  const handleSubmit = useCallback(async () => {
     if (!inputText.trim()) {
       return;
     }
@@ -31,8 +37,18 @@ export default function HomePage() {
     setError(null);
 
     try {
+      const textToAnalyze = previewData?.content || inputText;
+      const imageUrls =
+        previewData?.images && previewData.images.length > 0
+          ? previewData.images
+          : undefined;
+
       const response = await repository.create({
-        variables: { input_text: inputText, output_language: i18n.language },
+        variables: {
+          input_text: textToAnalyze,
+          output_language: i18n.language,
+          image_urls: imageUrls,
+        },
       });
 
       router.push(`/${i18n.language}/result/${response.data.id}`);
@@ -40,7 +56,7 @@ export default function HomePage() {
       setError(err instanceof Error ? err.message : "An error occurred");
       setIsLoading(false);
     }
-  };
+  }, [inputText, previewData, repository, i18n.language, router]);
 
   return (
     <main className="flex min-h-dvh w-full flex-col items-center justify-center bg-base-100 p-6 pt-20 lg:pt-0">
@@ -50,6 +66,9 @@ export default function HomePage() {
         onSubmit={handleSubmit}
         isLoading={isLoading}
         error={error}
+        previewData={previewData}
+        isLoadingPreview={isLoadingPreview}
+        previewError={previewError}
       />
     </main>
   );

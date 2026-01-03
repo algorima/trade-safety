@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 
 import { HomeHeroSection } from "../components/HomeHeroSection";
+import { MOCK_REDDIT_PREVIEW, MOCK_TWITTER_PREVIEW } from "../utils/urlPreview";
 
 const meta: Meta<typeof HomeHeroSection> = {
   title: "Trade Safety/HomeHeroSection",
@@ -28,6 +29,9 @@ const defaultArgs = {
   onSubmit: fn(),
   isLoading: false,
   error: null,
+  previewData: null,
+  isLoadingPreview: false,
+  previewError: null,
 };
 
 export const Default: Story = {
@@ -106,6 +110,90 @@ export const TabletView: Story = {
   parameters: {
     viewport: {
       defaultViewport: "tablet",
+    },
+  },
+};
+
+export const WithTwitterPreview: Story = {
+  args: {
+    ...defaultArgs,
+    value: "Check out this post: https://x.com/crypto_expert/status/123456",
+    previewData: MOCK_TWITTER_PREVIEW,
+  },
+};
+
+export const WithRedditPreview: Story = {
+  args: {
+    ...defaultArgs,
+    value: "https://reddit.com/r/security/comments/abc123",
+    previewData: MOCK_REDDIT_PREVIEW,
+  },
+};
+
+export const LoadingPreview: Story = {
+  args: {
+    ...defaultArgs,
+    value: "https://x.com/crypto_expert/status/123456",
+    isLoadingPreview: true,
+  },
+};
+
+export const WithTwitterPreviewMobile: Story = {
+  args: {
+    ...defaultArgs,
+    value: "Check out this post: https://x.com/crypto_expert/status/123456",
+    previewData: MOCK_TWITTER_PREVIEW,
+  },
+  parameters: {
+    viewport: {
+      defaultViewport: "mobile1",
+    },
+  },
+};
+
+export const WithRedditPreviewMobile: Story = {
+  args: {
+    ...defaultArgs,
+    value: "https://reddit.com/r/security/comments/abc123",
+    previewData: MOCK_REDDIT_PREVIEW,
+  },
+  parameters: {
+    viewport: {
+      defaultViewport: "mobile1",
+    },
+  },
+};
+
+export const LoadingPreviewMobile: Story = {
+  args: {
+    ...defaultArgs,
+    value: "https://x.com/crypto_expert/status/123456",
+    isLoadingPreview: true,
+  },
+  parameters: {
+    viewport: {
+      defaultViewport: "mobile1",
+    },
+  },
+};
+
+export const WithPreviewError: Story = {
+  args: {
+    ...defaultArgs,
+    value: "https://x.com/broken_url/status/123",
+    previewError: "Failed to load URL preview. Please try again.",
+  },
+};
+
+export const WithPreviewErrorMobile: Story = {
+  args: {
+    ...defaultArgs,
+    value: "https://x.com/broken_url/status/123",
+    previewError: "Failed to load URL preview. Please try again.",
+  },
+  parameters: {
+    viewport: {
+      defaultViewport: "mobile1",
     },
   },
 };
