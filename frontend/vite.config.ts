@@ -20,9 +20,8 @@ export default defineConfig({
         index: resolve(__dirname, "src/index.ts"),
         locale: resolve(__dirname, "src/i18n/translations.ts"),
       },
-      formats: ["es", "cjs"],
-      fileName: (format, entryName) =>
-        `${entryName}.${format === "es" ? "mjs" : "js"}`,
+      formats: ["es"],
+      fileName: () => "[name].js",
     },
     rollupOptions: {
       external: [
