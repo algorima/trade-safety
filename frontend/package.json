@@ -2,17 +2,19 @@
   "name": "trade-safety",
   "version": "0.1.0",
   "description": "React components for Trade Safety - K-pop merchandise trade safety analysis",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     },
     "./locale": {
       "types": "./dist/i18n/translations.d.ts",
-      "import": "./dist/locale.js"
+      "import": "./dist/locale.js",
+      "require": "./dist/locale.cjs"
     }
   },
   "files": [
